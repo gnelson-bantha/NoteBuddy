@@ -5,6 +5,18 @@
         <MudText Typo="Typo.h6">@(IsEditMode ? "Edit Sticky Note" : "New Sticky Note")</MudText>
     </TitleContent>
     <DialogContent>
+        <MudTextField @bind-Value="Title"
+                      Label="Title"
+                      Variant="Variant.Outlined"
+                      Placeholder="Enter a title..."
+                      MaxLength="50"
+                      Counter="50"
+                      Immediate="true"
+                      Required="true"
+                      RequiredError="Title is required"
+                      FullWidth="true"
+                      Class="mb-3" />
+
         <MudText Typo="Typo.subtitle2" Class="mb-2">Choose a color:</MudText>
         <div class="color-picker-grid">
             @foreach (var color in Colors)
@@ -84,6 +96,7 @@
 
     private bool IsEditMode => ExistingNote != null;
     private string SelectedColor { get; set; } = "yellow";
+    private string Title { get; set; } = string.Empty;
     private List<NoteItem> Items { get; set; } = new();
     private string? ValidationMessage { get; set; }
 
@@ -94,6 +107,7 @@
     {
         if (ExistingNote != null)
         {
+            Title = ExistingNote.Title;
             SelectedColor = ExistingNote.Color;
             Items = ExistingNote.Items.Select(i => new NoteItem
             {
@@ -126,6 +140,12 @@
 
     private void Save()
     {
+        if (string.IsNullOrWhiteSpace(Title))
+        {
+            ValidationMessage = "Please enter a title.";
+            return;
+        }
+
         // Remove empty items
         var validItems = Items.Where(i => !string.IsNullOrWhiteSpace(i.Text)).ToList();
 
@@ -136,6 +156,7 @@
         }
 
         var note = ExistingNote ?? new StickyNote();
+        note.Title = Title.Trim();
         note.Color = SelectedColor;
         note.Items = validItems;
 
