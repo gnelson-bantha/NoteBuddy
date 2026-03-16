@@ -28,7 +28,7 @@ html, body {
 .corkboard-toolbar {
     position: fixed;
     top: 12px;
-    left: 12px;
+    right: 12px;
     z-index: 1000;
     display: flex;
     gap: 8px;
