@@ -1,10 +1,11 @@
 @using NoteBuddy.Models
+@using System.Globalization
 @inject IJSRuntime JS
 @implements IDisposable
 
 <div class="sticky-note"
      id="@ElementId"
-     style="left: @(Note.PositionX)px; top: @(Note.PositionY)px; background-image: url('images/sticky-notes/@(Note.Color).png');">
+     style="left: @(Note.PositionX.ToString(CultureInfo.InvariantCulture))px; top: @(Note.PositionY.ToString(CultureInfo.InvariantCulture))px; background-image: url('images/sticky-notes/@(Note.Color).png');">
 
     <div class="sticky-note-actions">
         <div class="sticky-note-actions-left">

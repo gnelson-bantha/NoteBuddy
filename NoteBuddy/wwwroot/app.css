@@ -17,7 +17,7 @@ html, body {
 /* ===== Corkboard Container ===== */
 .corkboard {
     width: 100%;
-    height: 100vh;
+    min-height: 100vh;
     background: url('images/cork-background-1.jpg') repeat;
     background-size: 500px 500px;
     overflow: auto;
@@ -188,13 +188,10 @@ html, body {
 .note-item-checked .note-item-text {
     color: #999;
     text-decoration: line-through;
-}
-
-/* Strikethrough overlay for fonts that don't support line-through well */
-.note-item-checked .note-item-text {
     position: relative;
 }
 
+/* Strikethrough overlay for fonts that don't support line-through well */
 .note-item-checked .note-item-text::after {
     content: '';
     position: absolute;

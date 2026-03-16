@@ -1,10 +1,11 @@
 @using NoteBuddy.Models
+@using System.Globalization
 @inject IJSRuntime JS
 @implements IDisposable
 
 <div class="pinned-picture"
      id="@ElementId"
-     style="left: @(Picture.PositionX)px; top: @(Picture.PositionY)px;">
+     style="left: @(Picture.PositionX.ToString(CultureInfo.InvariantCulture))px; top: @(Picture.PositionY.ToString(CultureInfo.InvariantCulture))px;">
 
     <div class="pinned-picture-frame">
         <div class="pinned-picture-actions">

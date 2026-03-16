@@ -25,14 +25,16 @@
 
     @foreach (var picture in _pictures)
     {
-        <PinnedPictureCard Picture="picture"
+        <PinnedPictureCard @key="picture.Id"
+                           Picture="picture"
                            OnDelete="DeletePicture"
                            OnMoved="OnPictureMoved" />
     }
 
     @foreach (var note in _notes)
     {
-        <StickyNoteCard Note="note"
+        <StickyNoteCard @key="note.Id"
+                        Note="note"
                         OnEdit="EditNote"
                         OnDelete="DeleteNote"
                         OnMoved="OnNoteMoved"
@@ -64,9 +66,8 @@
 
         if (result is { Canceled: false, Data: StickyNote newNote })
         {
-            // Place new notes in a visible area with some offset
-            newNote.PositionX = 20 + (_notes.Count % 5) * 50;
-            newNote.PositionY = 70 + (_notes.Count % 5) * 30;
+            newNote.PositionX = GetNextPositionX(_notes.Count);
+            newNote.PositionY = GetNextPositionY(_notes.Count);
             await CorkboardService.AddNoteAsync(newNote);
             StateHasChanged();
         }
@@ -151,8 +152,8 @@
             var picture = new PinnedPicture
             {
                 FileName = fileName,
-                PositionX = 20 + (_pictures.Count % 5) * 50,
-                PositionY = 70 + (_pictures.Count % 5) * 30
+                PositionX = GetNextPositionX(_pictures.Count),
+                PositionY = GetNextPositionY(_pictures.Count)
             };
 
             await CorkboardService.AddPictureAsync(picture);
@@ -169,5 +170,18 @@
     private async Task OnPictureMoved((Guid Id, double X, double Y) position)
     {
         await CorkboardService.UpdatePicturePositionAsync(position.Id, position.X, position.Y);
+    }
+
+    private double GetNextPositionX(int index)
+    {
+        int col = index % 3;
+        int row = index / 3;
+        return 20 + col * 680 + (row % 2) * 30;
+    }
+
+    private double GetNextPositionY(int index)
+    {
+        int row = index / 3;
+        return 70 + row * 680;
     }
 }
