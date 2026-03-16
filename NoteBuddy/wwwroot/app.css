@@ -84,7 +84,7 @@ html, body {
     box-sizing: border-box;
     overflow: hidden;
     font-family: 'HandwrittenNotes', cursive;
-    font-size: 12pt;
+    font-size: 14pt;
     color: #000000;
 }
 
@@ -137,14 +137,14 @@ html, body {
     gap: 4px;
     margin-bottom: 2px;
     font-family: 'HandwrittenNotes', cursive;
-    font-size: 12pt;
+    font-size: 14pt;
     color: #000000;
     line-height: 1.3;
 }
 
 .note-item-single {
     font-family: 'HandwrittenNotes', cursive;
-    font-size: 12pt;
+    font-size: 14pt;
     color: #000000;
     line-height: 1.3;
     word-wrap: break-word;
