@@ -1,0 +1,61 @@
+@using NoteBuddy.Models
+@inject IJSRuntime JS
+@implements IDisposable
+
+<div class="pinned-picture"
+     id="@ElementId"
+     style="left: @(Picture.PositionX)px; top: @(Picture.PositionY)px;">
+
+    <div class="pinned-picture-frame">
+        <div class="pinned-picture-actions">
+            <MudIconButton id="@HandleId"
+                           Icon="@Icons.Material.Filled.OpenWith"
+                           Class="sticky-note-btn"
+                           title="Move" />
+            <MudIconButton Icon="@Icons.Material.Filled.Delete"
+                           Class="sticky-note-btn"
+                           title="Delete"
+                           OnClick="OnDeleteClicked" />
+        </div>
+        <img src="uploads/@Picture.FileName" alt="Pinned picture" />
+    </div>
+</div>
+
+@code {
+    [Parameter] public PinnedPicture Picture { get; set; } = default!;
+    [Parameter] public EventCallback<Guid> OnDelete { get; set; }
+    [Parameter] public EventCallback<(Guid Id, double X, double Y)> OnMoved { get; set; }
+
+    private string ElementId => $"pic-{Picture.Id}";
+    private string HandleId => $"pic-handle-{Picture.Id}";
+    private DotNetObjectReference<PinnedPictureCard>? _dotNetRef;
+    private bool _jsInitialized;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender || !_jsInitialized)
+        {
+            _dotNetRef = DotNetObjectReference.Create(this);
+            await JS.InvokeVoidAsync("corkboardInterop.initDraggable", ElementId, HandleId, _dotNetRef);
+            _jsInitialized = true;
+        }
+    }
+
+    [JSInvokable]
+    public async Task OnPositionChanged(double x, double y)
+    {
+        Picture.PositionX = x;
+        Picture.PositionY = y;
+        await OnMoved.InvokeAsync((Picture.Id, x, y));
+    }
+
+    private async Task OnDeleteClicked()
+    {
+        await OnDelete.InvokeAsync(Picture.Id);
+    }
+
+    public void Dispose()
+    {
+        _dotNetRef?.Dispose();
+    }
+}

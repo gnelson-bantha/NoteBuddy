@@ -1,0 +1,294 @@
+/* ===== Font Registration ===== */
+@font-face {
+    font-family: 'HandwrittenNotes';
+    src: url('images/fonts/HandwrittenNotes.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* ===== Global Reset ===== */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+}
+
+/* ===== Corkboard Container ===== */
+.corkboard {
+    width: 100%;
+    height: 100vh;
+    background-image: url('images/cork-background-1.jpg');
+    background-repeat: repeat;
+    overflow: auto;
+    position: relative;
+}
+
+/* ===== Toolbar ===== */
+.corkboard-toolbar {
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    z-index: 1000;
+    display: flex;
+    gap: 8px;
+}
+
+.btn-add-note {
+    background-color: #cae6ef !important;
+    color: #6a9bad !important;
+    border: 1px solid #6a9bad !important;
+    text-transform: none !important;
+    font-weight: 500 !important;
+    box-shadow: none !important;
+}
+
+.btn-add-note:hover {
+    background-color: #b8dce8 !important;
+}
+
+.btn-add-picture {
+    background-color: #e8d5ef !important;
+    color: #8a6bad !important;
+    border: 1px solid #8a6bad !important;
+    text-transform: none !important;
+    font-weight: 500 !important;
+    box-shadow: none !important;
+}
+
+.btn-add-picture:hover {
+    background-color: #dcc5e8 !important;
+}
+
+/* ===== Sticky Note ===== */
+.sticky-note {
+    position: absolute;
+    width: 650px;
+    height: 648px;
+    background-size: 650px 648px;
+    background-repeat: no-repeat;
+    user-select: none;
+    z-index: 10;
+}
+
+.sticky-note.dragging {
+    z-index: 999;
+    opacity: 0.85;
+    cursor: grabbing;
+}
+
+.sticky-note-content {
+    padding: 40px 10px 10px 10px;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    font-family: 'HandwrittenNotes', cursive;
+    font-size: 12pt;
+    color: #000000;
+}
+
+/* ===== Sticky Note Action Buttons ===== */
+.sticky-note-actions {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    right: 6px;
+    display: flex;
+    justify-content: space-between;
+    z-index: 20;
+}
+
+.sticky-note-actions-left {
+    display: flex;
+    gap: 2px;
+}
+
+.sticky-note-btn {
+    width: 28px !important;
+    height: 28px !important;
+    min-width: 28px !important;
+    padding: 0 !important;
+    background-color: rgba(255, 255, 255, 0.3) !important;
+    color: rgba(0, 0, 0, 0.5) !important;
+    border-radius: 4px !important;
+    box-shadow: none !important;
+}
+
+.sticky-note-btn:hover {
+    background-color: rgba(255, 255, 255, 0.6) !important;
+    color: rgba(0, 0, 0, 0.8) !important;
+}
+
+.sticky-note-btn .mud-icon-root {
+    font-size: 16px !important;
+}
+
+/* ===== Checklist Items ===== */
+.note-item-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.note-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    margin-bottom: 4px;
+    font-family: 'HandwrittenNotes', cursive;
+    font-size: 12pt;
+    color: #000000;
+    line-height: 1.4;
+}
+
+.note-item-single {
+    font-family: 'HandwrittenNotes', cursive;
+    font-size: 12pt;
+    color: #000000;
+    line-height: 1.4;
+    word-wrap: break-word;
+}
+
+.note-item-checkbox {
+    width: 16px;
+    height: 16px;
+    min-width: 16px;
+    margin-top: 3px;
+    border: 1px solid #555;
+    border-radius: 2px;
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    background-color: transparent;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.note-item-checkbox:checked {
+    background-color: transparent;
+}
+
+.note-item-checkbox:checked::after {
+    content: '✓';
+    position: absolute;
+    top: -2px;
+    left: 2px;
+    font-size: 14px;
+    color: #555;
+    font-family: sans-serif;
+}
+
+.note-item-text {
+    word-wrap: break-word;
+    flex: 1;
+    min-width: 0;
+}
+
+.note-item-checked .note-item-text {
+    color: #999;
+    text-decoration: line-through;
+}
+
+/* Strikethrough overlay for fonts that don't support line-through well */
+.note-item-checked .note-item-text {
+    position: relative;
+}
+
+.note-item-checked .note-item-text::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 1.5px;
+    background-color: #999;
+}
+
+/* ===== Pinned Picture ===== */
+.pinned-picture {
+    position: absolute;
+    z-index: 10;
+    user-select: none;
+}
+
+.pinned-picture.dragging {
+    z-index: 999;
+    opacity: 0.85;
+    cursor: grabbing;
+}
+
+.pinned-picture-frame {
+    position: relative;
+    background: white;
+    padding: 8px;
+    box-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+    border-radius: 2px;
+}
+
+.pinned-picture-frame img {
+    display: block;
+    max-width: 400px;
+    max-height: 400px;
+    object-fit: contain;
+}
+
+.pinned-picture-actions {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    right: 2px;
+    display: flex;
+    justify-content: space-between;
+    z-index: 20;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.pinned-picture:hover .pinned-picture-actions {
+    opacity: 1;
+}
+
+/* ===== Dialog Styles ===== */
+.color-picker-grid {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 12px 0;
+}
+
+.color-swatch {
+    width: 60px;
+    height: 60px;
+    background-size: cover;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 3px solid transparent;
+    transition: border-color 0.2s, transform 0.15s;
+}
+
+.color-swatch:hover {
+    transform: scale(1.1);
+}
+
+.color-swatch.selected {
+    border-color: #333;
+    transform: scale(1.1);
+}
+
+/* ===== Blazor Error UI ===== */
+#blazor-error-ui {
+    background: #b32121;
+    padding: 1rem;
+    color: white;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 9999;
+    display: none;
+}
+
+#blazor-error-ui[style] {
+    display: block;
+}

@@ -1,0 +1,169 @@
+﻿@page "/"
+@rendermode InteractiveServer
+@using NoteBuddy.Models
+@using NoteBuddy.Services
+@inject CorkboardService CorkboardService
+@inject IDialogService DialogService
+@inject IWebHostEnvironment Environment
+
+<PageTitle>NoteBuddy - Virtual Corkboard</PageTitle>
+
+<div class="corkboard">
+    <div class="corkboard-toolbar">
+        <MudButton Class="btn-add-note"
+                   Variant="Variant.Outlined"
+                   StartIcon="@Icons.Material.Filled.NoteAdd"
+                   OnClick="AddNewNote">
+            Add New Note
+        </MudButton>
+        <MudButton Class="btn-add-picture"
+                   Variant="Variant.Outlined"
+                   StartIcon="@Icons.Material.Filled.AddPhotoAlternate"
+                   OnClick="AddNewPicture">
+            Add Picture
+        </MudButton>
+    </div>
+
+    @foreach (var picture in _pictures)
+    {
+        <PinnedPictureCard Picture="picture"
+                           OnDelete="DeletePicture"
+                           OnMoved="OnPictureMoved" />
+    }
+
+    @foreach (var note in _notes)
+    {
+        <StickyNoteCard Note="note"
+                        OnEdit="EditNote"
+                        OnDelete="DeleteNote"
+                        OnMoved="OnNoteMoved"
+                        OnItemToggled="OnNoteItemToggled" />
+    }
+</div>
+
+@code {
+    private List<StickyNote> _notes = new();
+    private List<PinnedPicture> _pictures = new();
+
+    protected override void OnInitialized()
+    {
+        _notes = CorkboardService.GetNotes();
+        _pictures = CorkboardService.GetPictures();
+    }
+
+    private async Task AddNewNote()
+    {
+        var options = new DialogOptions
+        {
+            MaxWidth = MaxWidth.Small,
+            FullWidth = true,
+            CloseOnEscapeKey = true
+        };
+
+        var dialog = await DialogService.ShowAsync<StickyNoteDialog>("New Sticky Note", options);
+        var result = await dialog.Result;
+
+        if (result is { Canceled: false, Data: StickyNote newNote })
+        {
+            // Place new notes in a visible area with some offset
+            newNote.PositionX = 20 + (_notes.Count % 5) * 50;
+            newNote.PositionY = 70 + (_notes.Count % 5) * 30;
+            await CorkboardService.AddNoteAsync(newNote);
+            StateHasChanged();
+        }
+    }
+
+    private async Task EditNote(StickyNote note)
+    {
+        var parameters = new DialogParameters<StickyNoteDialog>
+        {
+            { x => x.ExistingNote, note }
+        };
+
+        var options = new DialogOptions
+        {
+            MaxWidth = MaxWidth.Small,
+            FullWidth = true,
+            CloseOnEscapeKey = true
+        };
+
+        var dialog = await DialogService.ShowAsync<StickyNoteDialog>("Edit Sticky Note", parameters, options);
+        var result = await dialog.Result;
+
+        if (result is { Canceled: false })
+        {
+            if (result.Data is StickyNote updatedNote)
+            {
+                await CorkboardService.UpdateNoteAsync(updatedNote);
+            }
+            else
+            {
+                // null means delete was requested
+                await CorkboardService.DeleteNoteAsync(note.Id);
+            }
+            StateHasChanged();
+        }
+    }
+
+    private async Task DeleteNote(Guid noteId)
+    {
+        await CorkboardService.DeleteNoteAsync(noteId);
+        StateHasChanged();
+    }
+
+    private async Task OnNoteMoved((Guid Id, double X, double Y) position)
+    {
+        await CorkboardService.UpdateNotePositionAsync(position.Id, position.X, position.Y);
+    }
+
+    private async Task OnNoteItemToggled(StickyNote note)
+    {
+        await CorkboardService.UpdateNoteAsync(note);
+    }
+
+    private async Task AddNewPicture()
+    {
+        var options = new DialogOptions
+        {
+            MaxWidth = MaxWidth.Small,
+            FullWidth = true,
+            CloseOnEscapeKey = true
+        };
+
+        var dialog = await DialogService.ShowAsync<PictureDialog>("Add Picture", options);
+        var result = await dialog.Result;
+
+        if (result is { Canceled: false, Data: IBrowserFile file })
+        {
+            // Save file to uploads
+            var extension = Path.GetExtension(file.Name);
+            var fileName = $"{Guid.NewGuid()}{extension}";
+            var filePath = Path.Combine(CorkboardService.GetUploadsPath(), fileName);
+
+            await using var stream = file.OpenReadStream(10 * 1024 * 1024);
+            await using var fileStream = File.Create(filePath);
+            await stream.CopyToAsync(fileStream);
+
+            var picture = new PinnedPicture
+            {
+                FileName = fileName,
+                PositionX = 20 + (_pictures.Count % 5) * 50,
+                PositionY = 70 + (_pictures.Count % 5) * 30
+            };
+
+            await CorkboardService.AddPictureAsync(picture);
+            StateHasChanged();
+        }
+    }
+
+    private async Task DeletePicture(Guid pictureId)
+    {
+        await CorkboardService.DeletePictureAsync(pictureId);
+        StateHasChanged();
+    }
+
+    private async Task OnPictureMoved((Guid Id, double X, double Y) position)
+    {
+        await CorkboardService.UpdatePicturePositionAsync(position.Id, position.X, position.Y);
+    }
+}

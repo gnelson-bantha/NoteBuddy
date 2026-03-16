@@ -1,0 +1,154 @@
+@using NoteBuddy.Models
+
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">@(IsEditMode ? "Edit Sticky Note" : "New Sticky Note")</MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudText Typo="Typo.subtitle2" Class="mb-2">Choose a color:</MudText>
+        <div class="color-picker-grid">
+            @foreach (var color in Colors)
+            {
+                <div class="color-swatch @(SelectedColor == color ? "selected" : "")"
+                     style="background-image: url('images/sticky-notes/@(color).png');"
+                     title="@color"
+                     @onclick="() => SelectedColor = color">
+                </div>
+            }
+        </div>
+
+        <MudDivider Class="my-3" />
+
+        <MudText Typo="Typo.subtitle2" Class="mb-2">
+            Items (@Items.Count / @MaxItems):
+        </MudText>
+
+        @for (int i = 0; i < Items.Count; i++)
+        {
+            var index = i;
+            <div class="d-flex align-center gap-2 mb-2">
+                <MudTextField @bind-Value="Items[index].Text"
+                              Variant="Variant.Outlined"
+                              Placeholder="Enter item text..."
+                              MaxLength="150"
+                              Counter="150"
+                              Immediate="true"
+                              FullWidth="true" />
+                <MudIconButton Icon="@Icons.Material.Filled.RemoveCircleOutline"
+                               Color="Color.Error"
+                               Size="Size.Small"
+                               title="Remove item"
+                               OnClick="() => RemoveItem(index)" />
+            </div>
+        }
+
+        @if (Items.Count < MaxItems)
+        {
+            <MudButton StartIcon="@Icons.Material.Filled.Add"
+                       Variant="Variant.Text"
+                       Color="Color.Primary"
+                       OnClick="AddItem"
+                       Class="mt-1">
+                Add Item
+            </MudButton>
+        }
+
+        @if (!string.IsNullOrEmpty(ValidationMessage))
+        {
+            <MudAlert Severity="Severity.Warning" Class="mt-2">@ValidationMessage</MudAlert>
+        }
+    </DialogContent>
+    <DialogActions>
+        @if (IsEditMode)
+        {
+            <MudButton Color="Color.Error"
+                       Variant="Variant.Text"
+                       OnClick="DeleteNote"
+                       Class="mr-auto">
+                Delete
+            </MudButton>
+        }
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary"
+                   Variant="Variant.Filled"
+                   OnClick="Save">
+            Save
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] private IMudDialogInstance MudDialog { get; set; } = default!;
+
+    [Parameter] public StickyNote? ExistingNote { get; set; }
+
+    private bool IsEditMode => ExistingNote != null;
+    private string SelectedColor { get; set; } = "yellow";
+    private List<NoteItem> Items { get; set; } = new();
+    private string? ValidationMessage { get; set; }
+
+    private const int MaxItems = 6;
+    private static readonly string[] Colors = { "yellow", "blue", "green", "orange", "pink", "purple" };
+
+    protected override void OnInitialized()
+    {
+        if (ExistingNote != null)
+        {
+            SelectedColor = ExistingNote.Color;
+            Items = ExistingNote.Items.Select(i => new NoteItem
+            {
+                Id = i.Id,
+                Text = i.Text,
+                IsChecked = i.IsChecked
+            }).ToList();
+        }
+        else
+        {
+            Items.Add(new NoteItem());
+        }
+    }
+
+    private void AddItem()
+    {
+        if (Items.Count < MaxItems)
+        {
+            Items.Add(new NoteItem());
+        }
+    }
+
+    private void RemoveItem(int index)
+    {
+        if (index >= 0 && index < Items.Count)
+        {
+            Items.RemoveAt(index);
+        }
+    }
+
+    private void Save()
+    {
+        // Remove empty items
+        var validItems = Items.Where(i => !string.IsNullOrWhiteSpace(i.Text)).ToList();
+
+        if (validItems.Count == 0)
+        {
+            ValidationMessage = "Please add at least one item with text.";
+            return;
+        }
+
+        var note = ExistingNote ?? new StickyNote();
+        note.Color = SelectedColor;
+        note.Items = validItems;
+
+        MudDialog.Close(DialogResult.Ok(note));
+    }
+
+    private void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+
+    private void DeleteNote()
+    {
+        MudDialog.Close(DialogResult.Ok<StickyNote?>(null));
+    }
+}

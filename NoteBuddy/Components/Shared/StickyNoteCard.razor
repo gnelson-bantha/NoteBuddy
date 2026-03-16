@@ -1,0 +1,107 @@
+@using NoteBuddy.Models
+@inject IJSRuntime JS
+@implements IDisposable
+
+<div class="sticky-note"
+     id="@ElementId"
+     style="left: @(Note.PositionX)px; top: @(Note.PositionY)px; background-image: url('images/sticky-notes/@(Note.Color).png');">
+
+    <div class="sticky-note-actions">
+        <div class="sticky-note-actions-left">
+            <MudIconButton id="@HandleId"
+                           Icon="@Icons.Material.Filled.OpenWith"
+                           Class="sticky-note-btn"
+                           title="Move" />
+            <MudIconButton Icon="@Icons.Material.Filled.Edit"
+                           Class="sticky-note-btn"
+                           title="Edit"
+                           OnClick="OnEditClicked" />
+        </div>
+        <MudIconButton Icon="@Icons.Material.Filled.Delete"
+                       Class="sticky-note-btn"
+                       title="Delete"
+                       OnClick="OnDeleteClicked" />
+    </div>
+
+    <div class="sticky-note-content">
+        @if (Note.Items.Count == 1)
+        {
+            <div class="@GetItemClass(Note.Items[0])">
+                <span class="note-item-text">@Note.Items[0].Text</span>
+            </div>
+        }
+        else if (Note.Items.Count > 1)
+        {
+            <ul class="note-item-list">
+                @foreach (var item in Note.Items)
+                {
+                    <li class="note-item @(item.IsChecked ? "note-item-checked" : "")">
+                        <input type="checkbox"
+                               class="note-item-checkbox"
+                               checked="@item.IsChecked"
+                               @onchange="() => ToggleItem(item)" />
+                        <span class="note-item-text">@item.Text</span>
+                    </li>
+                }
+            </ul>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter] public StickyNote Note { get; set; } = default!;
+    [Parameter] public EventCallback<StickyNote> OnEdit { get; set; }
+    [Parameter] public EventCallback<Guid> OnDelete { get; set; }
+    [Parameter] public EventCallback<(Guid Id, double X, double Y)> OnMoved { get; set; }
+    [Parameter] public EventCallback<StickyNote> OnItemToggled { get; set; }
+
+    private string ElementId => $"note-{Note.Id}";
+    private string HandleId => $"handle-{Note.Id}";
+    private DotNetObjectReference<StickyNoteCard>? _dotNetRef;
+    private bool _jsInitialized;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender || !_jsInitialized)
+        {
+            _dotNetRef = DotNetObjectReference.Create(this);
+            await JS.InvokeVoidAsync("corkboardInterop.initDraggable", ElementId, HandleId, _dotNetRef);
+            _jsInitialized = true;
+        }
+    }
+
+    [JSInvokable]
+    public async Task OnPositionChanged(double x, double y)
+    {
+        Note.PositionX = x;
+        Note.PositionY = y;
+        await OnMoved.InvokeAsync((Note.Id, x, y));
+    }
+
+    private async Task OnEditClicked()
+    {
+        await OnEdit.InvokeAsync(Note);
+    }
+
+    private async Task OnDeleteClicked()
+    {
+        await OnDelete.InvokeAsync(Note.Id);
+    }
+
+    private async Task ToggleItem(NoteItem item)
+    {
+        item.IsChecked = !item.IsChecked;
+        await OnItemToggled.InvokeAsync(Note);
+        StateHasChanged();
+    }
+
+    private string GetItemClass(NoteItem item)
+    {
+        return item.IsChecked ? "note-item-single note-item-checked" : "note-item-single";
+    }
+
+    public void Dispose()
+    {
+        _dotNetRef?.Dispose();
+    }
+}
