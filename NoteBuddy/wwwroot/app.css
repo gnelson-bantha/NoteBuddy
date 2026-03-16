@@ -24,6 +24,16 @@ html, body {
     position: relative;
 }
 
+/* ===== Logo ===== */
+.corkboard-logo {
+    position: fixed;
+    top: 8px;
+    left: 12px;
+    height: 44px;
+    width: auto;
+    z-index: 1000;
+}
+
 /* ===== Toolbar ===== */
 .corkboard-toolbar {
     position: fixed;
