@@ -174,14 +174,14 @@
 
     private double GetNextPositionX(int index)
     {
-        int col = index % 3;
-        int row = index / 3;
-        return 20 + col * 680 + (row % 2) * 30;
+        int col = index % 5;
+        int row = index / 5;
+        return 20 + col * 345 + (row % 2) * 20;
     }
 
     private double GetNextPositionY(int index)
     {
-        int row = index / 3;
-        return 70 + row * 680;
+        int row = index / 5;
+        return 70 + row * 345;
     }
 }
