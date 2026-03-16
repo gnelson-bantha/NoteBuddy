@@ -73,8 +73,8 @@
         // Create preview
         var buffer = new byte[file.Size];
         await using var stream = file.OpenReadStream(MaxFileSize);
-        await stream.ReadExactlyAsync(buffer);
-        var base64 = Convert.ToBase64String(buffer);
+        var bytesRead = await stream.ReadAsync(buffer);
+        var base64 = Convert.ToBase64String(buffer, 0, bytesRead);
         PreviewUrl = $"data:{file.ContentType};base64,{base64}";
 
         StateHasChanged();

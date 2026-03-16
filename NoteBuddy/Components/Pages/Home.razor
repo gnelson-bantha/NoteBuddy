@@ -140,9 +140,14 @@
             var fileName = $"{Guid.NewGuid()}{extension}";
             var filePath = Path.Combine(CorkboardService.GetUploadsPath(), fileName);
 
-            await using var stream = file.OpenReadStream(10 * 1024 * 1024);
-            await using var fileStream = File.Create(filePath);
-            await stream.CopyToAsync(fileStream);
+            // Close streams before adding to service to avoid file lock issues
+            await using (var stream = file.OpenReadStream(10 * 1024 * 1024))
+            {
+                await using (var fileStream = File.Create(filePath))
+                {
+                    await stream.CopyToAsync(fileStream);
+                }
+            }
 
             var picture = new PinnedPicture
             {

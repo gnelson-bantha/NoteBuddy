@@ -20,10 +20,9 @@ window.corkboardInterop = {
             window.corkboardInterop._activeDrag = {
                 element: element,
                 dotNetRef: dotNetRef,
-                offsetX: e.clientX - rect.left + scrollLeft - element.offsetLeft + rect.left,
-                offsetY: e.clientY - rect.top + scrollTop - element.offsetTop + rect.top,
-                startX: e.clientX,
-                startY: e.clientY
+                offsetX: e.clientX - rect.left,
+                offsetY: e.clientY - rect.top,
+                scrollContainer: scrollContainer
             };
 
             element.classList.add('dragging');
@@ -44,8 +43,8 @@ window.corkboardInterop = {
         const scrollLeft = scrollContainer ? scrollContainer.scrollLeft : 0;
         const scrollTop = scrollContainer ? scrollContainer.scrollTop : 0;
 
-        let newX = e.clientX + scrollLeft - drag.offsetX;
-        let newY = e.clientY + scrollTop - drag.offsetY;
+        let newX = e.clientX + scrollLeft - drag.offsetX - (scrollContainer ? scrollContainer.getBoundingClientRect().left : 0);
+        let newY = e.clientY + scrollTop - drag.offsetY - (scrollContainer ? scrollContainer.getBoundingClientRect().top : 0);
 
         // Prevent negative positions
         newX = Math.max(0, newX);
