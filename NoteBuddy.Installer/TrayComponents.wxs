@@ -1,0 +1,825 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Auto-generated WiX component fragment for TrayComponents.
+    Do not edit manually — regenerate with harvest-files.ps1 after publishing.
+-->
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Fragment>
+    <ComponentGroup Id="TrayComponents" Directory="TrayFolder">
+      <Component Id="TrayComponents_1">
+        <File Id="TrayComponents_File_1" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\Accessibility.dll" />
+      </Component>
+      <Component Id="TrayComponents_2">
+        <File Id="TrayComponents_File_2" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\clretwrc.dll" />
+      </Component>
+      <Component Id="TrayComponents_3">
+        <File Id="TrayComponents_File_3" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\clrgc.dll" />
+      </Component>
+      <Component Id="TrayComponents_4">
+        <File Id="TrayComponents_File_4" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\clrgcexp.dll" />
+      </Component>
+      <Component Id="TrayComponents_5">
+        <File Id="TrayComponents_File_5" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\clrjit.dll" />
+      </Component>
+      <Component Id="TrayComponents_6">
+        <File Id="TrayComponents_File_6" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\coreclr.dll" />
+      </Component>
+      <Component Id="TrayComponents_7">
+        <File Id="TrayComponents_File_7" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\createdump.exe" />
+      </Component>
+      <Component Id="TrayComponents_8">
+        <File Id="TrayComponents_File_8" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\hostfxr.dll" />
+      </Component>
+      <Component Id="TrayComponents_9">
+        <File Id="TrayComponents_File_9" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\hostpolicy.dll" />
+      </Component>
+      <Component Id="TrayComponents_10">
+        <File Id="TrayComponents_File_10" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\Microsoft.CSharp.dll" />
+      </Component>
+      <Component Id="TrayComponents_11">
+        <File Id="TrayComponents_File_11" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\Microsoft.DiaSymReader.Native.amd64.dll" />
+      </Component>
+      <Component Id="TrayComponents_12">
+        <File Id="TrayComponents_File_12" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\Microsoft.VisualBasic.Core.dll" />
+      </Component>
+      <Component Id="TrayComponents_13">
+        <File Id="TrayComponents_File_13" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\Microsoft.VisualBasic.dll" />
+      </Component>
+      <Component Id="TrayComponents_14">
+        <File Id="TrayComponents_File_14" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\Microsoft.VisualBasic.Forms.dll" />
+      </Component>
+      <Component Id="TrayComponents_15">
+        <File Id="TrayComponents_File_15" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\Microsoft.Win32.Primitives.dll" />
+      </Component>
+      <Component Id="TrayComponents_16">
+        <File Id="TrayComponents_File_16" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\Microsoft.Win32.Registry.AccessControl.dll" />
+      </Component>
+      <Component Id="TrayComponents_17">
+        <File Id="TrayComponents_File_17" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\Microsoft.Win32.Registry.dll" />
+      </Component>
+      <Component Id="TrayComponents_18">
+        <File Id="TrayComponents_File_18" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\Microsoft.Win32.SystemEvents.dll" />
+      </Component>
+      <Component Id="TrayComponents_19">
+        <File Id="TrayComponents_File_19" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\mscordaccore_amd64_amd64_10.0.426.12010.dll" />
+      </Component>
+      <Component Id="TrayComponents_20">
+        <File Id="TrayComponents_File_20" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\mscordaccore.dll" />
+      </Component>
+      <Component Id="TrayComponents_21">
+        <File Id="TrayComponents_File_21" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\mscordbi.dll" />
+      </Component>
+      <Component Id="TrayComponents_22">
+        <File Id="TrayComponents_File_22" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\mscorlib.dll" />
+      </Component>
+      <Component Id="TrayComponents_23">
+        <File Id="TrayComponents_File_23" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\mscorrc.dll" />
+      </Component>
+      <Component Id="TrayComponents_24">
+        <File Id="TrayComponents_File_24" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\msquic.dll" />
+      </Component>
+      <Component Id="TrayComponents_25">
+        <File Id="TrayComponents_File_25" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\netstandard.dll" />
+      </Component>
+      <Component Id="TrayComponents_26">
+        <File Id="TrayComponents_File_26" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\NoteBuddy.Tray.deps.json" />
+      </Component>
+      <Component Id="TrayComponents_27">
+        <File Id="TrayComponents_File_27" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\NoteBuddy.Tray.dll" />
+      </Component>
+      <Component Id="TrayComponents_28">
+        <File Id="TrayComponents_File_28" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\NoteBuddy.Tray.exe" />
+      </Component>
+      <Component Id="TrayComponents_29">
+        <File Id="TrayComponents_File_29" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\NoteBuddy.Tray.pdb" />
+      </Component>
+      <Component Id="TrayComponents_30">
+        <File Id="TrayComponents_File_30" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\NoteBuddy.Tray.runtimeconfig.json" />
+      </Component>
+      <Component Id="TrayComponents_31">
+        <File Id="TrayComponents_File_31" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.AppContext.dll" />
+      </Component>
+      <Component Id="TrayComponents_32">
+        <File Id="TrayComponents_File_32" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Buffers.dll" />
+      </Component>
+      <Component Id="TrayComponents_33">
+        <File Id="TrayComponents_File_33" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.CodeDom.dll" />
+      </Component>
+      <Component Id="TrayComponents_34">
+        <File Id="TrayComponents_File_34" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Collections.Concurrent.dll" />
+      </Component>
+      <Component Id="TrayComponents_35">
+        <File Id="TrayComponents_File_35" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Collections.dll" />
+      </Component>
+      <Component Id="TrayComponents_36">
+        <File Id="TrayComponents_File_36" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Collections.Immutable.dll" />
+      </Component>
+      <Component Id="TrayComponents_37">
+        <File Id="TrayComponents_File_37" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Collections.NonGeneric.dll" />
+      </Component>
+      <Component Id="TrayComponents_38">
+        <File Id="TrayComponents_File_38" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Collections.Specialized.dll" />
+      </Component>
+      <Component Id="TrayComponents_39">
+        <File Id="TrayComponents_File_39" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.ComponentModel.Annotations.dll" />
+      </Component>
+      <Component Id="TrayComponents_40">
+        <File Id="TrayComponents_File_40" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.ComponentModel.DataAnnotations.dll" />
+      </Component>
+      <Component Id="TrayComponents_41">
+        <File Id="TrayComponents_File_41" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.ComponentModel.dll" />
+      </Component>
+      <Component Id="TrayComponents_42">
+        <File Id="TrayComponents_File_42" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.ComponentModel.EventBasedAsync.dll" />
+      </Component>
+      <Component Id="TrayComponents_43">
+        <File Id="TrayComponents_File_43" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.ComponentModel.Primitives.dll" />
+      </Component>
+      <Component Id="TrayComponents_44">
+        <File Id="TrayComponents_File_44" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.ComponentModel.TypeConverter.dll" />
+      </Component>
+      <Component Id="TrayComponents_45">
+        <File Id="TrayComponents_File_45" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Configuration.ConfigurationManager.dll" />
+      </Component>
+      <Component Id="TrayComponents_46">
+        <File Id="TrayComponents_File_46" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Configuration.dll" />
+      </Component>
+      <Component Id="TrayComponents_47">
+        <File Id="TrayComponents_File_47" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Console.dll" />
+      </Component>
+      <Component Id="TrayComponents_48">
+        <File Id="TrayComponents_File_48" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Core.dll" />
+      </Component>
+      <Component Id="TrayComponents_49">
+        <File Id="TrayComponents_File_49" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Data.Common.dll" />
+      </Component>
+      <Component Id="TrayComponents_50">
+        <File Id="TrayComponents_File_50" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Data.DataSetExtensions.dll" />
+      </Component>
+      <Component Id="TrayComponents_51">
+        <File Id="TrayComponents_File_51" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Data.dll" />
+      </Component>
+      <Component Id="TrayComponents_52">
+        <File Id="TrayComponents_File_52" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Design.dll" />
+      </Component>
+      <Component Id="TrayComponents_53">
+        <File Id="TrayComponents_File_53" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Diagnostics.Contracts.dll" />
+      </Component>
+      <Component Id="TrayComponents_54">
+        <File Id="TrayComponents_File_54" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Diagnostics.Debug.dll" />
+      </Component>
+      <Component Id="TrayComponents_55">
+        <File Id="TrayComponents_File_55" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Diagnostics.DiagnosticSource.dll" />
+      </Component>
+      <Component Id="TrayComponents_56">
+        <File Id="TrayComponents_File_56" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Diagnostics.EventLog.dll" />
+      </Component>
+      <Component Id="TrayComponents_57">
+        <File Id="TrayComponents_File_57" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Diagnostics.EventLog.Messages.dll" />
+      </Component>
+      <Component Id="TrayComponents_58">
+        <File Id="TrayComponents_File_58" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Diagnostics.FileVersionInfo.dll" />
+      </Component>
+      <Component Id="TrayComponents_59">
+        <File Id="TrayComponents_File_59" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Diagnostics.PerformanceCounter.dll" />
+      </Component>
+      <Component Id="TrayComponents_60">
+        <File Id="TrayComponents_File_60" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Diagnostics.Process.dll" />
+      </Component>
+      <Component Id="TrayComponents_61">
+        <File Id="TrayComponents_File_61" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Diagnostics.StackTrace.dll" />
+      </Component>
+      <Component Id="TrayComponents_62">
+        <File Id="TrayComponents_File_62" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Diagnostics.TextWriterTraceListener.dll" />
+      </Component>
+      <Component Id="TrayComponents_63">
+        <File Id="TrayComponents_File_63" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Diagnostics.Tools.dll" />
+      </Component>
+      <Component Id="TrayComponents_64">
+        <File Id="TrayComponents_File_64" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Diagnostics.TraceSource.dll" />
+      </Component>
+      <Component Id="TrayComponents_65">
+        <File Id="TrayComponents_File_65" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Diagnostics.Tracing.dll" />
+      </Component>
+      <Component Id="TrayComponents_66">
+        <File Id="TrayComponents_File_66" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.DirectoryServices.dll" />
+      </Component>
+      <Component Id="TrayComponents_67">
+        <File Id="TrayComponents_File_67" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.dll" />
+      </Component>
+      <Component Id="TrayComponents_68">
+        <File Id="TrayComponents_File_68" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Drawing.Common.dll" />
+      </Component>
+      <Component Id="TrayComponents_69">
+        <File Id="TrayComponents_File_69" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Drawing.Design.dll" />
+      </Component>
+      <Component Id="TrayComponents_70">
+        <File Id="TrayComponents_File_70" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Drawing.dll" />
+      </Component>
+      <Component Id="TrayComponents_71">
+        <File Id="TrayComponents_File_71" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Drawing.Primitives.dll" />
+      </Component>
+      <Component Id="TrayComponents_72">
+        <File Id="TrayComponents_File_72" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Dynamic.Runtime.dll" />
+      </Component>
+      <Component Id="TrayComponents_73">
+        <File Id="TrayComponents_File_73" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Formats.Asn1.dll" />
+      </Component>
+      <Component Id="TrayComponents_74">
+        <File Id="TrayComponents_File_74" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Formats.Nrbf.dll" />
+      </Component>
+      <Component Id="TrayComponents_75">
+        <File Id="TrayComponents_File_75" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Formats.Tar.dll" />
+      </Component>
+      <Component Id="TrayComponents_76">
+        <File Id="TrayComponents_File_76" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Globalization.Calendars.dll" />
+      </Component>
+      <Component Id="TrayComponents_77">
+        <File Id="TrayComponents_File_77" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Globalization.dll" />
+      </Component>
+      <Component Id="TrayComponents_78">
+        <File Id="TrayComponents_File_78" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Globalization.Extensions.dll" />
+      </Component>
+      <Component Id="TrayComponents_79">
+        <File Id="TrayComponents_File_79" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.IO.Compression.Brotli.dll" />
+      </Component>
+      <Component Id="TrayComponents_80">
+        <File Id="TrayComponents_File_80" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.IO.Compression.dll" />
+      </Component>
+      <Component Id="TrayComponents_81">
+        <File Id="TrayComponents_File_81" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.IO.Compression.FileSystem.dll" />
+      </Component>
+      <Component Id="TrayComponents_82">
+        <File Id="TrayComponents_File_82" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.IO.Compression.Native.dll" />
+      </Component>
+      <Component Id="TrayComponents_83">
+        <File Id="TrayComponents_File_83" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.IO.Compression.ZipFile.dll" />
+      </Component>
+      <Component Id="TrayComponents_84">
+        <File Id="TrayComponents_File_84" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.IO.dll" />
+      </Component>
+      <Component Id="TrayComponents_85">
+        <File Id="TrayComponents_File_85" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.IO.FileSystem.AccessControl.dll" />
+      </Component>
+      <Component Id="TrayComponents_86">
+        <File Id="TrayComponents_File_86" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.IO.FileSystem.dll" />
+      </Component>
+      <Component Id="TrayComponents_87">
+        <File Id="TrayComponents_File_87" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.IO.FileSystem.DriveInfo.dll" />
+      </Component>
+      <Component Id="TrayComponents_88">
+        <File Id="TrayComponents_File_88" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.IO.FileSystem.Primitives.dll" />
+      </Component>
+      <Component Id="TrayComponents_89">
+        <File Id="TrayComponents_File_89" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.IO.FileSystem.Watcher.dll" />
+      </Component>
+      <Component Id="TrayComponents_90">
+        <File Id="TrayComponents_File_90" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.IO.IsolatedStorage.dll" />
+      </Component>
+      <Component Id="TrayComponents_91">
+        <File Id="TrayComponents_File_91" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.IO.MemoryMappedFiles.dll" />
+      </Component>
+      <Component Id="TrayComponents_92">
+        <File Id="TrayComponents_File_92" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.IO.Packaging.dll" />
+      </Component>
+      <Component Id="TrayComponents_93">
+        <File Id="TrayComponents_File_93" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.IO.Pipelines.dll" />
+      </Component>
+      <Component Id="TrayComponents_94">
+        <File Id="TrayComponents_File_94" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.IO.Pipes.AccessControl.dll" />
+      </Component>
+      <Component Id="TrayComponents_95">
+        <File Id="TrayComponents_File_95" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.IO.Pipes.dll" />
+      </Component>
+      <Component Id="TrayComponents_96">
+        <File Id="TrayComponents_File_96" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.IO.UnmanagedMemoryStream.dll" />
+      </Component>
+      <Component Id="TrayComponents_97">
+        <File Id="TrayComponents_File_97" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Linq.AsyncEnumerable.dll" />
+      </Component>
+      <Component Id="TrayComponents_98">
+        <File Id="TrayComponents_File_98" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Linq.dll" />
+      </Component>
+      <Component Id="TrayComponents_99">
+        <File Id="TrayComponents_File_99" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Linq.Expressions.dll" />
+      </Component>
+      <Component Id="TrayComponents_100">
+        <File Id="TrayComponents_File_100" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Linq.Parallel.dll" />
+      </Component>
+      <Component Id="TrayComponents_101">
+        <File Id="TrayComponents_File_101" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Linq.Queryable.dll" />
+      </Component>
+      <Component Id="TrayComponents_102">
+        <File Id="TrayComponents_File_102" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Memory.dll" />
+      </Component>
+      <Component Id="TrayComponents_103">
+        <File Id="TrayComponents_File_103" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Net.dll" />
+      </Component>
+      <Component Id="TrayComponents_104">
+        <File Id="TrayComponents_File_104" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Net.Http.dll" />
+      </Component>
+      <Component Id="TrayComponents_105">
+        <File Id="TrayComponents_File_105" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Net.Http.Json.dll" />
+      </Component>
+      <Component Id="TrayComponents_106">
+        <File Id="TrayComponents_File_106" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Net.HttpListener.dll" />
+      </Component>
+      <Component Id="TrayComponents_107">
+        <File Id="TrayComponents_File_107" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Net.Mail.dll" />
+      </Component>
+      <Component Id="TrayComponents_108">
+        <File Id="TrayComponents_File_108" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Net.NameResolution.dll" />
+      </Component>
+      <Component Id="TrayComponents_109">
+        <File Id="TrayComponents_File_109" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Net.NetworkInformation.dll" />
+      </Component>
+      <Component Id="TrayComponents_110">
+        <File Id="TrayComponents_File_110" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Net.Ping.dll" />
+      </Component>
+      <Component Id="TrayComponents_111">
+        <File Id="TrayComponents_File_111" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Net.Primitives.dll" />
+      </Component>
+      <Component Id="TrayComponents_112">
+        <File Id="TrayComponents_File_112" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Net.Quic.dll" />
+      </Component>
+      <Component Id="TrayComponents_113">
+        <File Id="TrayComponents_File_113" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Net.Requests.dll" />
+      </Component>
+      <Component Id="TrayComponents_114">
+        <File Id="TrayComponents_File_114" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Net.Security.dll" />
+      </Component>
+      <Component Id="TrayComponents_115">
+        <File Id="TrayComponents_File_115" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Net.ServerSentEvents.dll" />
+      </Component>
+      <Component Id="TrayComponents_116">
+        <File Id="TrayComponents_File_116" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Net.ServicePoint.dll" />
+      </Component>
+      <Component Id="TrayComponents_117">
+        <File Id="TrayComponents_File_117" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Net.Sockets.dll" />
+      </Component>
+      <Component Id="TrayComponents_118">
+        <File Id="TrayComponents_File_118" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Net.WebClient.dll" />
+      </Component>
+      <Component Id="TrayComponents_119">
+        <File Id="TrayComponents_File_119" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Net.WebHeaderCollection.dll" />
+      </Component>
+      <Component Id="TrayComponents_120">
+        <File Id="TrayComponents_File_120" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Net.WebProxy.dll" />
+      </Component>
+      <Component Id="TrayComponents_121">
+        <File Id="TrayComponents_File_121" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Net.WebSockets.Client.dll" />
+      </Component>
+      <Component Id="TrayComponents_122">
+        <File Id="TrayComponents_File_122" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Net.WebSockets.dll" />
+      </Component>
+      <Component Id="TrayComponents_123">
+        <File Id="TrayComponents_File_123" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Numerics.dll" />
+      </Component>
+      <Component Id="TrayComponents_124">
+        <File Id="TrayComponents_File_124" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Numerics.Vectors.dll" />
+      </Component>
+      <Component Id="TrayComponents_125">
+        <File Id="TrayComponents_File_125" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.ObjectModel.dll" />
+      </Component>
+      <Component Id="TrayComponents_126">
+        <File Id="TrayComponents_File_126" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Private.CoreLib.dll" />
+      </Component>
+      <Component Id="TrayComponents_127">
+        <File Id="TrayComponents_File_127" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Private.DataContractSerialization.dll" />
+      </Component>
+      <Component Id="TrayComponents_128">
+        <File Id="TrayComponents_File_128" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Private.Uri.dll" />
+      </Component>
+      <Component Id="TrayComponents_129">
+        <File Id="TrayComponents_File_129" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Private.Windows.Core.dll" />
+      </Component>
+      <Component Id="TrayComponents_130">
+        <File Id="TrayComponents_File_130" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Private.Windows.GdiPlus.dll" />
+      </Component>
+      <Component Id="TrayComponents_131">
+        <File Id="TrayComponents_File_131" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Private.Xml.dll" />
+      </Component>
+      <Component Id="TrayComponents_132">
+        <File Id="TrayComponents_File_132" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Private.Xml.Linq.dll" />
+      </Component>
+      <Component Id="TrayComponents_133">
+        <File Id="TrayComponents_File_133" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Reflection.DispatchProxy.dll" />
+      </Component>
+      <Component Id="TrayComponents_134">
+        <File Id="TrayComponents_File_134" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Reflection.dll" />
+      </Component>
+      <Component Id="TrayComponents_135">
+        <File Id="TrayComponents_File_135" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Reflection.Emit.dll" />
+      </Component>
+      <Component Id="TrayComponents_136">
+        <File Id="TrayComponents_File_136" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Reflection.Emit.ILGeneration.dll" />
+      </Component>
+      <Component Id="TrayComponents_137">
+        <File Id="TrayComponents_File_137" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Reflection.Emit.Lightweight.dll" />
+      </Component>
+      <Component Id="TrayComponents_138">
+        <File Id="TrayComponents_File_138" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Reflection.Extensions.dll" />
+      </Component>
+      <Component Id="TrayComponents_139">
+        <File Id="TrayComponents_File_139" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Reflection.Metadata.dll" />
+      </Component>
+      <Component Id="TrayComponents_140">
+        <File Id="TrayComponents_File_140" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Reflection.Primitives.dll" />
+      </Component>
+      <Component Id="TrayComponents_141">
+        <File Id="TrayComponents_File_141" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Reflection.TypeExtensions.dll" />
+      </Component>
+      <Component Id="TrayComponents_142">
+        <File Id="TrayComponents_File_142" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Resources.Extensions.dll" />
+      </Component>
+      <Component Id="TrayComponents_143">
+        <File Id="TrayComponents_File_143" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Resources.Reader.dll" />
+      </Component>
+      <Component Id="TrayComponents_144">
+        <File Id="TrayComponents_File_144" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Resources.ResourceManager.dll" />
+      </Component>
+      <Component Id="TrayComponents_145">
+        <File Id="TrayComponents_File_145" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Resources.Writer.dll" />
+      </Component>
+      <Component Id="TrayComponents_146">
+        <File Id="TrayComponents_File_146" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Runtime.CompilerServices.Unsafe.dll" />
+      </Component>
+      <Component Id="TrayComponents_147">
+        <File Id="TrayComponents_File_147" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Runtime.CompilerServices.VisualC.dll" />
+      </Component>
+      <Component Id="TrayComponents_148">
+        <File Id="TrayComponents_File_148" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Runtime.dll" />
+      </Component>
+      <Component Id="TrayComponents_149">
+        <File Id="TrayComponents_File_149" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Runtime.Extensions.dll" />
+      </Component>
+      <Component Id="TrayComponents_150">
+        <File Id="TrayComponents_File_150" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Runtime.Handles.dll" />
+      </Component>
+      <Component Id="TrayComponents_151">
+        <File Id="TrayComponents_File_151" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Runtime.InteropServices.dll" />
+      </Component>
+      <Component Id="TrayComponents_152">
+        <File Id="TrayComponents_File_152" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Runtime.InteropServices.JavaScript.dll" />
+      </Component>
+      <Component Id="TrayComponents_153">
+        <File Id="TrayComponents_File_153" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Runtime.InteropServices.RuntimeInformation.dll" />
+      </Component>
+      <Component Id="TrayComponents_154">
+        <File Id="TrayComponents_File_154" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Runtime.Intrinsics.dll" />
+      </Component>
+      <Component Id="TrayComponents_155">
+        <File Id="TrayComponents_File_155" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Runtime.Loader.dll" />
+      </Component>
+      <Component Id="TrayComponents_156">
+        <File Id="TrayComponents_File_156" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Runtime.Numerics.dll" />
+      </Component>
+      <Component Id="TrayComponents_157">
+        <File Id="TrayComponents_File_157" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Runtime.Serialization.dll" />
+      </Component>
+      <Component Id="TrayComponents_158">
+        <File Id="TrayComponents_File_158" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Runtime.Serialization.Formatters.dll" />
+      </Component>
+      <Component Id="TrayComponents_159">
+        <File Id="TrayComponents_File_159" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Runtime.Serialization.Json.dll" />
+      </Component>
+      <Component Id="TrayComponents_160">
+        <File Id="TrayComponents_File_160" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Runtime.Serialization.Primitives.dll" />
+      </Component>
+      <Component Id="TrayComponents_161">
+        <File Id="TrayComponents_File_161" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Runtime.Serialization.Xml.dll" />
+      </Component>
+      <Component Id="TrayComponents_162">
+        <File Id="TrayComponents_File_162" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Security.AccessControl.dll" />
+      </Component>
+      <Component Id="TrayComponents_163">
+        <File Id="TrayComponents_File_163" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Security.Claims.dll" />
+      </Component>
+      <Component Id="TrayComponents_164">
+        <File Id="TrayComponents_File_164" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Security.Cryptography.Algorithms.dll" />
+      </Component>
+      <Component Id="TrayComponents_165">
+        <File Id="TrayComponents_File_165" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Security.Cryptography.Cng.dll" />
+      </Component>
+      <Component Id="TrayComponents_166">
+        <File Id="TrayComponents_File_166" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Security.Cryptography.Csp.dll" />
+      </Component>
+      <Component Id="TrayComponents_167">
+        <File Id="TrayComponents_File_167" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Security.Cryptography.dll" />
+      </Component>
+      <Component Id="TrayComponents_168">
+        <File Id="TrayComponents_File_168" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Security.Cryptography.Encoding.dll" />
+      </Component>
+      <Component Id="TrayComponents_169">
+        <File Id="TrayComponents_File_169" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Security.Cryptography.OpenSsl.dll" />
+      </Component>
+      <Component Id="TrayComponents_170">
+        <File Id="TrayComponents_File_170" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Security.Cryptography.Pkcs.dll" />
+      </Component>
+      <Component Id="TrayComponents_171">
+        <File Id="TrayComponents_File_171" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Security.Cryptography.Primitives.dll" />
+      </Component>
+      <Component Id="TrayComponents_172">
+        <File Id="TrayComponents_File_172" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Security.Cryptography.ProtectedData.dll" />
+      </Component>
+      <Component Id="TrayComponents_173">
+        <File Id="TrayComponents_File_173" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Security.Cryptography.X509Certificates.dll" />
+      </Component>
+      <Component Id="TrayComponents_174">
+        <File Id="TrayComponents_File_174" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Security.Cryptography.Xml.dll" />
+      </Component>
+      <Component Id="TrayComponents_175">
+        <File Id="TrayComponents_File_175" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Security.dll" />
+      </Component>
+      <Component Id="TrayComponents_176">
+        <File Id="TrayComponents_File_176" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Security.Permissions.dll" />
+      </Component>
+      <Component Id="TrayComponents_177">
+        <File Id="TrayComponents_File_177" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Security.Principal.dll" />
+      </Component>
+      <Component Id="TrayComponents_178">
+        <File Id="TrayComponents_File_178" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Security.Principal.Windows.dll" />
+      </Component>
+      <Component Id="TrayComponents_179">
+        <File Id="TrayComponents_File_179" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Security.SecureString.dll" />
+      </Component>
+      <Component Id="TrayComponents_180">
+        <File Id="TrayComponents_File_180" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.ServiceModel.Web.dll" />
+      </Component>
+      <Component Id="TrayComponents_181">
+        <File Id="TrayComponents_File_181" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.ServiceProcess.dll" />
+      </Component>
+      <Component Id="TrayComponents_182">
+        <File Id="TrayComponents_File_182" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Text.Encoding.CodePages.dll" />
+      </Component>
+      <Component Id="TrayComponents_183">
+        <File Id="TrayComponents_File_183" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Text.Encoding.dll" />
+      </Component>
+      <Component Id="TrayComponents_184">
+        <File Id="TrayComponents_File_184" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Text.Encoding.Extensions.dll" />
+      </Component>
+      <Component Id="TrayComponents_185">
+        <File Id="TrayComponents_File_185" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Text.Encodings.Web.dll" />
+      </Component>
+      <Component Id="TrayComponents_186">
+        <File Id="TrayComponents_File_186" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Text.Json.dll" />
+      </Component>
+      <Component Id="TrayComponents_187">
+        <File Id="TrayComponents_File_187" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Text.RegularExpressions.dll" />
+      </Component>
+      <Component Id="TrayComponents_188">
+        <File Id="TrayComponents_File_188" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Threading.AccessControl.dll" />
+      </Component>
+      <Component Id="TrayComponents_189">
+        <File Id="TrayComponents_File_189" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Threading.Channels.dll" />
+      </Component>
+      <Component Id="TrayComponents_190">
+        <File Id="TrayComponents_File_190" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Threading.dll" />
+      </Component>
+      <Component Id="TrayComponents_191">
+        <File Id="TrayComponents_File_191" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Threading.Overlapped.dll" />
+      </Component>
+      <Component Id="TrayComponents_192">
+        <File Id="TrayComponents_File_192" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Threading.Tasks.Dataflow.dll" />
+      </Component>
+      <Component Id="TrayComponents_193">
+        <File Id="TrayComponents_File_193" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Threading.Tasks.dll" />
+      </Component>
+      <Component Id="TrayComponents_194">
+        <File Id="TrayComponents_File_194" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Threading.Tasks.Extensions.dll" />
+      </Component>
+      <Component Id="TrayComponents_195">
+        <File Id="TrayComponents_File_195" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Threading.Tasks.Parallel.dll" />
+      </Component>
+      <Component Id="TrayComponents_196">
+        <File Id="TrayComponents_File_196" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Threading.Thread.dll" />
+      </Component>
+      <Component Id="TrayComponents_197">
+        <File Id="TrayComponents_File_197" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Threading.ThreadPool.dll" />
+      </Component>
+      <Component Id="TrayComponents_198">
+        <File Id="TrayComponents_File_198" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Threading.Timer.dll" />
+      </Component>
+      <Component Id="TrayComponents_199">
+        <File Id="TrayComponents_File_199" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Transactions.dll" />
+      </Component>
+      <Component Id="TrayComponents_200">
+        <File Id="TrayComponents_File_200" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Transactions.Local.dll" />
+      </Component>
+      <Component Id="TrayComponents_201">
+        <File Id="TrayComponents_File_201" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.ValueTuple.dll" />
+      </Component>
+      <Component Id="TrayComponents_202">
+        <File Id="TrayComponents_File_202" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Web.dll" />
+      </Component>
+      <Component Id="TrayComponents_203">
+        <File Id="TrayComponents_File_203" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Web.HttpUtility.dll" />
+      </Component>
+      <Component Id="TrayComponents_204">
+        <File Id="TrayComponents_File_204" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Windows.dll" />
+      </Component>
+      <Component Id="TrayComponents_205">
+        <File Id="TrayComponents_File_205" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Windows.Extensions.dll" />
+      </Component>
+      <Component Id="TrayComponents_206">
+        <File Id="TrayComponents_File_206" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Windows.Forms.Design.dll" />
+      </Component>
+      <Component Id="TrayComponents_207">
+        <File Id="TrayComponents_File_207" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Windows.Forms.Design.Editors.dll" />
+      </Component>
+      <Component Id="TrayComponents_208">
+        <File Id="TrayComponents_File_208" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Windows.Forms.dll" />
+      </Component>
+      <Component Id="TrayComponents_209">
+        <File Id="TrayComponents_File_209" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Windows.Forms.Primitives.dll" />
+      </Component>
+      <Component Id="TrayComponents_210">
+        <File Id="TrayComponents_File_210" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Xml.dll" />
+      </Component>
+      <Component Id="TrayComponents_211">
+        <File Id="TrayComponents_File_211" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Xml.Linq.dll" />
+      </Component>
+      <Component Id="TrayComponents_212">
+        <File Id="TrayComponents_File_212" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Xml.ReaderWriter.dll" />
+      </Component>
+      <Component Id="TrayComponents_213">
+        <File Id="TrayComponents_File_213" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Xml.Serialization.dll" />
+      </Component>
+      <Component Id="TrayComponents_214">
+        <File Id="TrayComponents_File_214" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Xml.XDocument.dll" />
+      </Component>
+      <Component Id="TrayComponents_215">
+        <File Id="TrayComponents_File_215" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Xml.XmlDocument.dll" />
+      </Component>
+      <Component Id="TrayComponents_216">
+        <File Id="TrayComponents_File_216" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Xml.XmlSerializer.dll" />
+      </Component>
+      <Component Id="TrayComponents_217">
+        <File Id="TrayComponents_File_217" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Xml.XPath.dll" />
+      </Component>
+      <Component Id="TrayComponents_218">
+        <File Id="TrayComponents_File_218" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\System.Xml.XPath.XDocument.dll" />
+      </Component>
+      <Component Id="TrayComponents_219">
+        <File Id="TrayComponents_File_219" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\WindowsBase.dll" />
+      </Component>
+      <Component Id="TrayComponents_220" Subdirectory="cs">
+        <File Id="TrayComponents_File_220" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\cs\Microsoft.VisualBasic.Forms.resources.dll" />
+      </Component>
+      <Component Id="TrayComponents_221" Subdirectory="cs">
+        <File Id="TrayComponents_File_221" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\cs\System.Windows.Forms.Design.resources.dll" />
+      </Component>
+      <Component Id="TrayComponents_222" Subdirectory="cs">
+        <File Id="TrayComponents_File_222" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\cs\System.Windows.Forms.Primitives.resources.dll" />
+      </Component>
+      <Component Id="TrayComponents_223" Subdirectory="cs">
+        <File Id="TrayComponents_File_223" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\cs\System.Windows.Forms.resources.dll" />
+      </Component>
+      <Component Id="TrayComponents_224" Subdirectory="de">
+        <File Id="TrayComponents_File_224" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\de\Microsoft.VisualBasic.Forms.resources.dll" />
+      </Component>
+      <Component Id="TrayComponents_225" Subdirectory="de">
+        <File Id="TrayComponents_File_225" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\de\System.Windows.Forms.Design.resources.dll" />
+      </Component>
+      <Component Id="TrayComponents_226" Subdirectory="de">
+        <File Id="TrayComponents_File_226" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\de\System.Windows.Forms.Primitives.resources.dll" />
+      </Component>
+      <Component Id="TrayComponents_227" Subdirectory="de">
+        <File Id="TrayComponents_File_227" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\de\System.Windows.Forms.resources.dll" />
+      </Component>
+      <Component Id="TrayComponents_228" Subdirectory="es">
+        <File Id="TrayComponents_File_228" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\es\Microsoft.VisualBasic.Forms.resources.dll" />
+      </Component>
+      <Component Id="TrayComponents_229" Subdirectory="es">
+        <File Id="TrayComponents_File_229" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\es\System.Windows.Forms.Design.resources.dll" />
+      </Component>
+      <Component Id="TrayComponents_230" Subdirectory="es">
+        <File Id="TrayComponents_File_230" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\es\System.Windows.Forms.Primitives.resources.dll" />
+      </Component>
+      <Component Id="TrayComponents_231" Subdirectory="es">
+        <File Id="TrayComponents_File_231" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\es\System.Windows.Forms.resources.dll" />
+      </Component>
+      <Component Id="TrayComponents_232" Subdirectory="fr">
+        <File Id="TrayComponents_File_232" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\fr\Microsoft.VisualBasic.Forms.resources.dll" />
+      </Component>
+      <Component Id="TrayComponents_233" Subdirectory="fr">
+        <File Id="TrayComponents_File_233" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\fr\System.Windows.Forms.Design.resources.dll" />
+      </Component>
+      <Component Id="TrayComponents_234" Subdirectory="fr">
+        <File Id="TrayComponents_File_234" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\fr\System.Windows.Forms.Primitives.resources.dll" />
+      </Component>
+      <Component Id="TrayComponents_235" Subdirectory="fr">
+        <File Id="TrayComponents_File_235" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\fr\System.Windows.Forms.resources.dll" />
+      </Component>
+      <Component Id="TrayComponents_236" Subdirectory="it">
+        <File Id="TrayComponents_File_236" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\it\Microsoft.VisualBasic.Forms.resources.dll" />
+      </Component>
+      <Component Id="TrayComponents_237" Subdirectory="it">
+        <File Id="TrayComponents_File_237" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\it\System.Windows.Forms.Design.resources.dll" />
+      </Component>
+      <Component Id="TrayComponents_238" Subdirectory="it">
+        <File Id="TrayComponents_File_238" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\it\System.Windows.Forms.Primitives.resources.dll" />
+      </Component>
+      <Component Id="TrayComponents_239" Subdirectory="it">
+        <File Id="TrayComponents_File_239" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\it\System.Windows.Forms.resources.dll" />
+      </Component>
+      <Component Id="TrayComponents_240" Subdirectory="ja">
+        <File Id="TrayComponents_File_240" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\ja\Microsoft.VisualBasic.Forms.resources.dll" />
+      </Component>
+      <Component Id="TrayComponents_241" Subdirectory="ja">
+        <File Id="TrayComponents_File_241" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\ja\System.Windows.Forms.Design.resources.dll" />
+      </Component>
+      <Component Id="TrayComponents_242" Subdirectory="ja">
+        <File Id="TrayComponents_File_242" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\ja\System.Windows.Forms.Primitives.resources.dll" />
+      </Component>
+      <Component Id="TrayComponents_243" Subdirectory="ja">
+        <File Id="TrayComponents_File_243" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\ja\System.Windows.Forms.resources.dll" />
+      </Component>
+      <Component Id="TrayComponents_244" Subdirectory="ko">
+        <File Id="TrayComponents_File_244" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\ko\Microsoft.VisualBasic.Forms.resources.dll" />
+      </Component>
+      <Component Id="TrayComponents_245" Subdirectory="ko">
+        <File Id="TrayComponents_File_245" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\ko\System.Windows.Forms.Design.resources.dll" />
+      </Component>
+      <Component Id="TrayComponents_246" Subdirectory="ko">
+        <File Id="TrayComponents_File_246" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\ko\System.Windows.Forms.Primitives.resources.dll" />
+      </Component>
+      <Component Id="TrayComponents_247" Subdirectory="ko">
+        <File Id="TrayComponents_File_247" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\ko\System.Windows.Forms.resources.dll" />
+      </Component>
+      <Component Id="TrayComponents_248" Subdirectory="pl">
+        <File Id="TrayComponents_File_248" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\pl\Microsoft.VisualBasic.Forms.resources.dll" />
+      </Component>
+      <Component Id="TrayComponents_249" Subdirectory="pl">
+        <File Id="TrayComponents_File_249" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\pl\System.Windows.Forms.Design.resources.dll" />
+      </Component>
+      <Component Id="TrayComponents_250" Subdirectory="pl">
+        <File Id="TrayComponents_File_250" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\pl\System.Windows.Forms.Primitives.resources.dll" />
+      </Component>
+      <Component Id="TrayComponents_251" Subdirectory="pl">
+        <File Id="TrayComponents_File_251" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\pl\System.Windows.Forms.resources.dll" />
+      </Component>
+      <Component Id="TrayComponents_252" Subdirectory="pt-BR">
+        <File Id="TrayComponents_File_252" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\pt-BR\Microsoft.VisualBasic.Forms.resources.dll" />
+      </Component>
+      <Component Id="TrayComponents_253" Subdirectory="pt-BR">
+        <File Id="TrayComponents_File_253" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\pt-BR\System.Windows.Forms.Design.resources.dll" />
+      </Component>
+      <Component Id="TrayComponents_254" Subdirectory="pt-BR">
+        <File Id="TrayComponents_File_254" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\pt-BR\System.Windows.Forms.Primitives.resources.dll" />
+      </Component>
+      <Component Id="TrayComponents_255" Subdirectory="pt-BR">
+        <File Id="TrayComponents_File_255" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\pt-BR\System.Windows.Forms.resources.dll" />
+      </Component>
+      <Component Id="TrayComponents_256" Subdirectory="ru">
+        <File Id="TrayComponents_File_256" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\ru\Microsoft.VisualBasic.Forms.resources.dll" />
+      </Component>
+      <Component Id="TrayComponents_257" Subdirectory="ru">
+        <File Id="TrayComponents_File_257" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\ru\System.Windows.Forms.Design.resources.dll" />
+      </Component>
+      <Component Id="TrayComponents_258" Subdirectory="ru">
+        <File Id="TrayComponents_File_258" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\ru\System.Windows.Forms.Primitives.resources.dll" />
+      </Component>
+      <Component Id="TrayComponents_259" Subdirectory="ru">
+        <File Id="TrayComponents_File_259" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\ru\System.Windows.Forms.resources.dll" />
+      </Component>
+      <Component Id="TrayComponents_260" Subdirectory="tr">
+        <File Id="TrayComponents_File_260" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\tr\Microsoft.VisualBasic.Forms.resources.dll" />
+      </Component>
+      <Component Id="TrayComponents_261" Subdirectory="tr">
+        <File Id="TrayComponents_File_261" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\tr\System.Windows.Forms.Design.resources.dll" />
+      </Component>
+      <Component Id="TrayComponents_262" Subdirectory="tr">
+        <File Id="TrayComponents_File_262" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\tr\System.Windows.Forms.Primitives.resources.dll" />
+      </Component>
+      <Component Id="TrayComponents_263" Subdirectory="tr">
+        <File Id="TrayComponents_File_263" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\tr\System.Windows.Forms.resources.dll" />
+      </Component>
+      <Component Id="TrayComponents_264" Subdirectory="zh-Hans">
+        <File Id="TrayComponents_File_264" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\zh-Hans\Microsoft.VisualBasic.Forms.resources.dll" />
+      </Component>
+      <Component Id="TrayComponents_265" Subdirectory="zh-Hans">
+        <File Id="TrayComponents_File_265" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\zh-Hans\System.Windows.Forms.Design.resources.dll" />
+      </Component>
+      <Component Id="TrayComponents_266" Subdirectory="zh-Hans">
+        <File Id="TrayComponents_File_266" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\zh-Hans\System.Windows.Forms.Primitives.resources.dll" />
+      </Component>
+      <Component Id="TrayComponents_267" Subdirectory="zh-Hans">
+        <File Id="TrayComponents_File_267" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\zh-Hans\System.Windows.Forms.resources.dll" />
+      </Component>
+      <Component Id="TrayComponents_268" Subdirectory="zh-Hant">
+        <File Id="TrayComponents_File_268" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\zh-Hant\Microsoft.VisualBasic.Forms.resources.dll" />
+      </Component>
+      <Component Id="TrayComponents_269" Subdirectory="zh-Hant">
+        <File Id="TrayComponents_File_269" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\zh-Hant\System.Windows.Forms.Design.resources.dll" />
+      </Component>
+      <Component Id="TrayComponents_270" Subdirectory="zh-Hant">
+        <File Id="TrayComponents_File_270" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\zh-Hant\System.Windows.Forms.Primitives.resources.dll" />
+      </Component>
+      <Component Id="TrayComponents_271" Subdirectory="zh-Hant">
+        <File Id="TrayComponents_File_271" Source="$(sys.SOURCEFILEDIR)..\publish\Tray\zh-Hant\System.Windows.Forms.resources.dll" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+</Wix>

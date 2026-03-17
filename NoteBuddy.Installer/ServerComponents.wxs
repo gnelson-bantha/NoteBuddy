@@ -1,0 +1,1149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Auto-generated WiX component fragment for ServerComponents.
+    Do not edit manually — regenerate with harvest-files.ps1 after publishing.
+-->
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Fragment>
+    <ComponentGroup Id="ServerComponents" Directory="ServerFolder">
+      <Component Id="ServerComponents_1">
+        <File Id="ServerComponents_File_1" Source="$(sys.SOURCEFILEDIR)..\publish\Server\appsettings.Development.json" />
+      </Component>
+      <Component Id="ServerComponents_2">
+        <File Id="ServerComponents_File_2" Source="$(sys.SOURCEFILEDIR)..\publish\Server\appsettings.json" />
+      </Component>
+      <Component Id="ServerComponents_3">
+        <File Id="ServerComponents_File_3" Source="$(sys.SOURCEFILEDIR)..\publish\Server\aspnetcorev2_inprocess.dll" />
+      </Component>
+      <Component Id="ServerComponents_4">
+        <File Id="ServerComponents_File_4" Source="$(sys.SOURCEFILEDIR)..\publish\Server\clretwrc.dll" />
+      </Component>
+      <Component Id="ServerComponents_5">
+        <File Id="ServerComponents_File_5" Source="$(sys.SOURCEFILEDIR)..\publish\Server\clrgc.dll" />
+      </Component>
+      <Component Id="ServerComponents_6">
+        <File Id="ServerComponents_File_6" Source="$(sys.SOURCEFILEDIR)..\publish\Server\clrgcexp.dll" />
+      </Component>
+      <Component Id="ServerComponents_7">
+        <File Id="ServerComponents_File_7" Source="$(sys.SOURCEFILEDIR)..\publish\Server\clrjit.dll" />
+      </Component>
+      <Component Id="ServerComponents_8">
+        <File Id="ServerComponents_File_8" Source="$(sys.SOURCEFILEDIR)..\publish\Server\coreclr.dll" />
+      </Component>
+      <Component Id="ServerComponents_9">
+        <File Id="ServerComponents_File_9" Source="$(sys.SOURCEFILEDIR)..\publish\Server\createdump.exe" />
+      </Component>
+      <Component Id="ServerComponents_10">
+        <File Id="ServerComponents_File_10" Source="$(sys.SOURCEFILEDIR)..\publish\Server\hostfxr.dll" />
+      </Component>
+      <Component Id="ServerComponents_11">
+        <File Id="ServerComponents_File_11" Source="$(sys.SOURCEFILEDIR)..\publish\Server\hostpolicy.dll" />
+      </Component>
+      <Component Id="ServerComponents_12">
+        <File Id="ServerComponents_File_12" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Antiforgery.dll" />
+      </Component>
+      <Component Id="ServerComponents_13">
+        <File Id="ServerComponents_File_13" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Authentication.Abstractions.dll" />
+      </Component>
+      <Component Id="ServerComponents_14">
+        <File Id="ServerComponents_File_14" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Authentication.BearerToken.dll" />
+      </Component>
+      <Component Id="ServerComponents_15">
+        <File Id="ServerComponents_File_15" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Authentication.Cookies.dll" />
+      </Component>
+      <Component Id="ServerComponents_16">
+        <File Id="ServerComponents_File_16" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Authentication.Core.dll" />
+      </Component>
+      <Component Id="ServerComponents_17">
+        <File Id="ServerComponents_File_17" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Authentication.dll" />
+      </Component>
+      <Component Id="ServerComponents_18">
+        <File Id="ServerComponents_File_18" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Authentication.OAuth.dll" />
+      </Component>
+      <Component Id="ServerComponents_19">
+        <File Id="ServerComponents_File_19" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Authorization.dll" />
+      </Component>
+      <Component Id="ServerComponents_20">
+        <File Id="ServerComponents_File_20" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Authorization.Policy.dll" />
+      </Component>
+      <Component Id="ServerComponents_21">
+        <File Id="ServerComponents_File_21" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Components.Authorization.dll" />
+      </Component>
+      <Component Id="ServerComponents_22">
+        <File Id="ServerComponents_File_22" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Components.dll" />
+      </Component>
+      <Component Id="ServerComponents_23">
+        <File Id="ServerComponents_File_23" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Components.Endpoints.dll" />
+      </Component>
+      <Component Id="ServerComponents_24">
+        <File Id="ServerComponents_File_24" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Components.Forms.dll" />
+      </Component>
+      <Component Id="ServerComponents_25">
+        <File Id="ServerComponents_File_25" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Components.Server.dll" />
+      </Component>
+      <Component Id="ServerComponents_26">
+        <File Id="ServerComponents_File_26" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Components.Web.dll" />
+      </Component>
+      <Component Id="ServerComponents_27">
+        <File Id="ServerComponents_File_27" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Connections.Abstractions.dll" />
+      </Component>
+      <Component Id="ServerComponents_28">
+        <File Id="ServerComponents_File_28" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.CookiePolicy.dll" />
+      </Component>
+      <Component Id="ServerComponents_29">
+        <File Id="ServerComponents_File_29" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Cors.dll" />
+      </Component>
+      <Component Id="ServerComponents_30">
+        <File Id="ServerComponents_File_30" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Cryptography.Internal.dll" />
+      </Component>
+      <Component Id="ServerComponents_31">
+        <File Id="ServerComponents_File_31" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll" />
+      </Component>
+      <Component Id="ServerComponents_32">
+        <File Id="ServerComponents_File_32" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.DataProtection.Abstractions.dll" />
+      </Component>
+      <Component Id="ServerComponents_33">
+        <File Id="ServerComponents_File_33" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.DataProtection.dll" />
+      </Component>
+      <Component Id="ServerComponents_34">
+        <File Id="ServerComponents_File_34" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.DataProtection.Extensions.dll" />
+      </Component>
+      <Component Id="ServerComponents_35">
+        <File Id="ServerComponents_File_35" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Diagnostics.Abstractions.dll" />
+      </Component>
+      <Component Id="ServerComponents_36">
+        <File Id="ServerComponents_File_36" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Diagnostics.dll" />
+      </Component>
+      <Component Id="ServerComponents_37">
+        <File Id="ServerComponents_File_37" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Diagnostics.HealthChecks.dll" />
+      </Component>
+      <Component Id="ServerComponents_38">
+        <File Id="ServerComponents_File_38" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.dll" />
+      </Component>
+      <Component Id="ServerComponents_39">
+        <File Id="ServerComponents_File_39" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.HostFiltering.dll" />
+      </Component>
+      <Component Id="ServerComponents_40">
+        <File Id="ServerComponents_File_40" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Hosting.Abstractions.dll" />
+      </Component>
+      <Component Id="ServerComponents_41">
+        <File Id="ServerComponents_File_41" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Hosting.dll" />
+      </Component>
+      <Component Id="ServerComponents_42">
+        <File Id="ServerComponents_File_42" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Hosting.Server.Abstractions.dll" />
+      </Component>
+      <Component Id="ServerComponents_43">
+        <File Id="ServerComponents_File_43" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Html.Abstractions.dll" />
+      </Component>
+      <Component Id="ServerComponents_44">
+        <File Id="ServerComponents_File_44" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Http.Abstractions.dll" />
+      </Component>
+      <Component Id="ServerComponents_45">
+        <File Id="ServerComponents_File_45" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Http.Connections.Common.dll" />
+      </Component>
+      <Component Id="ServerComponents_46">
+        <File Id="ServerComponents_File_46" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Http.Connections.dll" />
+      </Component>
+      <Component Id="ServerComponents_47">
+        <File Id="ServerComponents_File_47" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Http.dll" />
+      </Component>
+      <Component Id="ServerComponents_48">
+        <File Id="ServerComponents_File_48" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Http.Extensions.dll" />
+      </Component>
+      <Component Id="ServerComponents_49">
+        <File Id="ServerComponents_File_49" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Http.Features.dll" />
+      </Component>
+      <Component Id="ServerComponents_50">
+        <File Id="ServerComponents_File_50" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Http.Results.dll" />
+      </Component>
+      <Component Id="ServerComponents_51">
+        <File Id="ServerComponents_File_51" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.HttpLogging.dll" />
+      </Component>
+      <Component Id="ServerComponents_52">
+        <File Id="ServerComponents_File_52" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.HttpOverrides.dll" />
+      </Component>
+      <Component Id="ServerComponents_53">
+        <File Id="ServerComponents_File_53" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.HttpsPolicy.dll" />
+      </Component>
+      <Component Id="ServerComponents_54">
+        <File Id="ServerComponents_File_54" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Identity.dll" />
+      </Component>
+      <Component Id="ServerComponents_55">
+        <File Id="ServerComponents_File_55" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Localization.dll" />
+      </Component>
+      <Component Id="ServerComponents_56">
+        <File Id="ServerComponents_File_56" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Localization.Routing.dll" />
+      </Component>
+      <Component Id="ServerComponents_57">
+        <File Id="ServerComponents_File_57" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Metadata.dll" />
+      </Component>
+      <Component Id="ServerComponents_58">
+        <File Id="ServerComponents_File_58" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Mvc.Abstractions.dll" />
+      </Component>
+      <Component Id="ServerComponents_59">
+        <File Id="ServerComponents_File_59" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Mvc.ApiExplorer.dll" />
+      </Component>
+      <Component Id="ServerComponents_60">
+        <File Id="ServerComponents_File_60" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Mvc.Core.dll" />
+      </Component>
+      <Component Id="ServerComponents_61">
+        <File Id="ServerComponents_File_61" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Mvc.Cors.dll" />
+      </Component>
+      <Component Id="ServerComponents_62">
+        <File Id="ServerComponents_File_62" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Mvc.DataAnnotations.dll" />
+      </Component>
+      <Component Id="ServerComponents_63">
+        <File Id="ServerComponents_File_63" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Mvc.dll" />
+      </Component>
+      <Component Id="ServerComponents_64">
+        <File Id="ServerComponents_File_64" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Mvc.Formatters.Json.dll" />
+      </Component>
+      <Component Id="ServerComponents_65">
+        <File Id="ServerComponents_File_65" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Mvc.Formatters.Xml.dll" />
+      </Component>
+      <Component Id="ServerComponents_66">
+        <File Id="ServerComponents_File_66" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Mvc.Localization.dll" />
+      </Component>
+      <Component Id="ServerComponents_67">
+        <File Id="ServerComponents_File_67" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Mvc.Razor.dll" />
+      </Component>
+      <Component Id="ServerComponents_68">
+        <File Id="ServerComponents_File_68" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Mvc.RazorPages.dll" />
+      </Component>
+      <Component Id="ServerComponents_69">
+        <File Id="ServerComponents_File_69" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Mvc.TagHelpers.dll" />
+      </Component>
+      <Component Id="ServerComponents_70">
+        <File Id="ServerComponents_File_70" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Mvc.ViewFeatures.dll" />
+      </Component>
+      <Component Id="ServerComponents_71">
+        <File Id="ServerComponents_File_71" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.OutputCaching.dll" />
+      </Component>
+      <Component Id="ServerComponents_72">
+        <File Id="ServerComponents_File_72" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.RateLimiting.dll" />
+      </Component>
+      <Component Id="ServerComponents_73">
+        <File Id="ServerComponents_File_73" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Razor.dll" />
+      </Component>
+      <Component Id="ServerComponents_74">
+        <File Id="ServerComponents_File_74" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Razor.Runtime.dll" />
+      </Component>
+      <Component Id="ServerComponents_75">
+        <File Id="ServerComponents_File_75" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.RequestDecompression.dll" />
+      </Component>
+      <Component Id="ServerComponents_76">
+        <File Id="ServerComponents_File_76" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.ResponseCaching.Abstractions.dll" />
+      </Component>
+      <Component Id="ServerComponents_77">
+        <File Id="ServerComponents_File_77" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.ResponseCaching.dll" />
+      </Component>
+      <Component Id="ServerComponents_78">
+        <File Id="ServerComponents_File_78" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.ResponseCompression.dll" />
+      </Component>
+      <Component Id="ServerComponents_79">
+        <File Id="ServerComponents_File_79" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Rewrite.dll" />
+      </Component>
+      <Component Id="ServerComponents_80">
+        <File Id="ServerComponents_File_80" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Routing.Abstractions.dll" />
+      </Component>
+      <Component Id="ServerComponents_81">
+        <File Id="ServerComponents_File_81" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Routing.dll" />
+      </Component>
+      <Component Id="ServerComponents_82">
+        <File Id="ServerComponents_File_82" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Server.HttpSys.dll" />
+      </Component>
+      <Component Id="ServerComponents_83">
+        <File Id="ServerComponents_File_83" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Server.IIS.dll" />
+      </Component>
+      <Component Id="ServerComponents_84">
+        <File Id="ServerComponents_File_84" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Server.IISIntegration.dll" />
+      </Component>
+      <Component Id="ServerComponents_85">
+        <File Id="ServerComponents_File_85" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Server.Kestrel.Core.dll" />
+      </Component>
+      <Component Id="ServerComponents_86">
+        <File Id="ServerComponents_File_86" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Server.Kestrel.dll" />
+      </Component>
+      <Component Id="ServerComponents_87">
+        <File Id="ServerComponents_File_87" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Server.Kestrel.Transport.NamedPipes.dll" />
+      </Component>
+      <Component Id="ServerComponents_88">
+        <File Id="ServerComponents_File_88" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Server.Kestrel.Transport.Quic.dll" />
+      </Component>
+      <Component Id="ServerComponents_89">
+        <File Id="ServerComponents_File_89" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.dll" />
+      </Component>
+      <Component Id="ServerComponents_90">
+        <File Id="ServerComponents_File_90" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.Session.dll" />
+      </Component>
+      <Component Id="ServerComponents_91">
+        <File Id="ServerComponents_File_91" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.SignalR.Common.dll" />
+      </Component>
+      <Component Id="ServerComponents_92">
+        <File Id="ServerComponents_File_92" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.SignalR.Core.dll" />
+      </Component>
+      <Component Id="ServerComponents_93">
+        <File Id="ServerComponents_File_93" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.SignalR.dll" />
+      </Component>
+      <Component Id="ServerComponents_94">
+        <File Id="ServerComponents_File_94" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.SignalR.Protocols.Json.dll" />
+      </Component>
+      <Component Id="ServerComponents_95">
+        <File Id="ServerComponents_File_95" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.StaticAssets.dll" />
+      </Component>
+      <Component Id="ServerComponents_96">
+        <File Id="ServerComponents_File_96" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.StaticFiles.dll" />
+      </Component>
+      <Component Id="ServerComponents_97">
+        <File Id="ServerComponents_File_97" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.WebSockets.dll" />
+      </Component>
+      <Component Id="ServerComponents_98">
+        <File Id="ServerComponents_File_98" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.AspNetCore.WebUtilities.dll" />
+      </Component>
+      <Component Id="ServerComponents_99">
+        <File Id="ServerComponents_File_99" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.CSharp.dll" />
+      </Component>
+      <Component Id="ServerComponents_100">
+        <File Id="ServerComponents_File_100" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.DiaSymReader.Native.amd64.dll" />
+      </Component>
+      <Component Id="ServerComponents_101">
+        <File Id="ServerComponents_File_101" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.Extensions.Caching.Abstractions.dll" />
+      </Component>
+      <Component Id="ServerComponents_102">
+        <File Id="ServerComponents_File_102" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.Extensions.Caching.Memory.dll" />
+      </Component>
+      <Component Id="ServerComponents_103">
+        <File Id="ServerComponents_File_103" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.Extensions.Configuration.Abstractions.dll" />
+      </Component>
+      <Component Id="ServerComponents_104">
+        <File Id="ServerComponents_File_104" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.Extensions.Configuration.Binder.dll" />
+      </Component>
+      <Component Id="ServerComponents_105">
+        <File Id="ServerComponents_File_105" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.Extensions.Configuration.CommandLine.dll" />
+      </Component>
+      <Component Id="ServerComponents_106">
+        <File Id="ServerComponents_File_106" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.Extensions.Configuration.dll" />
+      </Component>
+      <Component Id="ServerComponents_107">
+        <File Id="ServerComponents_File_107" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.Extensions.Configuration.EnvironmentVariables.dll" />
+      </Component>
+      <Component Id="ServerComponents_108">
+        <File Id="ServerComponents_File_108" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.Extensions.Configuration.FileExtensions.dll" />
+      </Component>
+      <Component Id="ServerComponents_109">
+        <File Id="ServerComponents_File_109" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.Extensions.Configuration.Ini.dll" />
+      </Component>
+      <Component Id="ServerComponents_110">
+        <File Id="ServerComponents_File_110" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.Extensions.Configuration.Json.dll" />
+      </Component>
+      <Component Id="ServerComponents_111">
+        <File Id="ServerComponents_File_111" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.Extensions.Configuration.KeyPerFile.dll" />
+      </Component>
+      <Component Id="ServerComponents_112">
+        <File Id="ServerComponents_File_112" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.Extensions.Configuration.UserSecrets.dll" />
+      </Component>
+      <Component Id="ServerComponents_113">
+        <File Id="ServerComponents_File_113" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.Extensions.Configuration.Xml.dll" />
+      </Component>
+      <Component Id="ServerComponents_114">
+        <File Id="ServerComponents_File_114" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.Extensions.DependencyInjection.Abstractions.dll" />
+      </Component>
+      <Component Id="ServerComponents_115">
+        <File Id="ServerComponents_File_115" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.Extensions.DependencyInjection.dll" />
+      </Component>
+      <Component Id="ServerComponents_116">
+        <File Id="ServerComponents_File_116" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.Extensions.Diagnostics.Abstractions.dll" />
+      </Component>
+      <Component Id="ServerComponents_117">
+        <File Id="ServerComponents_File_117" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.Extensions.Diagnostics.dll" />
+      </Component>
+      <Component Id="ServerComponents_118">
+        <File Id="ServerComponents_File_118" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions.dll" />
+      </Component>
+      <Component Id="ServerComponents_119">
+        <File Id="ServerComponents_File_119" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.Extensions.Diagnostics.HealthChecks.dll" />
+      </Component>
+      <Component Id="ServerComponents_120">
+        <File Id="ServerComponents_File_120" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.Extensions.Features.dll" />
+      </Component>
+      <Component Id="ServerComponents_121">
+        <File Id="ServerComponents_File_121" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.Extensions.FileProviders.Abstractions.dll" />
+      </Component>
+      <Component Id="ServerComponents_122">
+        <File Id="ServerComponents_File_122" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.Extensions.FileProviders.Composite.dll" />
+      </Component>
+      <Component Id="ServerComponents_123">
+        <File Id="ServerComponents_File_123" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.Extensions.FileProviders.Embedded.dll" />
+      </Component>
+      <Component Id="ServerComponents_124">
+        <File Id="ServerComponents_File_124" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.Extensions.FileProviders.Physical.dll" />
+      </Component>
+      <Component Id="ServerComponents_125">
+        <File Id="ServerComponents_File_125" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.Extensions.FileSystemGlobbing.dll" />
+      </Component>
+      <Component Id="ServerComponents_126">
+        <File Id="ServerComponents_File_126" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.Extensions.Hosting.Abstractions.dll" />
+      </Component>
+      <Component Id="ServerComponents_127">
+        <File Id="ServerComponents_File_127" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.Extensions.Hosting.dll" />
+      </Component>
+      <Component Id="ServerComponents_128">
+        <File Id="ServerComponents_File_128" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.Extensions.Http.dll" />
+      </Component>
+      <Component Id="ServerComponents_129">
+        <File Id="ServerComponents_File_129" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.Extensions.Identity.Core.dll" />
+      </Component>
+      <Component Id="ServerComponents_130">
+        <File Id="ServerComponents_File_130" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.Extensions.Identity.Stores.dll" />
+      </Component>
+      <Component Id="ServerComponents_131">
+        <File Id="ServerComponents_File_131" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.Extensions.Localization.Abstractions.dll" />
+      </Component>
+      <Component Id="ServerComponents_132">
+        <File Id="ServerComponents_File_132" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.Extensions.Localization.dll" />
+      </Component>
+      <Component Id="ServerComponents_133">
+        <File Id="ServerComponents_File_133" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.Extensions.Logging.Abstractions.dll" />
+      </Component>
+      <Component Id="ServerComponents_134">
+        <File Id="ServerComponents_File_134" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.Extensions.Logging.Configuration.dll" />
+      </Component>
+      <Component Id="ServerComponents_135">
+        <File Id="ServerComponents_File_135" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.Extensions.Logging.Console.dll" />
+      </Component>
+      <Component Id="ServerComponents_136">
+        <File Id="ServerComponents_File_136" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.Extensions.Logging.Debug.dll" />
+      </Component>
+      <Component Id="ServerComponents_137">
+        <File Id="ServerComponents_File_137" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.Extensions.Logging.dll" />
+      </Component>
+      <Component Id="ServerComponents_138">
+        <File Id="ServerComponents_File_138" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.Extensions.Logging.EventLog.dll" />
+      </Component>
+      <Component Id="ServerComponents_139">
+        <File Id="ServerComponents_File_139" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.Extensions.Logging.EventSource.dll" />
+      </Component>
+      <Component Id="ServerComponents_140">
+        <File Id="ServerComponents_File_140" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.Extensions.Logging.TraceSource.dll" />
+      </Component>
+      <Component Id="ServerComponents_141">
+        <File Id="ServerComponents_File_141" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.Extensions.ObjectPool.dll" />
+      </Component>
+      <Component Id="ServerComponents_142">
+        <File Id="ServerComponents_File_142" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.Extensions.Options.ConfigurationExtensions.dll" />
+      </Component>
+      <Component Id="ServerComponents_143">
+        <File Id="ServerComponents_File_143" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.Extensions.Options.DataAnnotations.dll" />
+      </Component>
+      <Component Id="ServerComponents_144">
+        <File Id="ServerComponents_File_144" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.Extensions.Options.dll" />
+      </Component>
+      <Component Id="ServerComponents_145">
+        <File Id="ServerComponents_File_145" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.Extensions.Primitives.dll" />
+      </Component>
+      <Component Id="ServerComponents_146">
+        <File Id="ServerComponents_File_146" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.Extensions.Validation.dll" />
+      </Component>
+      <Component Id="ServerComponents_147">
+        <File Id="ServerComponents_File_147" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.Extensions.WebEncoders.dll" />
+      </Component>
+      <Component Id="ServerComponents_148">
+        <File Id="ServerComponents_File_148" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.JSInterop.dll" />
+      </Component>
+      <Component Id="ServerComponents_149">
+        <File Id="ServerComponents_File_149" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.Net.Http.Headers.dll" />
+      </Component>
+      <Component Id="ServerComponents_150">
+        <File Id="ServerComponents_File_150" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.VisualBasic.Core.dll" />
+      </Component>
+      <Component Id="ServerComponents_151">
+        <File Id="ServerComponents_File_151" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.VisualBasic.dll" />
+      </Component>
+      <Component Id="ServerComponents_152">
+        <File Id="ServerComponents_File_152" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.Win32.Primitives.dll" />
+      </Component>
+      <Component Id="ServerComponents_153">
+        <File Id="ServerComponents_File_153" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Microsoft.Win32.Registry.dll" />
+      </Component>
+      <Component Id="ServerComponents_154">
+        <File Id="ServerComponents_File_154" Source="$(sys.SOURCEFILEDIR)..\publish\Server\mscordaccore_amd64_amd64_10.0.426.12010.dll" />
+      </Component>
+      <Component Id="ServerComponents_155">
+        <File Id="ServerComponents_File_155" Source="$(sys.SOURCEFILEDIR)..\publish\Server\mscordaccore.dll" />
+      </Component>
+      <Component Id="ServerComponents_156">
+        <File Id="ServerComponents_File_156" Source="$(sys.SOURCEFILEDIR)..\publish\Server\mscordbi.dll" />
+      </Component>
+      <Component Id="ServerComponents_157">
+        <File Id="ServerComponents_File_157" Source="$(sys.SOURCEFILEDIR)..\publish\Server\mscorlib.dll" />
+      </Component>
+      <Component Id="ServerComponents_158">
+        <File Id="ServerComponents_File_158" Source="$(sys.SOURCEFILEDIR)..\publish\Server\mscorrc.dll" />
+      </Component>
+      <Component Id="ServerComponents_159">
+        <File Id="ServerComponents_File_159" Source="$(sys.SOURCEFILEDIR)..\publish\Server\msquic.dll" />
+      </Component>
+      <Component Id="ServerComponents_160">
+        <File Id="ServerComponents_File_160" Source="$(sys.SOURCEFILEDIR)..\publish\Server\MudBlazor.dll" />
+      </Component>
+      <Component Id="ServerComponents_161">
+        <File Id="ServerComponents_File_161" Source="$(sys.SOURCEFILEDIR)..\publish\Server\netstandard.dll" />
+      </Component>
+      <Component Id="ServerComponents_162">
+        <File Id="ServerComponents_File_162" Source="$(sys.SOURCEFILEDIR)..\publish\Server\NoteBuddy.deps.json" />
+      </Component>
+      <Component Id="ServerComponents_163">
+        <File Id="ServerComponents_File_163" Source="$(sys.SOURCEFILEDIR)..\publish\Server\NoteBuddy.dll" />
+      </Component>
+      <Component Id="ServerComponents_164">
+        <File Id="ServerComponents_File_164" Source="$(sys.SOURCEFILEDIR)..\publish\Server\NoteBuddy.exe" />
+      </Component>
+      <Component Id="ServerComponents_165">
+        <File Id="ServerComponents_File_165" Source="$(sys.SOURCEFILEDIR)..\publish\Server\NoteBuddy.pdb" />
+      </Component>
+      <Component Id="ServerComponents_166">
+        <File Id="ServerComponents_File_166" Source="$(sys.SOURCEFILEDIR)..\publish\Server\NoteBuddy.runtimeconfig.json" />
+      </Component>
+      <Component Id="ServerComponents_167">
+        <File Id="ServerComponents_File_167" Source="$(sys.SOURCEFILEDIR)..\publish\Server\NoteBuddy.staticwebassets.endpoints.json" />
+      </Component>
+      <Component Id="ServerComponents_168">
+        <File Id="ServerComponents_File_168" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.AppContext.dll" />
+      </Component>
+      <Component Id="ServerComponents_169">
+        <File Id="ServerComponents_File_169" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Buffers.dll" />
+      </Component>
+      <Component Id="ServerComponents_170">
+        <File Id="ServerComponents_File_170" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Collections.Concurrent.dll" />
+      </Component>
+      <Component Id="ServerComponents_171">
+        <File Id="ServerComponents_File_171" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Collections.dll" />
+      </Component>
+      <Component Id="ServerComponents_172">
+        <File Id="ServerComponents_File_172" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Collections.Immutable.dll" />
+      </Component>
+      <Component Id="ServerComponents_173">
+        <File Id="ServerComponents_File_173" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Collections.NonGeneric.dll" />
+      </Component>
+      <Component Id="ServerComponents_174">
+        <File Id="ServerComponents_File_174" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Collections.Specialized.dll" />
+      </Component>
+      <Component Id="ServerComponents_175">
+        <File Id="ServerComponents_File_175" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.ComponentModel.Annotations.dll" />
+      </Component>
+      <Component Id="ServerComponents_176">
+        <File Id="ServerComponents_File_176" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.ComponentModel.DataAnnotations.dll" />
+      </Component>
+      <Component Id="ServerComponents_177">
+        <File Id="ServerComponents_File_177" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.ComponentModel.dll" />
+      </Component>
+      <Component Id="ServerComponents_178">
+        <File Id="ServerComponents_File_178" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.ComponentModel.EventBasedAsync.dll" />
+      </Component>
+      <Component Id="ServerComponents_179">
+        <File Id="ServerComponents_File_179" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.ComponentModel.Primitives.dll" />
+      </Component>
+      <Component Id="ServerComponents_180">
+        <File Id="ServerComponents_File_180" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.ComponentModel.TypeConverter.dll" />
+      </Component>
+      <Component Id="ServerComponents_181">
+        <File Id="ServerComponents_File_181" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Configuration.dll" />
+      </Component>
+      <Component Id="ServerComponents_182">
+        <File Id="ServerComponents_File_182" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Console.dll" />
+      </Component>
+      <Component Id="ServerComponents_183">
+        <File Id="ServerComponents_File_183" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Core.dll" />
+      </Component>
+      <Component Id="ServerComponents_184">
+        <File Id="ServerComponents_File_184" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Data.Common.dll" />
+      </Component>
+      <Component Id="ServerComponents_185">
+        <File Id="ServerComponents_File_185" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Data.DataSetExtensions.dll" />
+      </Component>
+      <Component Id="ServerComponents_186">
+        <File Id="ServerComponents_File_186" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Data.dll" />
+      </Component>
+      <Component Id="ServerComponents_187">
+        <File Id="ServerComponents_File_187" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Diagnostics.Contracts.dll" />
+      </Component>
+      <Component Id="ServerComponents_188">
+        <File Id="ServerComponents_File_188" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Diagnostics.Debug.dll" />
+      </Component>
+      <Component Id="ServerComponents_189">
+        <File Id="ServerComponents_File_189" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Diagnostics.DiagnosticSource.dll" />
+      </Component>
+      <Component Id="ServerComponents_190">
+        <File Id="ServerComponents_File_190" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Diagnostics.EventLog.dll" />
+      </Component>
+      <Component Id="ServerComponents_191">
+        <File Id="ServerComponents_File_191" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Diagnostics.EventLog.Messages.dll" />
+      </Component>
+      <Component Id="ServerComponents_192">
+        <File Id="ServerComponents_File_192" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Diagnostics.FileVersionInfo.dll" />
+      </Component>
+      <Component Id="ServerComponents_193">
+        <File Id="ServerComponents_File_193" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Diagnostics.Process.dll" />
+      </Component>
+      <Component Id="ServerComponents_194">
+        <File Id="ServerComponents_File_194" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Diagnostics.StackTrace.dll" />
+      </Component>
+      <Component Id="ServerComponents_195">
+        <File Id="ServerComponents_File_195" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Diagnostics.TextWriterTraceListener.dll" />
+      </Component>
+      <Component Id="ServerComponents_196">
+        <File Id="ServerComponents_File_196" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Diagnostics.Tools.dll" />
+      </Component>
+      <Component Id="ServerComponents_197">
+        <File Id="ServerComponents_File_197" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Diagnostics.TraceSource.dll" />
+      </Component>
+      <Component Id="ServerComponents_198">
+        <File Id="ServerComponents_File_198" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Diagnostics.Tracing.dll" />
+      </Component>
+      <Component Id="ServerComponents_199">
+        <File Id="ServerComponents_File_199" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.dll" />
+      </Component>
+      <Component Id="ServerComponents_200">
+        <File Id="ServerComponents_File_200" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Drawing.dll" />
+      </Component>
+      <Component Id="ServerComponents_201">
+        <File Id="ServerComponents_File_201" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Drawing.Primitives.dll" />
+      </Component>
+      <Component Id="ServerComponents_202">
+        <File Id="ServerComponents_File_202" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Dynamic.Runtime.dll" />
+      </Component>
+      <Component Id="ServerComponents_203">
+        <File Id="ServerComponents_File_203" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Formats.Asn1.dll" />
+      </Component>
+      <Component Id="ServerComponents_204">
+        <File Id="ServerComponents_File_204" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Formats.Cbor.dll" />
+      </Component>
+      <Component Id="ServerComponents_205">
+        <File Id="ServerComponents_File_205" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Formats.Tar.dll" />
+      </Component>
+      <Component Id="ServerComponents_206">
+        <File Id="ServerComponents_File_206" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Globalization.Calendars.dll" />
+      </Component>
+      <Component Id="ServerComponents_207">
+        <File Id="ServerComponents_File_207" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Globalization.dll" />
+      </Component>
+      <Component Id="ServerComponents_208">
+        <File Id="ServerComponents_File_208" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Globalization.Extensions.dll" />
+      </Component>
+      <Component Id="ServerComponents_209">
+        <File Id="ServerComponents_File_209" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.IO.Compression.Brotli.dll" />
+      </Component>
+      <Component Id="ServerComponents_210">
+        <File Id="ServerComponents_File_210" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.IO.Compression.dll" />
+      </Component>
+      <Component Id="ServerComponents_211">
+        <File Id="ServerComponents_File_211" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.IO.Compression.FileSystem.dll" />
+      </Component>
+      <Component Id="ServerComponents_212">
+        <File Id="ServerComponents_File_212" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.IO.Compression.Native.dll" />
+      </Component>
+      <Component Id="ServerComponents_213">
+        <File Id="ServerComponents_File_213" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.IO.Compression.ZipFile.dll" />
+      </Component>
+      <Component Id="ServerComponents_214">
+        <File Id="ServerComponents_File_214" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.IO.dll" />
+      </Component>
+      <Component Id="ServerComponents_215">
+        <File Id="ServerComponents_File_215" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.IO.FileSystem.AccessControl.dll" />
+      </Component>
+      <Component Id="ServerComponents_216">
+        <File Id="ServerComponents_File_216" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.IO.FileSystem.dll" />
+      </Component>
+      <Component Id="ServerComponents_217">
+        <File Id="ServerComponents_File_217" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.IO.FileSystem.DriveInfo.dll" />
+      </Component>
+      <Component Id="ServerComponents_218">
+        <File Id="ServerComponents_File_218" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.IO.FileSystem.Primitives.dll" />
+      </Component>
+      <Component Id="ServerComponents_219">
+        <File Id="ServerComponents_File_219" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.IO.FileSystem.Watcher.dll" />
+      </Component>
+      <Component Id="ServerComponents_220">
+        <File Id="ServerComponents_File_220" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.IO.IsolatedStorage.dll" />
+      </Component>
+      <Component Id="ServerComponents_221">
+        <File Id="ServerComponents_File_221" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.IO.MemoryMappedFiles.dll" />
+      </Component>
+      <Component Id="ServerComponents_222">
+        <File Id="ServerComponents_File_222" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.IO.Pipelines.dll" />
+      </Component>
+      <Component Id="ServerComponents_223">
+        <File Id="ServerComponents_File_223" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.IO.Pipes.AccessControl.dll" />
+      </Component>
+      <Component Id="ServerComponents_224">
+        <File Id="ServerComponents_File_224" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.IO.Pipes.dll" />
+      </Component>
+      <Component Id="ServerComponents_225">
+        <File Id="ServerComponents_File_225" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.IO.UnmanagedMemoryStream.dll" />
+      </Component>
+      <Component Id="ServerComponents_226">
+        <File Id="ServerComponents_File_226" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Linq.AsyncEnumerable.dll" />
+      </Component>
+      <Component Id="ServerComponents_227">
+        <File Id="ServerComponents_File_227" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Linq.dll" />
+      </Component>
+      <Component Id="ServerComponents_228">
+        <File Id="ServerComponents_File_228" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Linq.Expressions.dll" />
+      </Component>
+      <Component Id="ServerComponents_229">
+        <File Id="ServerComponents_File_229" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Linq.Parallel.dll" />
+      </Component>
+      <Component Id="ServerComponents_230">
+        <File Id="ServerComponents_File_230" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Linq.Queryable.dll" />
+      </Component>
+      <Component Id="ServerComponents_231">
+        <File Id="ServerComponents_File_231" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Memory.dll" />
+      </Component>
+      <Component Id="ServerComponents_232">
+        <File Id="ServerComponents_File_232" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Net.dll" />
+      </Component>
+      <Component Id="ServerComponents_233">
+        <File Id="ServerComponents_File_233" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Net.Http.dll" />
+      </Component>
+      <Component Id="ServerComponents_234">
+        <File Id="ServerComponents_File_234" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Net.Http.Json.dll" />
+      </Component>
+      <Component Id="ServerComponents_235">
+        <File Id="ServerComponents_File_235" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Net.HttpListener.dll" />
+      </Component>
+      <Component Id="ServerComponents_236">
+        <File Id="ServerComponents_File_236" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Net.Mail.dll" />
+      </Component>
+      <Component Id="ServerComponents_237">
+        <File Id="ServerComponents_File_237" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Net.NameResolution.dll" />
+      </Component>
+      <Component Id="ServerComponents_238">
+        <File Id="ServerComponents_File_238" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Net.NetworkInformation.dll" />
+      </Component>
+      <Component Id="ServerComponents_239">
+        <File Id="ServerComponents_File_239" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Net.Ping.dll" />
+      </Component>
+      <Component Id="ServerComponents_240">
+        <File Id="ServerComponents_File_240" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Net.Primitives.dll" />
+      </Component>
+      <Component Id="ServerComponents_241">
+        <File Id="ServerComponents_File_241" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Net.Quic.dll" />
+      </Component>
+      <Component Id="ServerComponents_242">
+        <File Id="ServerComponents_File_242" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Net.Requests.dll" />
+      </Component>
+      <Component Id="ServerComponents_243">
+        <File Id="ServerComponents_File_243" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Net.Security.dll" />
+      </Component>
+      <Component Id="ServerComponents_244">
+        <File Id="ServerComponents_File_244" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Net.ServerSentEvents.dll" />
+      </Component>
+      <Component Id="ServerComponents_245">
+        <File Id="ServerComponents_File_245" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Net.ServicePoint.dll" />
+      </Component>
+      <Component Id="ServerComponents_246">
+        <File Id="ServerComponents_File_246" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Net.Sockets.dll" />
+      </Component>
+      <Component Id="ServerComponents_247">
+        <File Id="ServerComponents_File_247" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Net.WebClient.dll" />
+      </Component>
+      <Component Id="ServerComponents_248">
+        <File Id="ServerComponents_File_248" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Net.WebHeaderCollection.dll" />
+      </Component>
+      <Component Id="ServerComponents_249">
+        <File Id="ServerComponents_File_249" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Net.WebProxy.dll" />
+      </Component>
+      <Component Id="ServerComponents_250">
+        <File Id="ServerComponents_File_250" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Net.WebSockets.Client.dll" />
+      </Component>
+      <Component Id="ServerComponents_251">
+        <File Id="ServerComponents_File_251" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Net.WebSockets.dll" />
+      </Component>
+      <Component Id="ServerComponents_252">
+        <File Id="ServerComponents_File_252" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Numerics.dll" />
+      </Component>
+      <Component Id="ServerComponents_253">
+        <File Id="ServerComponents_File_253" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Numerics.Vectors.dll" />
+      </Component>
+      <Component Id="ServerComponents_254">
+        <File Id="ServerComponents_File_254" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.ObjectModel.dll" />
+      </Component>
+      <Component Id="ServerComponents_255">
+        <File Id="ServerComponents_File_255" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Private.CoreLib.dll" />
+      </Component>
+      <Component Id="ServerComponents_256">
+        <File Id="ServerComponents_File_256" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Private.DataContractSerialization.dll" />
+      </Component>
+      <Component Id="ServerComponents_257">
+        <File Id="ServerComponents_File_257" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Private.Uri.dll" />
+      </Component>
+      <Component Id="ServerComponents_258">
+        <File Id="ServerComponents_File_258" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Private.Xml.dll" />
+      </Component>
+      <Component Id="ServerComponents_259">
+        <File Id="ServerComponents_File_259" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Private.Xml.Linq.dll" />
+      </Component>
+      <Component Id="ServerComponents_260">
+        <File Id="ServerComponents_File_260" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Reflection.DispatchProxy.dll" />
+      </Component>
+      <Component Id="ServerComponents_261">
+        <File Id="ServerComponents_File_261" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Reflection.dll" />
+      </Component>
+      <Component Id="ServerComponents_262">
+        <File Id="ServerComponents_File_262" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Reflection.Emit.dll" />
+      </Component>
+      <Component Id="ServerComponents_263">
+        <File Id="ServerComponents_File_263" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Reflection.Emit.ILGeneration.dll" />
+      </Component>
+      <Component Id="ServerComponents_264">
+        <File Id="ServerComponents_File_264" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Reflection.Emit.Lightweight.dll" />
+      </Component>
+      <Component Id="ServerComponents_265">
+        <File Id="ServerComponents_File_265" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Reflection.Extensions.dll" />
+      </Component>
+      <Component Id="ServerComponents_266">
+        <File Id="ServerComponents_File_266" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Reflection.Metadata.dll" />
+      </Component>
+      <Component Id="ServerComponents_267">
+        <File Id="ServerComponents_File_267" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Reflection.Primitives.dll" />
+      </Component>
+      <Component Id="ServerComponents_268">
+        <File Id="ServerComponents_File_268" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Reflection.TypeExtensions.dll" />
+      </Component>
+      <Component Id="ServerComponents_269">
+        <File Id="ServerComponents_File_269" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Resources.Reader.dll" />
+      </Component>
+      <Component Id="ServerComponents_270">
+        <File Id="ServerComponents_File_270" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Resources.ResourceManager.dll" />
+      </Component>
+      <Component Id="ServerComponents_271">
+        <File Id="ServerComponents_File_271" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Resources.Writer.dll" />
+      </Component>
+      <Component Id="ServerComponents_272">
+        <File Id="ServerComponents_File_272" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Runtime.CompilerServices.Unsafe.dll" />
+      </Component>
+      <Component Id="ServerComponents_273">
+        <File Id="ServerComponents_File_273" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Runtime.CompilerServices.VisualC.dll" />
+      </Component>
+      <Component Id="ServerComponents_274">
+        <File Id="ServerComponents_File_274" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Runtime.dll" />
+      </Component>
+      <Component Id="ServerComponents_275">
+        <File Id="ServerComponents_File_275" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Runtime.Extensions.dll" />
+      </Component>
+      <Component Id="ServerComponents_276">
+        <File Id="ServerComponents_File_276" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Runtime.Handles.dll" />
+      </Component>
+      <Component Id="ServerComponents_277">
+        <File Id="ServerComponents_File_277" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Runtime.InteropServices.dll" />
+      </Component>
+      <Component Id="ServerComponents_278">
+        <File Id="ServerComponents_File_278" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Runtime.InteropServices.JavaScript.dll" />
+      </Component>
+      <Component Id="ServerComponents_279">
+        <File Id="ServerComponents_File_279" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Runtime.InteropServices.RuntimeInformation.dll" />
+      </Component>
+      <Component Id="ServerComponents_280">
+        <File Id="ServerComponents_File_280" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Runtime.Intrinsics.dll" />
+      </Component>
+      <Component Id="ServerComponents_281">
+        <File Id="ServerComponents_File_281" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Runtime.Loader.dll" />
+      </Component>
+      <Component Id="ServerComponents_282">
+        <File Id="ServerComponents_File_282" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Runtime.Numerics.dll" />
+      </Component>
+      <Component Id="ServerComponents_283">
+        <File Id="ServerComponents_File_283" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Runtime.Serialization.dll" />
+      </Component>
+      <Component Id="ServerComponents_284">
+        <File Id="ServerComponents_File_284" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Runtime.Serialization.Formatters.dll" />
+      </Component>
+      <Component Id="ServerComponents_285">
+        <File Id="ServerComponents_File_285" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Runtime.Serialization.Json.dll" />
+      </Component>
+      <Component Id="ServerComponents_286">
+        <File Id="ServerComponents_File_286" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Runtime.Serialization.Primitives.dll" />
+      </Component>
+      <Component Id="ServerComponents_287">
+        <File Id="ServerComponents_File_287" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Runtime.Serialization.Xml.dll" />
+      </Component>
+      <Component Id="ServerComponents_288">
+        <File Id="ServerComponents_File_288" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Security.AccessControl.dll" />
+      </Component>
+      <Component Id="ServerComponents_289">
+        <File Id="ServerComponents_File_289" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Security.Claims.dll" />
+      </Component>
+      <Component Id="ServerComponents_290">
+        <File Id="ServerComponents_File_290" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Security.Cryptography.Algorithms.dll" />
+      </Component>
+      <Component Id="ServerComponents_291">
+        <File Id="ServerComponents_File_291" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Security.Cryptography.Cng.dll" />
+      </Component>
+      <Component Id="ServerComponents_292">
+        <File Id="ServerComponents_File_292" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Security.Cryptography.Csp.dll" />
+      </Component>
+      <Component Id="ServerComponents_293">
+        <File Id="ServerComponents_File_293" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Security.Cryptography.dll" />
+      </Component>
+      <Component Id="ServerComponents_294">
+        <File Id="ServerComponents_File_294" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Security.Cryptography.Encoding.dll" />
+      </Component>
+      <Component Id="ServerComponents_295">
+        <File Id="ServerComponents_File_295" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Security.Cryptography.OpenSsl.dll" />
+      </Component>
+      <Component Id="ServerComponents_296">
+        <File Id="ServerComponents_File_296" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Security.Cryptography.Pkcs.dll" />
+      </Component>
+      <Component Id="ServerComponents_297">
+        <File Id="ServerComponents_File_297" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Security.Cryptography.Primitives.dll" />
+      </Component>
+      <Component Id="ServerComponents_298">
+        <File Id="ServerComponents_File_298" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Security.Cryptography.X509Certificates.dll" />
+      </Component>
+      <Component Id="ServerComponents_299">
+        <File Id="ServerComponents_File_299" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Security.Cryptography.Xml.dll" />
+      </Component>
+      <Component Id="ServerComponents_300">
+        <File Id="ServerComponents_File_300" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Security.dll" />
+      </Component>
+      <Component Id="ServerComponents_301">
+        <File Id="ServerComponents_File_301" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Security.Principal.dll" />
+      </Component>
+      <Component Id="ServerComponents_302">
+        <File Id="ServerComponents_File_302" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Security.Principal.Windows.dll" />
+      </Component>
+      <Component Id="ServerComponents_303">
+        <File Id="ServerComponents_File_303" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Security.SecureString.dll" />
+      </Component>
+      <Component Id="ServerComponents_304">
+        <File Id="ServerComponents_File_304" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.ServiceModel.Web.dll" />
+      </Component>
+      <Component Id="ServerComponents_305">
+        <File Id="ServerComponents_File_305" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.ServiceProcess.dll" />
+      </Component>
+      <Component Id="ServerComponents_306">
+        <File Id="ServerComponents_File_306" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Text.Encoding.CodePages.dll" />
+      </Component>
+      <Component Id="ServerComponents_307">
+        <File Id="ServerComponents_File_307" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Text.Encoding.dll" />
+      </Component>
+      <Component Id="ServerComponents_308">
+        <File Id="ServerComponents_File_308" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Text.Encoding.Extensions.dll" />
+      </Component>
+      <Component Id="ServerComponents_309">
+        <File Id="ServerComponents_File_309" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Text.Encodings.Web.dll" />
+      </Component>
+      <Component Id="ServerComponents_310">
+        <File Id="ServerComponents_File_310" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Text.Json.dll" />
+      </Component>
+      <Component Id="ServerComponents_311">
+        <File Id="ServerComponents_File_311" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Text.RegularExpressions.dll" />
+      </Component>
+      <Component Id="ServerComponents_312">
+        <File Id="ServerComponents_File_312" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Threading.AccessControl.dll" />
+      </Component>
+      <Component Id="ServerComponents_313">
+        <File Id="ServerComponents_File_313" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Threading.Channels.dll" />
+      </Component>
+      <Component Id="ServerComponents_314">
+        <File Id="ServerComponents_File_314" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Threading.dll" />
+      </Component>
+      <Component Id="ServerComponents_315">
+        <File Id="ServerComponents_File_315" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Threading.Overlapped.dll" />
+      </Component>
+      <Component Id="ServerComponents_316">
+        <File Id="ServerComponents_File_316" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Threading.RateLimiting.dll" />
+      </Component>
+      <Component Id="ServerComponents_317">
+        <File Id="ServerComponents_File_317" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Threading.Tasks.Dataflow.dll" />
+      </Component>
+      <Component Id="ServerComponents_318">
+        <File Id="ServerComponents_File_318" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Threading.Tasks.dll" />
+      </Component>
+      <Component Id="ServerComponents_319">
+        <File Id="ServerComponents_File_319" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Threading.Tasks.Extensions.dll" />
+      </Component>
+      <Component Id="ServerComponents_320">
+        <File Id="ServerComponents_File_320" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Threading.Tasks.Parallel.dll" />
+      </Component>
+      <Component Id="ServerComponents_321">
+        <File Id="ServerComponents_File_321" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Threading.Thread.dll" />
+      </Component>
+      <Component Id="ServerComponents_322">
+        <File Id="ServerComponents_File_322" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Threading.ThreadPool.dll" />
+      </Component>
+      <Component Id="ServerComponents_323">
+        <File Id="ServerComponents_File_323" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Threading.Timer.dll" />
+      </Component>
+      <Component Id="ServerComponents_324">
+        <File Id="ServerComponents_File_324" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Transactions.dll" />
+      </Component>
+      <Component Id="ServerComponents_325">
+        <File Id="ServerComponents_File_325" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Transactions.Local.dll" />
+      </Component>
+      <Component Id="ServerComponents_326">
+        <File Id="ServerComponents_File_326" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.ValueTuple.dll" />
+      </Component>
+      <Component Id="ServerComponents_327">
+        <File Id="ServerComponents_File_327" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Web.dll" />
+      </Component>
+      <Component Id="ServerComponents_328">
+        <File Id="ServerComponents_File_328" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Web.HttpUtility.dll" />
+      </Component>
+      <Component Id="ServerComponents_329">
+        <File Id="ServerComponents_File_329" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Windows.dll" />
+      </Component>
+      <Component Id="ServerComponents_330">
+        <File Id="ServerComponents_File_330" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Xml.dll" />
+      </Component>
+      <Component Id="ServerComponents_331">
+        <File Id="ServerComponents_File_331" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Xml.Linq.dll" />
+      </Component>
+      <Component Id="ServerComponents_332">
+        <File Id="ServerComponents_File_332" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Xml.ReaderWriter.dll" />
+      </Component>
+      <Component Id="ServerComponents_333">
+        <File Id="ServerComponents_File_333" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Xml.Serialization.dll" />
+      </Component>
+      <Component Id="ServerComponents_334">
+        <File Id="ServerComponents_File_334" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Xml.XDocument.dll" />
+      </Component>
+      <Component Id="ServerComponents_335">
+        <File Id="ServerComponents_File_335" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Xml.XmlDocument.dll" />
+      </Component>
+      <Component Id="ServerComponents_336">
+        <File Id="ServerComponents_File_336" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Xml.XmlSerializer.dll" />
+      </Component>
+      <Component Id="ServerComponents_337">
+        <File Id="ServerComponents_File_337" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Xml.XPath.dll" />
+      </Component>
+      <Component Id="ServerComponents_338">
+        <File Id="ServerComponents_File_338" Source="$(sys.SOURCEFILEDIR)..\publish\Server\System.Xml.XPath.XDocument.dll" />
+      </Component>
+      <Component Id="ServerComponents_339">
+        <File Id="ServerComponents_File_339" Source="$(sys.SOURCEFILEDIR)..\publish\Server\web.config" />
+      </Component>
+      <Component Id="ServerComponents_340">
+        <File Id="ServerComponents_File_340" Source="$(sys.SOURCEFILEDIR)..\publish\Server\WindowsBase.dll" />
+      </Component>
+      <Component Id="ServerComponents_341" Subdirectory="Data">
+        <File Id="ServerComponents_File_341" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Data\corkboard.json" />
+      </Component>
+      <Component Id="ServerComponents_342" Subdirectory="wwwroot">
+        <File Id="ServerComponents_File_342" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\app.css" />
+      </Component>
+      <Component Id="ServerComponents_343" Subdirectory="wwwroot">
+        <File Id="ServerComponents_File_343" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\app.css.br" />
+      </Component>
+      <Component Id="ServerComponents_344" Subdirectory="wwwroot">
+        <File Id="ServerComponents_File_344" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\app.css.gz" />
+      </Component>
+      <Component Id="ServerComponents_345" Subdirectory="wwwroot">
+        <File Id="ServerComponents_File_345" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\favicon.png" />
+      </Component>
+      <Component Id="ServerComponents_346" Subdirectory="wwwroot">
+        <File Id="ServerComponents_File_346" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\NoteBuddy.styles.css" />
+      </Component>
+      <Component Id="ServerComponents_347" Subdirectory="wwwroot">
+        <File Id="ServerComponents_File_347" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\NoteBuddy.styles.css.br" />
+      </Component>
+      <Component Id="ServerComponents_348" Subdirectory="wwwroot">
+        <File Id="ServerComponents_File_348" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\NoteBuddy.styles.css.gz" />
+      </Component>
+      <Component Id="ServerComponents_349" Subdirectory="wwwroot\Components\Layout">
+        <File Id="ServerComponents_File_349" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\Components\Layout\ReconnectModal.razor.js" />
+      </Component>
+      <Component Id="ServerComponents_350" Subdirectory="wwwroot\Components\Layout">
+        <File Id="ServerComponents_File_350" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\Components\Layout\ReconnectModal.razor.js.br" />
+      </Component>
+      <Component Id="ServerComponents_351" Subdirectory="wwwroot\Components\Layout">
+        <File Id="ServerComponents_File_351" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\Components\Layout\ReconnectModal.razor.js.gz" />
+      </Component>
+      <Component Id="ServerComponents_352" Subdirectory="wwwroot\images">
+        <File Id="ServerComponents_File_352" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\images\cork-background-1.jpg" />
+      </Component>
+      <Component Id="ServerComponents_353" Subdirectory="wwwroot\images">
+        <File Id="ServerComponents_File_353" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\images\note-buddy-logo.png" />
+      </Component>
+      <Component Id="ServerComponents_354" Subdirectory="wwwroot\images\fonts">
+        <File Id="ServerComponents_File_354" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\images\fonts\HandwrittenNotes.ttf" />
+      </Component>
+      <Component Id="ServerComponents_355" Subdirectory="wwwroot\images\sticky-notes">
+        <File Id="ServerComponents_File_355" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\images\sticky-notes\blue.png" />
+      </Component>
+      <Component Id="ServerComponents_356" Subdirectory="wwwroot\images\sticky-notes">
+        <File Id="ServerComponents_File_356" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\images\sticky-notes\green.png" />
+      </Component>
+      <Component Id="ServerComponents_357" Subdirectory="wwwroot\images\sticky-notes">
+        <File Id="ServerComponents_File_357" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\images\sticky-notes\orange.png" />
+      </Component>
+      <Component Id="ServerComponents_358" Subdirectory="wwwroot\images\sticky-notes">
+        <File Id="ServerComponents_File_358" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\images\sticky-notes\pink.png" />
+      </Component>
+      <Component Id="ServerComponents_359" Subdirectory="wwwroot\images\sticky-notes">
+        <File Id="ServerComponents_File_359" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\images\sticky-notes\purple.png" />
+      </Component>
+      <Component Id="ServerComponents_360" Subdirectory="wwwroot\images\sticky-notes">
+        <File Id="ServerComponents_File_360" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\images\sticky-notes\yellow.png" />
+      </Component>
+      <Component Id="ServerComponents_361" Subdirectory="wwwroot\js">
+        <File Id="ServerComponents_File_361" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\js\corkboard.js" />
+      </Component>
+      <Component Id="ServerComponents_362" Subdirectory="wwwroot\js">
+        <File Id="ServerComponents_File_362" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\js\corkboard.js.br" />
+      </Component>
+      <Component Id="ServerComponents_363" Subdirectory="wwwroot\js">
+        <File Id="ServerComponents_File_363" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\js\corkboard.js.gz" />
+      </Component>
+      <Component Id="ServerComponents_364" Subdirectory="wwwroot\uploads">
+        <File Id="ServerComponents_File_364" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\uploads\.gitkeep" />
+      </Component>
+      <Component Id="ServerComponents_365" Subdirectory="wwwroot\_content\MudBlazor">
+        <File Id="ServerComponents_File_365" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\_content\MudBlazor\MudBlazor.min.css" />
+      </Component>
+      <Component Id="ServerComponents_366" Subdirectory="wwwroot\_content\MudBlazor">
+        <File Id="ServerComponents_File_366" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\_content\MudBlazor\MudBlazor.min.css.br" />
+      </Component>
+      <Component Id="ServerComponents_367" Subdirectory="wwwroot\_content\MudBlazor">
+        <File Id="ServerComponents_File_367" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\_content\MudBlazor\MudBlazor.min.css.gz" />
+      </Component>
+      <Component Id="ServerComponents_368" Subdirectory="wwwroot\_content\MudBlazor">
+        <File Id="ServerComponents_File_368" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\_content\MudBlazor\MudBlazor.min.js" />
+      </Component>
+      <Component Id="ServerComponents_369" Subdirectory="wwwroot\_content\MudBlazor">
+        <File Id="ServerComponents_File_369" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\_content\MudBlazor\MudBlazor.min.js.br" />
+      </Component>
+      <Component Id="ServerComponents_370" Subdirectory="wwwroot\_content\MudBlazor">
+        <File Id="ServerComponents_File_370" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\_content\MudBlazor\MudBlazor.min.js.gz" />
+      </Component>
+      <Component Id="ServerComponents_371" Subdirectory="wwwroot\_content\MudBlazor">
+        <File Id="ServerComponents_File_371" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\_content\MudBlazor\MudBlazor.min.js.map" />
+      </Component>
+      <Component Id="ServerComponents_372" Subdirectory="wwwroot\_content\MudBlazor">
+        <File Id="ServerComponents_File_372" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\_content\MudBlazor\MudBlazor.min.js.map.br" />
+      </Component>
+      <Component Id="ServerComponents_373" Subdirectory="wwwroot\_content\MudBlazor">
+        <File Id="ServerComponents_File_373" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\_content\MudBlazor\MudBlazor.min.js.map.gz" />
+      </Component>
+      <Component Id="ServerComponents_374" Subdirectory="wwwroot\_framework">
+        <File Id="ServerComponents_File_374" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\_framework\blazor.server.js" />
+      </Component>
+      <Component Id="ServerComponents_375" Subdirectory="wwwroot\_framework">
+        <File Id="ServerComponents_File_375" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\_framework\blazor.server.js.br" />
+      </Component>
+      <Component Id="ServerComponents_376" Subdirectory="wwwroot\_framework">
+        <File Id="ServerComponents_File_376" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\_framework\blazor.server.js.gz" />
+      </Component>
+      <Component Id="ServerComponents_377" Subdirectory="wwwroot\_framework">
+        <File Id="ServerComponents_File_377" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\_framework\blazor.web.js" />
+      </Component>
+      <Component Id="ServerComponents_378" Subdirectory="wwwroot\_framework">
+        <File Id="ServerComponents_File_378" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\_framework\blazor.web.js.br" />
+      </Component>
+      <Component Id="ServerComponents_379" Subdirectory="wwwroot\_framework">
+        <File Id="ServerComponents_File_379" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\_framework\blazor.web.js.gz" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+</Wix>

@@ -21,3 +21,14 @@ NoteBuddy/Data/
 # OS
 Thumbs.db
 .DS_Store
+
+# Build output
+publish/
+release/
+
+# WiX intermediate files
+*.wixobj
+*.wixpdb
+
+# Signing configuration (contains account-specific info)
+signing-metadata.json

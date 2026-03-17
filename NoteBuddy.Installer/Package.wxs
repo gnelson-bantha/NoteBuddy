@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    NoteBuddy Windows Installer (MSI) definition.
+    Installs both the Blazor web server and the system tray launcher
+    as a single unified application under Program Files.
+-->
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
+     xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
+
+  <Package Name="NoteBuddy"
+           Manufacturer="NoteBuddy"
+           Version="1.0.0.0"
+           UpgradeCode="8F6B3A2E-1C4D-4E5F-9A7B-2D8E6F0C1A3B"
+           Scope="perMachine"
+           InstallerVersion="500"
+           Compressed="yes">
+
+    <!-- Always perform major upgrade (remove previous version before installing) -->
+    <MajorUpgrade DowngradeErrorMessage="A newer version of NoteBuddy is already installed." />
+
+    <!-- Embed all files into the MSI as a single compressed cabinet -->
+    <MediaTemplate EmbedCab="yes" />
+
+    <!-- Use the standard WiX install dialog set -->
+    <ui:WixUI Id="WixUI_InstallDir" InstallDirectory="INSTALLFOLDER" />
+
+    <!-- License agreement (optional - can be added later) -->
+
+    <!-- Main feature: installs both the server and tray launcher -->
+    <Feature Id="MainFeature" Title="NoteBuddy" Level="1">
+      <ComponentGroupRef Id="ServerComponents" />
+      <ComponentGroupRef Id="TrayComponents" />
+      <ComponentRef Id="StartMenuShortcut" />
+      <ComponentRef Id="AutoStartEntry" />
+    </Feature>
+
+  </Package>
+
+  <!-- Directory structure -->
+  <Fragment>
+    <StandardDirectory Id="ProgramFiles6432Folder">
+      <Directory Id="INSTALLFOLDER" Name="NoteBuddy">
+        <Directory Id="ServerFolder" Name="Server" />
+        <Directory Id="TrayFolder" Name="Tray" />
+      </Directory>
+    </StandardDirectory>
+
+    <StandardDirectory Id="ProgramMenuFolder">
+      <Directory Id="NoteBuddyMenuFolder" Name="NoteBuddy" />
+    </StandardDirectory>
+  </Fragment>
+
+  <!-- Start Menu shortcut -->
+  <Fragment>
+    <Component Id="StartMenuShortcut" Directory="NoteBuddyMenuFolder" Guid="A1B2C3D4-E5F6-7890-ABCD-EF1234567890">
+      <Shortcut Id="NoteBuddyShortcut"
+                Name="NoteBuddy"
+                Description="Launch NoteBuddy virtual corkboard"
+                Target="[TrayFolder]NoteBuddy.Tray.exe"
+                WorkingDirectory="TrayFolder"
+                Icon="NoteBuddyIcon" />
+      <RemoveFolder Id="RemoveMenuFolder" Directory="NoteBuddyMenuFolder" On="uninstall" />
+      <RegistryValue Root="HKCU" Key="Software\NoteBuddy" Name="StartMenuShortcut" Type="integer" Value="1" KeyPath="yes" />
+    </Component>
+  </Fragment>
+
+  <!-- Optional: Auto-start with Windows via registry Run key -->
+  <Fragment>
+    <Component Id="AutoStartEntry" Directory="TrayFolder" Guid="B2C3D4E5-F6A7-8901-BCDE-F12345678901">
+      <RegistryValue Root="HKCU"
+                     Key="Software\Microsoft\Windows\CurrentVersion\Run"
+                     Name="NoteBuddy"
+                     Type="string"
+                     Value="&quot;[TrayFolder]NoteBuddy.Tray.exe&quot;"
+                     KeyPath="yes" />
+    </Component>
+  </Fragment>
+
+  <!-- Application icon for Add/Remove Programs -->
+  <Fragment>
+    <Icon Id="NoteBuddyIcon" SourceFile="$(sys.SOURCEFILEDIR)..\NoteBuddy.Tray\Resources\tray-icon.ico" />
+    <Property Id="ARPPRODUCTICON" Value="NoteBuddyIcon" />
+  </Fragment>
+
+</Wix>
