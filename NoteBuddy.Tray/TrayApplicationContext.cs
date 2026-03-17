@@ -111,11 +111,15 @@ public class TrayApplicationContext : ApplicationContext
     {
         var appDir = AppContext.BaseDirectory;
 
-        // Look for NoteBuddy.exe in same directory
+        // Look for NoteBuddy.exe in same directory (flat install layout)
         var sameDirPath = Path.Combine(appDir, "NoteBuddy.exe");
         if (File.Exists(sameDirPath)) return sameDirPath;
 
-        // Look in sibling NoteBuddy directory
+        // Look in sibling Server directory (installer layout: Tray\ and Server\ under Program Files)
+        var serverSubdirPath = Path.Combine(appDir, "..", "Server", "NoteBuddy.exe");
+        if (File.Exists(serverSubdirPath)) return Path.GetFullPath(serverSubdirPath);
+
+        // Look in sibling NoteBuddy directory (development layout)
         var siblingPath = Path.Combine(appDir, "..", "NoteBuddy", "NoteBuddy.exe");
         if (File.Exists(siblingPath)) return Path.GetFullPath(siblingPath);
 
