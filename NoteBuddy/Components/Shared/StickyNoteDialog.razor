@@ -90,23 +90,39 @@
 </MudDialog>
 
 @code {
+    /// <summary>The MudBlazor dialog instance provided via cascading parameter.</summary>
     [CascadingParameter] private IMudDialogInstance MudDialog { get; set; } = default!;
 
+    /// <summary>When set, the dialog operates in edit mode with pre-populated fields.</summary>
     [Parameter] public StickyNote? ExistingNote { get; set; }
 
+    /// <summary>Indicates whether the dialog is editing an existing note or creating a new one.</summary>
     private bool IsEditMode => ExistingNote != null;
+
+    /// <summary>The currently selected sticky note background color.</summary>
     private string SelectedColor { get; set; } = "yellow";
+
+    /// <summary>The note title entered by the user.</summary>
     private string Title { get; set; } = string.Empty;
+
+    /// <summary>The editable list of checklist items for this note.</summary>
     private List<NoteItem> Items { get; set; } = new();
+
+    /// <summary>Validation error message displayed to the user, if any.</summary>
     private string? ValidationMessage { get; set; }
 
+    /// <summary>Maximum number of checklist items allowed per note.</summary>
     private const int MaxItems = 6;
+
+    /// <summary>Available sticky note color options.</summary>
     private static readonly string[] Colors = { "yellow", "blue", "green", "orange", "pink", "purple" };
 
+    /// <summary>Populates dialog fields from the existing note in edit mode, or adds an empty item for new notes.</summary>
     protected override void OnInitialized()
     {
         if (ExistingNote != null)
         {
+            // Clone items to avoid mutating the original note until save
             Title = ExistingNote.Title;
             SelectedColor = ExistingNote.Color;
             Items = ExistingNote.Items.Select(i => new NoteItem
@@ -122,6 +138,7 @@
         }
     }
 
+    /// <summary>Appends a new empty checklist item if the maximum has not been reached.</summary>
     private void AddItem()
     {
         if (Items.Count < MaxItems)
@@ -130,6 +147,7 @@
         }
     }
 
+    /// <summary>Removes the checklist item at the specified index.</summary>
     private void RemoveItem(int index)
     {
         if (index >= 0 && index < Items.Count)
@@ -138,6 +156,7 @@
         }
     }
 
+    /// <summary>Validates inputs, strips empty items, and closes the dialog returning the saved note.</summary>
     private void Save()
     {
         if (string.IsNullOrWhiteSpace(Title))
@@ -146,7 +165,7 @@
             return;
         }
 
-        // Remove empty items
+        // Remove empty items before saving
         var validItems = Items.Where(i => !string.IsNullOrWhiteSpace(i.Text)).ToList();
 
         if (validItems.Count == 0)
@@ -163,11 +182,13 @@
         MudDialog.Close(DialogResult.Ok(note));
     }
 
+    /// <summary>Cancels the dialog without saving changes.</summary>
     private void Cancel()
     {
         MudDialog.Cancel();
     }
 
+    /// <summary>Closes the dialog with a null result to signal that the note should be deleted.</summary>
     private void DeleteNote()
     {
         MudDialog.Close(DialogResult.Ok<StickyNote?>(null));

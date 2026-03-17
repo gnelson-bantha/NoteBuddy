@@ -56,12 +56,22 @@
 </div>
 
 @code {
+    /// <summary>The sticky note model to display.</summary>
     [Parameter] public StickyNote Note { get; set; } = default!;
+
+    /// <summary>Callback invoked when the user requests to edit this note.</summary>
     [Parameter] public EventCallback<StickyNote> OnEdit { get; set; }
+
+    /// <summary>Callback invoked when the user requests to delete this note.</summary>
     [Parameter] public EventCallback<Guid> OnDelete { get; set; }
+
+    /// <summary>Callback invoked when the note is dragged to a new position.</summary>
     [Parameter] public EventCallback<(Guid Id, double X, double Y)> OnMoved { get; set; }
+
+    /// <summary>Callback invoked when a checklist item is toggled on or off.</summary>
     [Parameter] public EventCallback<StickyNote> OnItemToggled { get; set; }
 
+    /// <summary>Maps sticky note color names to their corresponding title text hex colors.</summary>
     private static readonly Dictionary<string, string> TitleColors = new()
     {
         ["yellow"] = "#b8960a",
@@ -72,14 +82,23 @@
         ["purple"] = "#7a3d9a"
     };
 
+    /// <summary>Unique DOM element ID for this note's container.</summary>
     private string ElementId => $"note-{Note.Id}";
+
+    /// <summary>Unique DOM element ID for this note's drag handle.</summary>
     private string HandleId => $"handle-{Note.Id}";
+
+    /// <summary>.NET object reference passed to JS for drag callbacks.</summary>
     private DotNetObjectReference<StickyNoteCard>? _dotNetRef;
+
+    /// <summary>Tracks whether JS drag interop has been initialized.</summary>
     private bool _jsInitialized;
 
+    /// <summary>Returns the title text color for the current note color, defaulting to dark gray.</summary>
     private string GetTitleColor() =>
         TitleColors.GetValueOrDefault(Note.Color, "#333333");
 
+    /// <summary>Initializes the JS drag-and-drop interop after the component renders.</summary>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender || !_jsInitialized)
@@ -90,6 +109,7 @@
         }
     }
 
+    /// <summary>Called from JavaScript when the note is dragged to a new position.</summary>
     [JSInvokable]
     public async Task OnPositionChanged(double x, double y)
     {
@@ -98,16 +118,19 @@
         await OnMoved.InvokeAsync((Note.Id, x, y));
     }
 
+    /// <summary>Forwards the edit request to the parent component.</summary>
     private async Task OnEditClicked()
     {
         await OnEdit.InvokeAsync(Note);
     }
 
+    /// <summary>Forwards the delete request to the parent component.</summary>
     private async Task OnDeleteClicked()
     {
         await OnDelete.InvokeAsync(Note.Id);
     }
 
+    /// <summary>Toggles a checklist item's checked state and notifies the parent.</summary>
     private async Task ToggleItem(NoteItem item)
     {
         item.IsChecked = !item.IsChecked;
@@ -115,11 +138,13 @@
         StateHasChanged();
     }
 
+    /// <summary>Returns CSS classes for a single-item note, applying strikethrough styling when checked.</summary>
     private string GetItemClass(NoteItem item)
     {
         return item.IsChecked ? "note-item-single note-item-checked" : "note-item-single";
     }
 
+    /// <summary>Disposes the .NET object reference used for JS interop.</summary>
     public void Dispose()
     {
         _dotNetRef?.Dispose();

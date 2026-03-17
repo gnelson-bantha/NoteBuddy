@@ -23,15 +23,28 @@
 </div>
 
 @code {
+    /// <summary>The pinned picture model to display.</summary>
     [Parameter] public PinnedPicture Picture { get; set; } = default!;
+
+    /// <summary>Callback invoked when the user requests to delete this picture.</summary>
     [Parameter] public EventCallback<Guid> OnDelete { get; set; }
+
+    /// <summary>Callback invoked when the picture is dragged to a new position.</summary>
     [Parameter] public EventCallback<(Guid Id, double X, double Y)> OnMoved { get; set; }
 
+    /// <summary>Unique DOM element ID for this picture's container.</summary>
     private string ElementId => $"pic-{Picture.Id}";
+
+    /// <summary>Unique DOM element ID for this picture's drag handle.</summary>
     private string HandleId => $"pic-handle-{Picture.Id}";
+
+    /// <summary>.NET object reference passed to JS for drag callbacks.</summary>
     private DotNetObjectReference<PinnedPictureCard>? _dotNetRef;
+
+    /// <summary>Tracks whether JS drag interop has been initialized.</summary>
     private bool _jsInitialized;
 
+    /// <summary>Initializes the JS drag-and-drop interop after the component renders.</summary>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender || !_jsInitialized)
@@ -42,6 +55,7 @@
         }
     }
 
+    /// <summary>Called from JavaScript when the picture is dragged to a new position.</summary>
     [JSInvokable]
     public async Task OnPositionChanged(double x, double y)
     {
@@ -50,11 +64,13 @@
         await OnMoved.InvokeAsync((Picture.Id, x, y));
     }
 
+    /// <summary>Forwards the delete request to the parent component.</summary>
     private async Task OnDeleteClicked()
     {
         await OnDelete.InvokeAsync(Picture.Id);
     }
 
+    /// <summary>Disposes the .NET object reference used for JS interop.</summary>
     public void Dispose()
     {
         _dotNetRef?.Dispose();

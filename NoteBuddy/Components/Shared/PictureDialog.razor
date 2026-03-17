@@ -46,15 +46,25 @@
 </MudDialog>
 
 @code {
+    /// <summary>The MudBlazor dialog instance provided via cascading parameter.</summary>
     [CascadingParameter] private IMudDialogInstance MudDialog { get; set; } = default!;
 
+    /// <summary>The image file selected by the user.</summary>
     private IBrowserFile? SelectedFile { get; set; }
+
+    /// <summary>Base64 data URL used for the image preview.</summary>
     private string? PreviewUrl { get; set; }
+
+    /// <summary>Display name of the selected file.</summary>
     private string? FileName { get; set; }
+
+    /// <summary>Error message shown when file validation fails.</summary>
     private string? ErrorMessage { get; set; }
 
+    /// <summary>Maximum allowed file size in bytes (10 MB).</summary>
     private const long MaxFileSize = 10 * 1024 * 1024; // 10MB
 
+    /// <summary>Handles file selection, validates size, and generates a base64 preview.</summary>
     private async Task OnFileSelected(IBrowserFile file)
     {
         ErrorMessage = null;
@@ -70,7 +80,7 @@
         SelectedFile = file;
         FileName = file.Name;
 
-        // Create preview
+        // Read the file into memory and convert to a base64 data URL for preview
         var buffer = new byte[file.Size];
         await using var stream = file.OpenReadStream(MaxFileSize);
         var bytesRead = await stream.ReadAsync(buffer);
@@ -80,6 +90,7 @@
         StateHasChanged();
     }
 
+    /// <summary>Closes the dialog and returns the selected file to the caller.</summary>
     private void Save()
     {
         if (SelectedFile != null)
@@ -88,6 +99,7 @@
         }
     }
 
+    /// <summary>Cancels the dialog without selecting a file.</summary>
     private void Cancel()
     {
         MudDialog.Cancel();

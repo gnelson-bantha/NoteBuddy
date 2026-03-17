@@ -3,12 +3,18 @@ using System.Reflection;
 
 namespace NoteBuddy.Tray;
 
+/// <summary>
+/// Manages the system tray icon and the NoteBuddy backend server lifecycle.
+/// </summary>
 public class TrayApplicationContext : ApplicationContext
 {
     private readonly NotifyIcon _trayIcon;
     private Process? _serverProcess;
     private const string ServerUrl = "http://localhost:5150";
 
+    /// <summary>
+    /// Initializes the tray icon with a context menu and starts the NoteBuddy server.
+    /// </summary>
     public TrayApplicationContext()
     {
         _trayIcon = new NotifyIcon
@@ -24,6 +30,10 @@ public class TrayApplicationContext : ApplicationContext
         StartServer();
     }
 
+    /// <summary>
+    /// Loads the tray icon from embedded resources, falling back to the default application icon.
+    /// </summary>
+    /// <returns>The loaded <see cref="Icon"/> instance.</returns>
     private static Icon LoadEmbeddedIcon()
     {
         var assembly = Assembly.GetExecutingAssembly();
@@ -35,6 +45,10 @@ public class TrayApplicationContext : ApplicationContext
         return SystemIcons.Application;
     }
 
+    /// <summary>
+    /// Creates the right-click context menu for the tray icon with Open and Exit items.
+    /// </summary>
+    /// <returns>A configured <see cref="ContextMenuStrip"/>.</returns>
     private ContextMenuStrip CreateContextMenu()
     {
         var menu = new ContextMenuStrip();
@@ -53,6 +67,9 @@ public class TrayApplicationContext : ApplicationContext
         return menu;
     }
 
+    /// <summary>
+    /// Locates and launches the NoteBuddy server as a background process.
+    /// </summary>
     private void StartServer()
     {
         try
@@ -86,6 +103,10 @@ public class TrayApplicationContext : ApplicationContext
         }
     }
 
+    /// <summary>
+    /// Searches for the NoteBuddy server executable in the application directory and nearby locations.
+    /// </summary>
+    /// <returns>The full path to the executable, or <c>null</c> if not found.</returns>
     private static string? FindServerExecutable()
     {
         var appDir = AppContext.BaseDirectory;
@@ -105,6 +126,11 @@ public class TrayApplicationContext : ApplicationContext
         return null;
     }
 
+    /// <summary>
+    /// Handles the server process exit event by showing a warning balloon if it exited abnormally.
+    /// </summary>
+    /// <param name="sender">The event source.</param>
+    /// <param name="e">The event data.</param>
     private void OnServerExited(object? sender, EventArgs e)
     {
         if (_serverProcess?.ExitCode != 0)
@@ -118,6 +144,11 @@ public class TrayApplicationContext : ApplicationContext
         }
     }
 
+    /// <summary>
+    /// Opens the NoteBuddy web UI in the default browser.
+    /// </summary>
+    /// <param name="sender">The event source.</param>
+    /// <param name="e">The event data.</param>
     private void OnOpenClicked(object? sender, EventArgs e)
     {
         try
@@ -134,6 +165,11 @@ public class TrayApplicationContext : ApplicationContext
         }
     }
 
+    /// <summary>
+    /// Handles the Exit menu click by stopping the server and closing the application.
+    /// </summary>
+    /// <param name="sender">The event source.</param>
+    /// <param name="e">The event data.</param>
     private void OnExitClicked(object? sender, EventArgs e)
     {
         StopServer();
@@ -142,6 +178,9 @@ public class TrayApplicationContext : ApplicationContext
         Application.Exit();
     }
 
+    /// <summary>
+    /// Gracefully stops the NoteBuddy server process and releases its resources.
+    /// </summary>
     private void StopServer()
     {
         try
@@ -163,11 +202,19 @@ public class TrayApplicationContext : ApplicationContext
         }
     }
 
+    /// <summary>
+    /// Displays an error message dialog to the user.
+    /// </summary>
+    /// <param name="message">The error message to display.</param>
     private static void ShowError(string message)
     {
         MessageBox.Show(message, "NoteBuddy", MessageBoxButtons.OK, MessageBoxIcon.Error);
     }
 
+    /// <summary>
+    /// Releases managed resources including the server process and tray icon.
+    /// </summary>
+    /// <param name="disposing"><c>true</c> to release managed resources; otherwise <c>false</c>.</param>
     protected override void Dispose(bool disposing)
     {
         if (disposing)

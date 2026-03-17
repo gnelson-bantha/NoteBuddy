@@ -44,15 +44,20 @@
 </div>
 
 @code {
+    /// <summary>Collection of sticky notes displayed on the corkboard.</summary>
     private List<StickyNote> _notes = new();
+
+    /// <summary>Collection of pinned pictures displayed on the corkboard.</summary>
     private List<PinnedPicture> _pictures = new();
 
+    /// <summary>Loads all notes and pictures from the corkboard service on page initialization.</summary>
     protected override void OnInitialized()
     {
         _notes = CorkboardService.GetNotes();
         _pictures = CorkboardService.GetPictures();
     }
 
+    /// <summary>Opens the sticky note dialog to create a new note and adds it to the corkboard.</summary>
     private async Task AddNewNote()
     {
         var options = new DialogOptions
@@ -67,6 +72,7 @@
 
         if (result is { Canceled: false, Data: StickyNote newNote })
         {
+            // Assign a grid position based on the current note count
             newNote.PositionX = GetNextPositionX(_notes.Count);
             newNote.PositionY = GetNextPositionY(_notes.Count);
             await CorkboardService.AddNoteAsync(newNote);
@@ -74,6 +80,7 @@
         }
     }
 
+    /// <summary>Opens the sticky note dialog pre-populated for editing; handles both update and delete outcomes.</summary>
     private async Task EditNote(StickyNote note)
     {
         var parameters = new DialogParameters<StickyNoteDialog>
@@ -99,29 +106,33 @@
             }
             else
             {
-                // null means delete was requested
+                // null means delete was requested from within the edit dialog
                 await CorkboardService.DeleteNoteAsync(note.Id);
             }
             StateHasChanged();
         }
     }
 
+    /// <summary>Deletes a sticky note by its ID and refreshes the UI.</summary>
     private async Task DeleteNote(Guid noteId)
     {
         await CorkboardService.DeleteNoteAsync(noteId);
         StateHasChanged();
     }
 
+    /// <summary>Persists a note's new position after it has been dragged on the corkboard.</summary>
     private async Task OnNoteMoved((Guid Id, double X, double Y) position)
     {
         await CorkboardService.UpdateNotePositionAsync(position.Id, position.X, position.Y);
     }
 
+    /// <summary>Persists a note after one of its checklist items has been toggled.</summary>
     private async Task OnNoteItemToggled(StickyNote note)
     {
         await CorkboardService.UpdateNoteAsync(note);
     }
 
+    /// <summary>Opens the picture dialog, saves the selected image file to uploads, and pins it to the corkboard.</summary>
     private async Task AddNewPicture()
     {
         var options = new DialogOptions
@@ -136,7 +147,7 @@
 
         if (result is { Canceled: false, Data: IBrowserFile file })
         {
-            // Save file to uploads
+            // Generate a unique file name and resolve the upload path
             var extension = Path.GetExtension(file.Name);
             var fileName = $"{Guid.NewGuid()}{extension}";
             var filePath = Path.Combine(CorkboardService.GetUploadsPath(), fileName);
@@ -162,24 +173,29 @@
         }
     }
 
+    /// <summary>Deletes a pinned picture by its ID and refreshes the UI.</summary>
     private async Task DeletePicture(Guid pictureId)
     {
         await CorkboardService.DeletePictureAsync(pictureId);
         StateHasChanged();
     }
 
+    /// <summary>Persists a picture's new position after it has been dragged on the corkboard.</summary>
     private async Task OnPictureMoved((Guid Id, double X, double Y) position)
     {
         await CorkboardService.UpdatePicturePositionAsync(position.Id, position.X, position.Y);
     }
 
+    /// <summary>Calculates the X position for a corkboard item in a 5-column staggered grid layout.</summary>
     private double GetNextPositionX(int index)
     {
         int col = index % 5;
         int row = index / 5;
+        // Offset every other row slightly for a staggered look
         return 20 + col * 345 + (row % 2) * 20;
     }
 
+    /// <summary>Calculates the Y position for a corkboard item based on its row in the grid.</summary>
     private double GetNextPositionY(int index)
     {
         int row = index / 5;
