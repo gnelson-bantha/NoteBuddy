@@ -28,17 +28,31 @@
                    OnClick="OrganizeBoard">
             Organize
         </MudButton>
+        <MudTextField @bind-Value="_filterText"
+                      Placeholder="Filter notes..."
+                      Variant="Variant.Outlined"
+                      Adornment="Adornment.End"
+                      AdornmentIcon="@(_filterText?.Length > 0 ? Icons.Material.Filled.Close : Icons.Material.Filled.Search)"
+                      OnAdornmentClick="OnFilterAdornmentClick"
+                      Immediate="true"
+                      Class="filter-field"
+                      Margin="Margin.Dense" />
     </div>
 
     @foreach (var picture in _pictures)
     {
-        <PinnedPictureCard @key="picture.Id"
-                           Picture="picture"
-                           OnDelete="DeletePicture"
-                           OnMoved="OnPictureMoved" />
+        @if (!IsFilterActive)
+        {
+            <PinnedPictureCard @key="picture.Id"
+                               Picture="picture"
+                               OnDelete="DeletePicture"
+                               OnMoved="OnPictureMoved" />
+        }
     }
 
-    @foreach (var note in _notes)
+    @{ var filteredNotes = FilteredNotes.ToList(); }
+    @{ var filterPositions = IsFilterActive ? ComputeFilterLayout(filteredNotes) : null; }
+    @foreach (var note in filteredNotes)
     {
         <StickyNoteCard @key="note.Id"
                         Note="note"
@@ -46,7 +60,9 @@
                         OnDelete="DeleteNote"
                         OnMoved="OnNoteMoved"
                         OnItemToggled="OnNoteItemToggled"
-                        OnResized="OnNoteResized" />
+                        OnResized="OnNoteResized"
+                        DisplayX="@(filterPositions?.GetValueOrDefault(note.Id).X)"
+                        DisplayY="@(filterPositions?.GetValueOrDefault(note.Id).Y)" />
     }
 </div>
 
@@ -56,6 +72,64 @@
 
     /// <summary>Collection of pinned pictures displayed on the corkboard.</summary>
     private List<PinnedPicture> _pictures = new();
+
+    /// <summary>Text used to filter sticky notes by title and item content.</summary>
+    private string? _filterText;
+
+    /// <summary>Indicates whether a filter is currently active.</summary>
+    private bool IsFilterActive => !string.IsNullOrWhiteSpace(_filterText);
+
+    /// <summary>Returns notes matching the current filter, or all notes if no filter is active.</summary>
+    private IEnumerable<StickyNote> FilteredNotes => IsFilterActive
+        ? _notes.Where(n =>
+            n.Title.Contains(_filterText!, StringComparison.OrdinalIgnoreCase) ||
+            n.Items.Any(i => i.Text.Contains(_filterText!, StringComparison.OrdinalIgnoreCase)))
+        : _notes;
+
+    /// <summary>Toggles between clearing the filter and doing nothing (search icon).</summary>
+    private void OnFilterAdornmentClick()
+    {
+        if (IsFilterActive)
+            _filterText = string.Empty;
+    }
+
+    /// <summary>
+    /// Computes temporary display positions for filtered notes, arranging them
+    /// in a compact grid from the top-left without modifying saved positions.
+    /// </summary>
+    private Dictionary<Guid, (double X, double Y)> ComputeFilterLayout(List<StickyNote> notes)
+    {
+        const double startX = 20;
+        const double startY = 70;
+        const double gap = 20;
+        const double baseWidth = 325.0;
+        const double baseHeight = 324.0;
+        const double maxRowWidth = 1700;
+
+        var positions = new Dictionary<Guid, (double X, double Y)>();
+        double curX = startX;
+        double curY = startY;
+        double rowHeight = 0;
+
+        foreach (var note in notes)
+        {
+            double w = baseWidth * note.Scale;
+            double h = baseHeight * note.Scale;
+
+            if (curX + w > maxRowWidth && curX > startX)
+            {
+                curX = startX;
+                curY += rowHeight + gap;
+                rowHeight = 0;
+            }
+
+            positions[note.Id] = (curX, curY);
+            curX += w + gap;
+            rowHeight = Math.Max(rowHeight, h);
+        }
+
+        return positions;
+    }
 
     /// <summary>Loads all notes and pictures from the corkboard service on page initialization.</summary>
     protected override void OnInitialized()

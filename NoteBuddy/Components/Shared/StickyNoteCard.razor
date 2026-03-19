@@ -5,7 +5,7 @@
 
 <div class="sticky-note"
      id="@ElementId"
-     style="left: @(Note.PositionX.ToString(CultureInfo.InvariantCulture))px; top: @(Note.PositionY.ToString(CultureInfo.InvariantCulture))px; width: @(NoteWidth.ToString(CultureInfo.InvariantCulture))px; height: @(NoteHeight.ToString(CultureInfo.InvariantCulture))px; background-image: url('images/sticky-notes/@(Note.Color).png'); background-size: @(NoteWidth.ToString(CultureInfo.InvariantCulture))px @(NoteHeight.ToString(CultureInfo.InvariantCulture))px;">
+     style="left: @(EffectiveX.ToString(CultureInfo.InvariantCulture))px; top: @(EffectiveY.ToString(CultureInfo.InvariantCulture))px; width: @(NoteWidth.ToString(CultureInfo.InvariantCulture))px; height: @(NoteHeight.ToString(CultureInfo.InvariantCulture))px; background-image: url('images/sticky-notes/@(Note.Color).png'); background-size: @(NoteWidth.ToString(CultureInfo.InvariantCulture))px @(NoteHeight.ToString(CultureInfo.InvariantCulture))px;">
 
     <div class="sticky-note-header">
         <div class="sticky-note-title" style="color: @GetTitleColor();">
@@ -77,6 +77,18 @@
 
     /// <summary>Callback invoked when the note is resized.</summary>
     [Parameter] public EventCallback<(Guid Id, double Scale)> OnResized { get; set; }
+
+    /// <summary>Optional display X override for temporary layout (e.g., filtering). When null, uses Note.PositionX.</summary>
+    [Parameter] public double? DisplayX { get; set; }
+
+    /// <summary>Optional display Y override for temporary layout (e.g., filtering). When null, uses Note.PositionY.</summary>
+    [Parameter] public double? DisplayY { get; set; }
+
+    /// <summary>The effective X position used for rendering.</summary>
+    private double EffectiveX => DisplayX ?? Note.PositionX;
+
+    /// <summary>The effective Y position used for rendering.</summary>
+    private double EffectiveY => DisplayY ?? Note.PositionY;
 
     /// <summary>Maps sticky note color names to their corresponding title text hex colors.</summary>
     private static readonly Dictionary<string, string> TitleColors = new()

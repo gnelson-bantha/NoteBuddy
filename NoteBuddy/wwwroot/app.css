@@ -83,6 +83,21 @@ html, body {
     background-color: #c5dcc5 !important;
 }
 
+.filter-field {
+    min-width: 200px !important;
+    max-width: 250px !important;
+    background-color: rgba(255, 255, 255, 0.85) !important;
+    border-radius: 4px !important;
+}
+
+.filter-field .mud-input-outlined-border {
+    border-color: #a08060 !important;
+}
+
+.filter-field .mud-input.mud-input-outlined {
+    border-radius: 4px !important;
+}
+
 /* ===== Sticky Note ===== */
 .sticky-note {
     position: absolute;
