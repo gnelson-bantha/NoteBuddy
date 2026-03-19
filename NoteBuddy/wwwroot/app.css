@@ -70,6 +70,19 @@ html, body {
     background-color: #dcc5e8 !important;
 }
 
+.btn-organize {
+    background-color: #d5e8d5 !important;
+    color: #5a8a5a !important;
+    border: 1px solid #5a8a5a !important;
+    text-transform: none !important;
+    font-weight: 500 !important;
+    box-shadow: none !important;
+}
+
+.btn-organize:hover {
+    background-color: #c5dcc5 !important;
+}
+
 /* ===== Sticky Note ===== */
 .sticky-note {
     position: absolute;

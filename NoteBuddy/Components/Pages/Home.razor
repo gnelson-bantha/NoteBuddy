@@ -22,6 +22,12 @@
                    OnClick="AddNewPicture">
             Add Picture
         </MudButton>
+        <MudButton Class="btn-organize"
+                   Variant="Variant.Outlined"
+                   StartIcon="@Icons.Material.Filled.GridView"
+                   OnClick="OrganizeBoard">
+            Organize
+        </MudButton>
     </div>
 
     @foreach (var picture in _pictures)
@@ -196,6 +202,71 @@
     private async Task OnPictureMoved((Guid Id, double X, double Y) position)
     {
         await CorkboardService.UpdatePicturePositionAsync(position.Id, position.X, position.Y);
+    }
+
+    /// <summary>
+    /// Organizes all items on the corkboard in rows and columns.
+    /// Notes are sorted alphabetically by title, pictures are placed at the end.
+    /// Items flow left to right, then top to bottom.
+    /// </summary>
+    private async Task OrganizeBoard()
+    {
+        const double startX = 20;
+        const double startY = 70;
+        const double gap = 20;
+        const double baseNoteWidth = 325;
+        const double baseNoteHeight = 324;
+        const double pictureWidth = 220;
+        const double pictureHeight = 220;
+        const double maxRowWidth = 1700;
+
+        // Build a unified list: notes sorted alphabetically, then pictures
+        var items = new List<(Guid Id, double Width, double Height, bool IsNote)>();
+
+        foreach (var note in _notes.OrderBy(n => n.Title, StringComparer.OrdinalIgnoreCase))
+        {
+            items.Add((note.Id, baseNoteWidth * note.Scale, baseNoteHeight * note.Scale, true));
+        }
+        foreach (var pic in _pictures)
+        {
+            items.Add((pic.Id, pictureWidth, pictureHeight, false));
+        }
+
+        // Lay out items left to right, wrapping to new rows
+        double curX = startX;
+        double curY = startY;
+        double rowHeight = 0;
+
+        foreach (var item in items)
+        {
+            // Wrap to next row if this item would exceed the max row width
+            if (curX + item.Width > maxRowWidth && curX > startX)
+            {
+                curX = startX;
+                curY += rowHeight + gap;
+                rowHeight = 0;
+            }
+
+            if (item.IsNote)
+            {
+                var note = _notes.First(n => n.Id == item.Id);
+                note.PositionX = curX;
+                note.PositionY = curY;
+                await CorkboardService.UpdateNotePositionAsync(note.Id, curX, curY);
+            }
+            else
+            {
+                var pic = _pictures.First(p => p.Id == item.Id);
+                pic.PositionX = curX;
+                pic.PositionY = curY;
+                await CorkboardService.UpdatePicturePositionAsync(pic.Id, curX, curY);
+            }
+
+            curX += item.Width + gap;
+            rowHeight = Math.Max(rowHeight, item.Height);
+        }
+
+        StateHasChanged();
     }
 
     /// <summary>Calculates the X position for a corkboard item in a 5-column staggered grid layout.</summary>
