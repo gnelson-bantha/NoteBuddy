@@ -7,15 +7,11 @@
      id="@ElementId"
      style="left: @(EffectiveX.ToString(CultureInfo.InvariantCulture))px; top: @(EffectiveY.ToString(CultureInfo.InvariantCulture))px; width: @(NoteWidth.ToString(CultureInfo.InvariantCulture))px; height: @(NoteHeight.ToString(CultureInfo.InvariantCulture))px; background-image: url('images/sticky-notes/@(Note.Color).png'); background-size: @(NoteWidth.ToString(CultureInfo.InvariantCulture))px @(NoteHeight.ToString(CultureInfo.InvariantCulture))px;">
 
-    <div class="sticky-note-header">
+    <div class="sticky-note-header" id="@HeaderId">
         <div class="sticky-note-title" style="color: @GetTitleColor();">
             @Note.Title
         </div>
         <div class="sticky-note-actions-right">
-            <MudIconButton id="@HandleId"
-                           Icon="@Icons.Material.Filled.OpenWith"
-                           Class="sticky-note-btn"
-                           title="Move" />
             <MudIconButton Icon="@Icons.Material.Filled.Edit"
                            Class="sticky-note-btn"
                            title="Edit"
@@ -116,8 +112,8 @@
     /// <summary>Unique DOM element ID for this note's container.</summary>
     private string ElementId => $"note-{Note.Id}";
 
-    /// <summary>Unique DOM element ID for this note's drag handle.</summary>
-    private string HandleId => $"handle-{Note.Id}";
+    /// <summary>Unique DOM element ID for this note's header (drag area).</summary>
+    private string HeaderId => $"header-{Note.Id}";
 
     /// <summary>Unique DOM element ID for this note's resize handle.</summary>
     private string ResizeHandleId => $"resize-{Note.Id}";
@@ -138,7 +134,7 @@
         if (firstRender || !_jsInitialized)
         {
             _dotNetRef = DotNetObjectReference.Create(this);
-            await JS.InvokeVoidAsync("corkboardInterop.initDraggable", ElementId, HandleId, _dotNetRef);
+            await JS.InvokeVoidAsync("corkboardInterop.initDraggable", ElementId, HeaderId, _dotNetRef);
             await JS.InvokeVoidAsync("corkboardInterop.initResizable", ElementId, ResizeHandleId, _dotNetRef, BaseWidth, BaseHeight, MinScale, MaxScale);
             _jsInitialized = true;
         }
