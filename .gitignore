@@ -11,13 +11,6 @@ obj/
 .vscode/
 *.swp
 
-# Uploads (user content)
-NoteBuddy/wwwroot/uploads/*
-!NoteBuddy/wwwroot/uploads/.gitkeep
-
-# Data
-NoteBuddy/Data/
-
 # OS
 Thumbs.db
 .DS_Store

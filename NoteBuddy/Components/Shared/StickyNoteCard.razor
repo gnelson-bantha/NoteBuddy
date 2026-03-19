@@ -5,7 +5,7 @@
 
 <div class="sticky-note"
      id="@ElementId"
-     style="left: @(Note.PositionX.ToString(CultureInfo.InvariantCulture))px; top: @(Note.PositionY.ToString(CultureInfo.InvariantCulture))px; background-image: url('images/sticky-notes/@(Note.Color).png');">
+     style="left: @(Note.PositionX.ToString(CultureInfo.InvariantCulture))px; top: @(Note.PositionY.ToString(CultureInfo.InvariantCulture))px; width: @(NoteWidth.ToString(CultureInfo.InvariantCulture))px; height: @(NoteHeight.ToString(CultureInfo.InvariantCulture))px; background-image: url('images/sticky-notes/@(Note.Color).png'); background-size: @(NoteWidth.ToString(CultureInfo.InvariantCulture))px @(NoteHeight.ToString(CultureInfo.InvariantCulture))px;">
 
     <div class="sticky-note-header">
         <div class="sticky-note-title" style="color: @GetTitleColor();">
@@ -52,6 +52,10 @@
                        Class="sticky-note-btn"
                        title="Delete"
                        OnClick="OnDeleteClicked" />
+        <MudIconButton id="@ResizeHandleId"
+                       Icon="@Icons.Material.Filled.AspectRatio"
+                       Class="sticky-note-resize-handle"
+                       title="Resize" />
     </div>
 </div>
 
@@ -71,6 +75,9 @@
     /// <summary>Callback invoked when a checklist item is toggled on or off.</summary>
     [Parameter] public EventCallback<StickyNote> OnItemToggled { get; set; }
 
+    /// <summary>Callback invoked when the note is resized.</summary>
+    [Parameter] public EventCallback<(Guid Id, double Scale)> OnResized { get; set; }
+
     /// <summary>Maps sticky note color names to their corresponding title text hex colors.</summary>
     private static readonly Dictionary<string, string> TitleColors = new()
     {
@@ -82,29 +89,45 @@
         ["purple"] = "#7a3d9a"
     };
 
+    // Base dimensions at scale 1.0
+    private const double BaseWidth = 325.0;
+    private const double BaseHeight = 324.0;
+    private const double MinScale = 1.0;
+    private const double MaxScale = 2.0;
+
+    /// <summary>Computed width based on the note's scale factor.</summary>
+    private double NoteWidth => BaseWidth * Note.Scale;
+
+    /// <summary>Computed height based on the note's scale factor.</summary>
+    private double NoteHeight => BaseHeight * Note.Scale;
+
     /// <summary>Unique DOM element ID for this note's container.</summary>
     private string ElementId => $"note-{Note.Id}";
 
     /// <summary>Unique DOM element ID for this note's drag handle.</summary>
     private string HandleId => $"handle-{Note.Id}";
 
-    /// <summary>.NET object reference passed to JS for drag callbacks.</summary>
+    /// <summary>Unique DOM element ID for this note's resize handle.</summary>
+    private string ResizeHandleId => $"resize-{Note.Id}";
+
+    /// <summary>.NET object reference passed to JS for drag and resize callbacks.</summary>
     private DotNetObjectReference<StickyNoteCard>? _dotNetRef;
 
-    /// <summary>Tracks whether JS drag interop has been initialized.</summary>
+    /// <summary>Tracks whether JS interop has been initialized.</summary>
     private bool _jsInitialized;
 
     /// <summary>Returns the title text color for the current note color, defaulting to dark gray.</summary>
     private string GetTitleColor() =>
         TitleColors.GetValueOrDefault(Note.Color, "#333333");
 
-    /// <summary>Initializes the JS drag-and-drop interop after the component renders.</summary>
+    /// <summary>Initializes the JS drag-and-drop and resize interop after the component renders.</summary>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender || !_jsInitialized)
         {
             _dotNetRef = DotNetObjectReference.Create(this);
             await JS.InvokeVoidAsync("corkboardInterop.initDraggable", ElementId, HandleId, _dotNetRef);
+            await JS.InvokeVoidAsync("corkboardInterop.initResizable", ElementId, ResizeHandleId, _dotNetRef, BaseWidth, BaseHeight, MinScale, MaxScale);
             _jsInitialized = true;
         }
     }
@@ -116,6 +139,17 @@
         Note.PositionX = x;
         Note.PositionY = y;
         await OnMoved.InvokeAsync((Note.Id, x, y));
+    }
+
+    /// <summary>Called from JavaScript when the note is resized.</summary>
+    [JSInvokable]
+    public async Task OnScaleChanged(double scale)
+    {
+        // Clamp scale to valid range
+        scale = Math.Max(MinScale, Math.Min(MaxScale, scale));
+        Note.Scale = scale;
+        await OnResized.InvokeAsync((Note.Id, scale));
+        StateHasChanged();
     }
 
     /// <summary>Forwards the edit request to the parent component.</summary>

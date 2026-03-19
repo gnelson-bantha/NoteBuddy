@@ -26,15 +26,18 @@ public class CorkboardService
 
     /// <summary>
     /// Initializes the corkboard service, ensuring data and upload directories exist, then loads persisted data.
+    /// Data is stored in %APPDATA%\NoteBuddy\ so it survives upgrades and works with standard user permissions.
     /// </summary>
-    /// <param name="env">The hosting environment, used to resolve content and web root paths.</param>
-    public CorkboardService(IWebHostEnvironment env)
+    public CorkboardService()
     {
-        var dataDir = Path.Combine(env.ContentRootPath, "Data");
-        Directory.CreateDirectory(dataDir);
-        _dataFilePath = Path.Combine(dataDir, "corkboard.json");
+        var appDataDir = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+            "NoteBuddy");
+        Directory.CreateDirectory(appDataDir);
 
-        _uploadsPath = Path.Combine(env.WebRootPath, "uploads");
+        _dataFilePath = Path.Combine(appDataDir, "corkboard.json");
+
+        _uploadsPath = Path.Combine(appDataDir, "uploads");
         Directory.CreateDirectory(_uploadsPath);
 
         LoadData();

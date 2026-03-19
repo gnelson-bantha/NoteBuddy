@@ -79,6 +79,7 @@ html, body {
     background-repeat: no-repeat;
     user-select: none;
     z-index: 10;
+    transition: none;
 }
 
 .sticky-note.dragging {
@@ -129,12 +130,42 @@ html, body {
     flex-shrink: 0;
 }
 
-/* ===== Sticky Note Footer (Delete Button) ===== */
+/* ===== Sticky Note Footer (Delete + Resize) ===== */
 .sticky-note-footer {
     position: absolute;
     bottom: 6px;
+    left: 6px;
     right: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
     z-index: 20;
+}
+
+.sticky-note-resize-handle {
+    width: 28px !important;
+    height: 28px !important;
+    min-width: 28px !important;
+    padding: 0 !important;
+    background-color: rgba(255, 255, 255, 0.3) !important;
+    color: rgba(0, 0, 0, 0.5) !important;
+    border-radius: 4px !important;
+    box-shadow: none !important;
+    cursor: nwse-resize !important;
+}
+
+.sticky-note-resize-handle:hover {
+    background-color: rgba(255, 255, 255, 0.6) !important;
+    color: rgba(0, 0, 0, 0.8) !important;
+}
+
+.sticky-note-resize-handle .mud-icon-root {
+    font-size: 16px !important;
+}
+
+.sticky-note.resizing {
+    z-index: 999;
+    opacity: 0.9;
 }
 
 .sticky-note-btn {
@@ -166,7 +197,7 @@ html, body {
 
 .note-item {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 6px;
     margin-bottom: 2px;
     font-family: 'HandwrittenNotes', cursive;
@@ -195,6 +226,7 @@ html, body {
     background-color: transparent;
     position: relative;
     flex-shrink: 0;
+    margin-top: 4px;
 }
 
 .note-item-checkbox:checked {

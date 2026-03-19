@@ -31,6 +31,12 @@ public class StickyNote
     public double PositionY { get; set; }
 
     /// <summary>
+    /// Gets or sets the scale factor for the sticky note (1.0 = 325×324px, 2.0 = 650×648px).
+    /// Aspect ratio is locked so the background image does not warp.
+    /// </summary>
+    public double Scale { get; set; } = 1.0;
+
+    /// <summary>
     /// Gets or sets the checklist items contained within this sticky note.
     /// </summary>
     public List<NoteItem> Items { get; set; } = new();

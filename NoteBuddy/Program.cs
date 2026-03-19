@@ -1,3 +1,4 @@
+using Microsoft.Extensions.FileProviders;
 using MudBlazor.Services;
 using NoteBuddy.Components;
 using NoteBuddy.Services;
@@ -26,6 +27,14 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseAntiforgery();
+
+// Serve uploaded pictures from %APPDATA%\NoteBuddy\uploads at the /uploads URL path
+var uploadsPath = app.Services.GetRequiredService<CorkboardService>().GetUploadsPath();
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(uploadsPath),
+    RequestPath = "/uploads"
+});
 
 // Serve static assets (CSS, JS, images) with fingerprinted URLs
 app.MapStaticAssets();

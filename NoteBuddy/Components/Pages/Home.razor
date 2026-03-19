@@ -39,7 +39,8 @@
                         OnEdit="EditNote"
                         OnDelete="DeleteNote"
                         OnMoved="OnNoteMoved"
-                        OnItemToggled="OnNoteItemToggled" />
+                        OnItemToggled="OnNoteItemToggled"
+                        OnResized="OnNoteResized" />
     }
 </div>
 
@@ -124,6 +125,17 @@
     private async Task OnNoteMoved((Guid Id, double X, double Y) position)
     {
         await CorkboardService.UpdateNotePositionAsync(position.Id, position.X, position.Y);
+    }
+
+    /// <summary>Persists a note's new scale after it has been resized on the corkboard.</summary>
+    private async Task OnNoteResized((Guid Id, double Scale) resize)
+    {
+        var note = _notes.FirstOrDefault(n => n.Id == resize.Id);
+        if (note != null)
+        {
+            note.Scale = resize.Scale;
+            await CorkboardService.UpdateNoteAsync(note);
+        }
     }
 
     /// <summary>Persists a note after one of its checklist items has been toggled.</summary>
