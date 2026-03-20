@@ -256,8 +256,8 @@
             var picture = new PinnedPicture
             {
                 FileName = fileName,
-                PositionX = GetNextPositionX(_pictures.Count),
-                PositionY = GetNextPositionY(_pictures.Count)
+                PositionX = GetNextPositionX(_notes.Count + _pictures.Count),
+                PositionY = GetNextPositionY(_notes.Count + _pictures.Count)
             };
 
             await CorkboardService.AddPictureAsync(picture);

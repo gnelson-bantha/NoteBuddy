@@ -5,21 +5,20 @@
 
 <div class="pinned-picture"
      id="@ElementId"
-     style="left: @(Picture.PositionX.ToString(CultureInfo.InvariantCulture))px; top: @(Picture.PositionY.ToString(CultureInfo.InvariantCulture))px;">
+     style="left: @(Picture.PositionX.ToString(CultureInfo.InvariantCulture))px; top: @(Picture.PositionY.ToString(CultureInfo.InvariantCulture))px;"
+     @oncontextmenu="OnRightClick"
+     @oncontextmenu:preventDefault="true">
 
-    <div class="pinned-picture-frame">
-        <div class="pinned-picture-actions">
-            <MudIconButton id="@HandleId"
-                           Icon="@Icons.Material.Filled.OpenWith"
-                           Class="sticky-note-btn"
-                           title="Move" />
-            <MudIconButton Icon="@Icons.Material.Filled.Delete"
-                           Class="sticky-note-btn"
-                           title="Delete"
-                           OnClick="OnDeleteClicked" />
-        </div>
-        <img src="uploads/@Picture.FileName" alt="Pinned picture" />
-    </div>
+    <img src="uploads/@Picture.FileName" alt="Pinned picture" />
+
+    <MudMenu @ref="_contextMenu" PositionAtCursor="true" Class="pinned-picture-menu">
+        <ActivatorContent>
+            <span></span>
+        </ActivatorContent>
+        <ChildContent>
+            <MudMenuItem Icon="@Icons.Material.Filled.Delete" IconColor="Color.Error" OnClick="OnDeleteClicked">Delete</MudMenuItem>
+        </ChildContent>
+    </MudMenu>
 </div>
 
 @code {
@@ -35,22 +34,22 @@
     /// <summary>Unique DOM element ID for this picture's container.</summary>
     private string ElementId => $"pic-{Picture.Id}";
 
-    /// <summary>Unique DOM element ID for this picture's drag handle.</summary>
-    private string HandleId => $"pic-handle-{Picture.Id}";
-
     /// <summary>.NET object reference passed to JS for drag callbacks.</summary>
     private DotNetObjectReference<PinnedPictureCard>? _dotNetRef;
 
     /// <summary>Tracks whether JS drag interop has been initialized.</summary>
     private bool _jsInitialized;
 
-    /// <summary>Initializes the JS drag-and-drop interop after the component renders.</summary>
+    /// <summary>Reference to the MudMenu used as the right-click context menu.</summary>
+    private MudMenu? _contextMenu;
+
+    /// <summary>Initializes the JS drag interop after the component renders. The entire card is the drag handle.</summary>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender || !_jsInitialized)
         {
             _dotNetRef = DotNetObjectReference.Create(this);
-            await JS.InvokeVoidAsync("corkboardInterop.initDraggable", ElementId, HandleId, _dotNetRef);
+            await JS.InvokeVoidAsync("corkboardInterop.initDraggable", ElementId, ElementId, _dotNetRef);
             _jsInitialized = true;
         }
     }
@@ -62,6 +61,12 @@
         Picture.PositionX = x;
         Picture.PositionY = y;
         await OnMoved.InvokeAsync((Picture.Id, x, y));
+    }
+
+    /// <summary>Opens the context menu on right-click.</summary>
+    private void OnRightClick(MouseEventArgs e)
+    {
+        _contextMenu?.OpenMenuAsync(e);
     }
 
     /// <summary>Forwards the delete request to the parent component.</summary>
