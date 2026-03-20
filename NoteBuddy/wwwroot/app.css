@@ -106,7 +106,6 @@ html, body {
     background-size: 325px 324px;
     background-repeat: no-repeat;
     user-select: none;
-    z-index: 10;
     transition: none;
 }
 
@@ -302,7 +301,6 @@ html, body {
 /* ===== Pinned Picture ===== */
 .pinned-picture {
     position: absolute;
-    z-index: 10;
     user-select: none;
     cursor: grab;
 }

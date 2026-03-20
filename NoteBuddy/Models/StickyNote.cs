@@ -37,6 +37,12 @@ public class StickyNote
     public double Scale { get; set; } = 1.0;
 
     /// <summary>
+    /// Gets or sets the z-index (stacking order) of this note on the corkboard.
+    /// Higher values appear in front of lower values.
+    /// </summary>
+    public int ZIndex { get; set; } = 10;
+
+    /// <summary>
     /// Gets or sets the checklist items contained within this sticky note.
     /// </summary>
     public List<NoteItem> Items { get; set; } = new();

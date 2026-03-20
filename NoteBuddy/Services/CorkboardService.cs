@@ -192,6 +192,26 @@ public class CorkboardService
         }
     }
 
+    /// <summary>Updates a pinned picture's properties (e.g., ZIndex) and persists the change.</summary>
+    /// <param name="updatedPicture">The picture with updated property values.</param>
+    public async Task UpdatePictureAsync(PinnedPicture updatedPicture)
+    {
+        await _lock.WaitAsync();
+        try
+        {
+            var index = _data.Pictures.FindIndex(p => p.Id == updatedPicture.Id);
+            if (index >= 0)
+            {
+                _data.Pictures[index] = updatedPicture;
+                await SaveDataAsync();
+            }
+        }
+        finally
+        {
+            _lock.Release();
+        }
+    }
+
     /// <summary>Gets the absolute file-system path to the uploads directory.</summary>
     public string GetUploadsPath() => _uploadsPath;
 

@@ -46,7 +46,8 @@
             <PinnedPictureCard @key="picture.Id"
                                Picture="picture"
                                OnDelete="DeletePicture"
-                               OnMoved="OnPictureMoved" />
+                               OnMoved="OnPictureMoved"
+                               OnZOrderChanged="OnZOrderChanged" />
         }
     }
 
@@ -61,6 +62,7 @@
                         OnMoved="OnNoteMoved"
                         OnItemToggled="OnNoteItemToggled"
                         OnResized="OnNoteResized"
+                        OnZOrderChanged="OnZOrderChanged"
                         DisplayX="@(filterPositions?.GetValueOrDefault(note.Id).X)"
                         DisplayY="@(filterPositions?.GetValueOrDefault(note.Id).Y)" />
     }
@@ -222,6 +224,56 @@
     private async Task OnNoteItemToggled(StickyNote note)
     {
         await CorkboardService.UpdateNoteAsync(note);
+    }
+
+    /// <summary>
+    /// Handles z-order changes for any corkboard item (note or picture).
+    /// Collects all z-index values, computes the new value, and persists the change.
+    /// </summary>
+    private async Task OnZOrderChanged((Guid Id, ZOrderAction Action) args)
+    {
+        // Collect all z-index values from notes and pictures
+        var allZIndexes = _notes.Select(n => n.ZIndex)
+            .Concat(_pictures.Select(p => p.ZIndex))
+            .ToList();
+
+        if (allZIndexes.Count == 0) return;
+
+        var note = _notes.FirstOrDefault(n => n.Id == args.Id);
+        var picture = note == null ? _pictures.FirstOrDefault(p => p.Id == args.Id) : null;
+        if (note == null && picture == null) return;
+
+        int currentZ = note?.ZIndex ?? picture!.ZIndex;
+        int newZ = currentZ;
+
+        switch (args.Action)
+        {
+            case ZOrderAction.BringToFront:
+                newZ = allZIndexes.Max() + 1;
+                break;
+            case ZOrderAction.SendToBack:
+                newZ = allZIndexes.Min() - 1;
+                break;
+            case ZOrderAction.BringForward:
+                newZ = currentZ + 1;
+                break;
+            case ZOrderAction.SendBackward:
+                newZ = currentZ - 1;
+                break;
+        }
+
+        if (note != null)
+        {
+            note.ZIndex = newZ;
+            await CorkboardService.UpdateNoteAsync(note);
+        }
+        else
+        {
+            picture!.ZIndex = newZ;
+            await CorkboardService.UpdatePictureAsync(picture);
+        }
+
+        StateHasChanged();
     }
 
     /// <summary>Opens the picture dialog, saves the selected image file to uploads, and pins it to the corkboard.</summary>

@@ -5,7 +5,9 @@
 
 <div class="sticky-note"
      id="@ElementId"
-     style="left: @(EffectiveX.ToString(CultureInfo.InvariantCulture))px; top: @(EffectiveY.ToString(CultureInfo.InvariantCulture))px; width: @(NoteWidth.ToString(CultureInfo.InvariantCulture))px; height: @(NoteHeight.ToString(CultureInfo.InvariantCulture))px; background-image: url('images/sticky-notes/@(Note.Color).png'); background-size: @(NoteWidth.ToString(CultureInfo.InvariantCulture))px @(NoteHeight.ToString(CultureInfo.InvariantCulture))px;">
+     style="left: @(EffectiveX.ToString(CultureInfo.InvariantCulture))px; top: @(EffectiveY.ToString(CultureInfo.InvariantCulture))px; width: @(NoteWidth.ToString(CultureInfo.InvariantCulture))px; height: @(NoteHeight.ToString(CultureInfo.InvariantCulture))px; z-index: @Note.ZIndex; background-image: url('images/sticky-notes/@(Note.Color).png'); background-size: @(NoteWidth.ToString(CultureInfo.InvariantCulture))px @(NoteHeight.ToString(CultureInfo.InvariantCulture))px;"
+     @oncontextmenu="OnRightClick"
+     @oncontextmenu:preventDefault="true">
 
     <div class="sticky-note-header" id="@HeaderId">
         <div class="sticky-note-title" style="color: @GetTitleColor();">
@@ -53,6 +55,18 @@
                        Class="sticky-note-resize-handle"
                        title="Resize" />
     </div>
+
+    <MudMenu @ref="_contextMenu" PositionAtCursor="true" Class="sticky-note-context-menu">
+        <ActivatorContent>
+            <span></span>
+        </ActivatorContent>
+        <ChildContent>
+            <MudMenuItem Icon="@Icons.Material.Filled.FlipToFront" OnClick="() => OnZOrderChanged.InvokeAsync((Note.Id, ZOrderAction.BringToFront))">Bring to Front</MudMenuItem>
+            <MudMenuItem Icon="@Icons.Material.Filled.ArrowUpward" OnClick="() => OnZOrderChanged.InvokeAsync((Note.Id, ZOrderAction.BringForward))">Bring Forward</MudMenuItem>
+            <MudMenuItem Icon="@Icons.Material.Filled.ArrowDownward" OnClick="() => OnZOrderChanged.InvokeAsync((Note.Id, ZOrderAction.SendBackward))">Send Backward</MudMenuItem>
+            <MudMenuItem Icon="@Icons.Material.Filled.FlipToBack" OnClick="() => OnZOrderChanged.InvokeAsync((Note.Id, ZOrderAction.SendToBack))">Send to Back</MudMenuItem>
+        </ChildContent>
+    </MudMenu>
 </div>
 
 @code {
@@ -73,6 +87,9 @@
 
     /// <summary>Callback invoked when the note is resized.</summary>
     [Parameter] public EventCallback<(Guid Id, double Scale)> OnResized { get; set; }
+
+    /// <summary>Callback invoked when the user changes this note's z-order via the context menu.</summary>
+    [Parameter] public EventCallback<(Guid Id, ZOrderAction Action)> OnZOrderChanged { get; set; }
 
     /// <summary>Optional display X override for temporary layout (e.g., filtering). When null, uses Note.PositionX.</summary>
     [Parameter] public double? DisplayX { get; set; }
@@ -124,6 +141,9 @@
     /// <summary>Tracks whether JS interop has been initialized.</summary>
     private bool _jsInitialized;
 
+    /// <summary>Reference to the MudMenu used as the right-click context menu.</summary>
+    private MudMenu? _contextMenu;
+
     /// <summary>Returns the title text color for the current note color, defaulting to dark gray.</summary>
     private string GetTitleColor() =>
         TitleColors.GetValueOrDefault(Note.Color, "#333333");
@@ -158,6 +178,12 @@
         Note.Scale = scale;
         await OnResized.InvokeAsync((Note.Id, scale));
         StateHasChanged();
+    }
+
+    /// <summary>Opens the context menu on right-click.</summary>
+    private void OnRightClick(MouseEventArgs e)
+    {
+        _contextMenu?.OpenMenuAsync(e);
     }
 
     /// <summary>Forwards the edit request to the parent component.</summary>

@@ -26,6 +26,12 @@ public class PinnedPicture
     public double PositionY { get; set; }
 
     /// <summary>
+    /// Gets or sets the z-index (stacking order) of this picture on the corkboard.
+    /// Higher values appear in front of lower values.
+    /// </summary>
+    public int ZIndex { get; set; } = 10;
+
+    /// <summary>
     /// Gets or sets the UTC timestamp when this picture was pinned.
     /// </summary>
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

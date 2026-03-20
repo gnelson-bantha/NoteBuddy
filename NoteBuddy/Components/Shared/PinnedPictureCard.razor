@@ -5,7 +5,7 @@
 
 <div class="pinned-picture"
      id="@ElementId"
-     style="left: @(Picture.PositionX.ToString(CultureInfo.InvariantCulture))px; top: @(Picture.PositionY.ToString(CultureInfo.InvariantCulture))px;"
+     style="left: @(Picture.PositionX.ToString(CultureInfo.InvariantCulture))px; top: @(Picture.PositionY.ToString(CultureInfo.InvariantCulture))px; z-index: @Picture.ZIndex;"
      @oncontextmenu="OnRightClick"
      @oncontextmenu:preventDefault="true">
 
@@ -16,6 +16,11 @@
             <span></span>
         </ActivatorContent>
         <ChildContent>
+            <MudMenuItem Icon="@Icons.Material.Filled.FlipToFront" OnClick="() => OnZOrderChanged.InvokeAsync((Picture.Id, ZOrderAction.BringToFront))">Bring to Front</MudMenuItem>
+            <MudMenuItem Icon="@Icons.Material.Filled.ArrowUpward" OnClick="() => OnZOrderChanged.InvokeAsync((Picture.Id, ZOrderAction.BringForward))">Bring Forward</MudMenuItem>
+            <MudMenuItem Icon="@Icons.Material.Filled.ArrowDownward" OnClick="() => OnZOrderChanged.InvokeAsync((Picture.Id, ZOrderAction.SendBackward))">Send Backward</MudMenuItem>
+            <MudMenuItem Icon="@Icons.Material.Filled.FlipToBack" OnClick="() => OnZOrderChanged.InvokeAsync((Picture.Id, ZOrderAction.SendToBack))">Send to Back</MudMenuItem>
+            <MudDivider />
             <MudMenuItem Icon="@Icons.Material.Filled.Delete" IconColor="Color.Error" OnClick="OnDeleteClicked">Delete</MudMenuItem>
         </ChildContent>
     </MudMenu>
@@ -30,6 +35,9 @@
 
     /// <summary>Callback invoked when the picture is dragged to a new position.</summary>
     [Parameter] public EventCallback<(Guid Id, double X, double Y)> OnMoved { get; set; }
+
+    /// <summary>Callback invoked when the user changes this picture's z-order via the context menu.</summary>
+    [Parameter] public EventCallback<(Guid Id, ZOrderAction Action)> OnZOrderChanged { get; set; }
 
     /// <summary>Unique DOM element ID for this picture's container.</summary>
     private string ElementId => $"pic-{Picture.Id}";
