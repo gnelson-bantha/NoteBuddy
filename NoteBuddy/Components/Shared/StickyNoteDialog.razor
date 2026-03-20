@@ -65,6 +65,59 @@
             </MudButton>
         }
 
+        <MudDivider Class="my-3" />
+
+        <MudText Typo="Typo.subtitle2" Class="mb-2">Due Date (optional):</MudText>
+        <div class="d-flex gap-2 mb-2 align-center">
+            <MudDatePicker @bind-Date="DueDate"
+                           Label="Date"
+                           Variant="Variant.Outlined"
+                           Clearable="true"
+                           DateFormat="MM/dd/yyyy"
+                           Class="flex-grow-1" />
+            <MudSelect @bind-Value="DueHour" Label="Hour" Variant="Variant.Outlined" Dense="true" Style="max-width: 80px;">
+                @for (int h = 1; h <= 12; h++)
+                {
+                    var hour = h;
+                    <MudSelectItem Value="@hour">@hour</MudSelectItem>
+                }
+            </MudSelect>
+            <MudText Typo="Typo.h6" Class="align-self-center">:</MudText>
+            <MudSelect @bind-Value="DueMinute" Label="Min" Variant="Variant.Outlined" Dense="true" Style="max-width: 80px;">
+                @foreach (var m in new[] { 0, 15, 30, 45 })
+                {
+                    <MudSelectItem Value="@m">@m.ToString("D2")</MudSelectItem>
+                }
+            </MudSelect>
+            <MudSelect @bind-Value="DueAmPm" Label="AM/PM" Variant="Variant.Outlined" Dense="true" Style="max-width: 90px;">
+                <MudSelectItem Value="@("AM")">AM</MudSelectItem>
+                <MudSelectItem Value="@("PM")">PM</MudSelectItem>
+            </MudSelect>
+        </div>
+
+        @if (DueDate.HasValue)
+        {
+            <div class="d-flex gap-2 mb-2">
+                <MudSelect @bind-Value="SelectedReminder"
+                           Label="Reminder"
+                           Variant="Variant.Outlined"
+                           Class="flex-grow-1">
+                    <MudSelectItem Value="@((int?)null)">No Reminder</MudSelectItem>
+                    <MudSelectItem Value="@((int?)15)">15 minutes before</MudSelectItem>
+                    <MudSelectItem Value="@((int?)30)">30 minutes before</MudSelectItem>
+                    <MudSelectItem Value="@((int?)60)">1 hour before</MudSelectItem>
+                    <MudSelectItem Value="@((int?)1440)">1 day before</MudSelectItem>
+                </MudSelect>
+                <MudButton Variant="Variant.Text"
+                           Color="Color.Error"
+                           StartIcon="@Icons.Material.Filled.Clear"
+                           OnClick="ClearDueDate"
+                           Class="align-self-center">
+                    Clear
+                </MudButton>
+            </div>
+        }
+
         @if (!string.IsNullOrEmpty(ValidationMessage))
         {
             <MudAlert Severity="Severity.Warning" Class="mt-2">@ValidationMessage</MudAlert>
@@ -111,6 +164,21 @@
     /// <summary>Validation error message displayed to the user, if any.</summary>
     private string? ValidationMessage { get; set; }
 
+    /// <summary>The selected due date (date portion only).</summary>
+    private DateTime? DueDate { get; set; }
+
+    /// <summary>The selected due hour (1–12).</summary>
+    private int DueHour { get; set; } = 12;
+
+    /// <summary>The selected due minute (0, 15, 30, 45).</summary>
+    private int DueMinute { get; set; } = 0;
+
+    /// <summary>The selected AM/PM value.</summary>
+    private string DueAmPm { get; set; } = "PM";
+
+    /// <summary>The selected reminder interval in minutes before the due date.</summary>
+    private int? SelectedReminder { get; set; }
+
     /// <summary>Maximum number of checklist items allowed per note.</summary>
     private const int MaxItems = 6;
 
@@ -131,6 +199,18 @@
                 Text = i.Text,
                 IsChecked = i.IsChecked
             }).ToList();
+
+            // Populate due date fields
+            if (ExistingNote.DueDate.HasValue)
+            {
+                DueDate = ExistingNote.DueDate.Value.Date;
+                var hour24 = ExistingNote.DueDate.Value.Hour;
+                DueAmPm = hour24 >= 12 ? "PM" : "AM";
+                DueHour = hour24 % 12;
+                if (DueHour == 0) DueHour = 12;
+                DueMinute = ExistingNote.DueDate.Value.Minute;
+            }
+            SelectedReminder = ExistingNote.ReminderMinutesBefore;
         }
         else
         {
@@ -179,6 +259,32 @@
         note.Color = SelectedColor;
         note.Items = validItems;
 
+        // Combine date and time into a single DateTime
+        DateTime? newDueDate = null;
+        if (DueDate.HasValue)
+        {
+            var hour24 = DueHour % 12 + (DueAmPm == "PM" ? 12 : 0);
+            newDueDate = DueDate.Value.Date.AddHours(hour24).AddMinutes(DueMinute);
+        }
+
+        // Reset reminder dismissed state if due date was moved forward
+        if (newDueDate.HasValue && note.ReminderDismissedAt.HasValue && newDueDate > note.DueDate)
+        {
+            note.ReminderDismissed = false;
+            note.ReminderDismissedAt = null;
+        }
+
+        note.DueDate = newDueDate;
+        note.ReminderMinutesBefore = DueDate.HasValue ? SelectedReminder : null;
+
+        // Clear reminder if due date was removed
+        if (!note.DueDate.HasValue)
+        {
+            note.ReminderMinutesBefore = null;
+            note.ReminderDismissed = false;
+            note.ReminderDismissedAt = null;
+        }
+
         MudDialog.Close(DialogResult.Ok(note));
     }
 
@@ -186,6 +292,16 @@
     private void Cancel()
     {
         MudDialog.Cancel();
+    }
+
+    /// <summary>Clears the due date, time, and reminder fields.</summary>
+    private void ClearDueDate()
+    {
+        DueDate = null;
+        DueHour = 12;
+        DueMinute = 0;
+        DueAmPm = "PM";
+        SelectedReminder = null;
     }
 
     /// <summary>Closes the dialog with a null result to signal that the note should be deleted.</summary>

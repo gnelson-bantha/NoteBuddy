@@ -4,6 +4,7 @@
 @inject CorkboardService CorkboardService
 @inject IDialogService DialogService
 @inject IWebHostEnvironment Environment
+@implements IDisposable
 
 <PageTitle>NoteBuddy - Virtual Corkboard</PageTitle>
 
@@ -68,6 +69,18 @@
     }
 </div>
 
+@if (_activeReminder != null)
+{
+    <div class="reminder-overlay" @onclick="DismissReminder">
+        <div class="reminder-card" @onclick:stopPropagation="true">
+            <MudIcon Icon="@Icons.Material.Filled.NotificationsActive" Class="reminder-icon" />
+            <div class="reminder-title">@_activeReminder.Title</div>
+            <div class="reminder-due">Due: @_activeReminder.DueDate!.Value.ToString("M/d/yyyy h:mm tt")</div>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="DismissReminder">Dismiss</MudButton>
+        </div>
+    </div>
+}
+
 @code {
     /// <summary>Collection of sticky notes displayed on the corkboard.</summary>
     private List<StickyNote> _notes = new();
@@ -77,6 +90,12 @@
 
     /// <summary>Text used to filter sticky notes by title and item content.</summary>
     private string? _filterText;
+
+    /// <summary>The sticky note currently showing a reminder notification, or null if none.</summary>
+    private StickyNote? _activeReminder;
+
+    /// <summary>Timer that periodically checks for due date reminders.</summary>
+    private Timer? _reminderTimer;
 
     /// <summary>Indicates whether a filter is currently active.</summary>
     private bool IsFilterActive => !string.IsNullOrWhiteSpace(_filterText);
@@ -133,11 +152,14 @@
         return positions;
     }
 
-    /// <summary>Loads all notes and pictures from the corkboard service on page initialization.</summary>
+    /// <summary>Loads all notes and pictures from the corkboard service on page initialization and starts the reminder timer.</summary>
     protected override void OnInitialized()
     {
         _notes = CorkboardService.GetNotes();
         _pictures = CorkboardService.GetPictures();
+
+        // Check reminders every 30 seconds
+        _reminderTimer = new Timer(CheckReminders, null, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(30));
     }
 
     /// <summary>Opens the sticky note dialog to create a new note and adds it to the corkboard.</summary>
@@ -409,5 +431,55 @@
     {
         int row = index / 5;
         return 70 + row * 345;
+    }
+
+    /// <summary>
+    /// Timer callback that checks all notes for active reminders.
+    /// If a note is within its reminder window and hasn't been dismissed, shows a notification.
+    /// </summary>
+    private void CheckReminders(object? state)
+    {
+        if (_activeReminder != null) return;
+
+        var now = DateTime.Now;
+
+        foreach (var note in _notes)
+        {
+            if (!note.DueDate.HasValue || !note.ReminderMinutesBefore.HasValue)
+                continue;
+
+            if (note.ReminderDismissed)
+                continue;
+
+            var reminderStart = note.DueDate.Value.AddMinutes(-note.ReminderMinutesBefore.Value);
+
+            if (now >= reminderStart && now <= note.DueDate.Value)
+            {
+                _activeReminder = note;
+                InvokeAsync(StateHasChanged);
+                break;
+            }
+        }
+
+        // Also trigger re-render to update due date colors as time passes
+        InvokeAsync(StateHasChanged);
+    }
+
+    /// <summary>Dismisses the active reminder notification and persists the dismissed state.</summary>
+    private async Task DismissReminder()
+    {
+        if (_activeReminder == null) return;
+
+        _activeReminder.ReminderDismissed = true;
+        _activeReminder.ReminderDismissedAt = DateTime.UtcNow;
+        await CorkboardService.UpdateNoteAsync(_activeReminder);
+        _activeReminder = null;
+        StateHasChanged();
+    }
+
+    /// <summary>Disposes the reminder timer when the component is destroyed.</summary>
+    public void Dispose()
+    {
+        _reminderTimer?.Dispose();
     }
 }

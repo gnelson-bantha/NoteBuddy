@@ -50,6 +50,13 @@
                        Class="sticky-note-btn"
                        title="Delete"
                        OnClick="OnDeleteClicked" />
+        @if (Note.DueDate.HasValue)
+        {
+            <span class="due-date-label" style="color: @GetDueDateColor();">
+                <MudIcon Icon="@Icons.Material.Filled.Schedule" Size="Size.Small" Style="@($"color: {GetDueDateColor()}; vertical-align: middle; margin-right: 2px;")" />
+                @Note.DueDate.Value.ToString("M/d/yyyy h:mm tt")
+            </span>
+        }
         <MudIconButton id="@ResizeHandleId"
                        Icon="@Icons.Material.Filled.AspectRatio"
                        Class="sticky-note-resize-handle"
@@ -210,6 +217,32 @@
     private string GetItemClass(NoteItem item)
     {
         return item.IsChecked ? "note-item-single note-item-checked" : "note-item-single";
+    }
+
+    /// <summary>
+    /// Returns the appropriate font color for the due date display.
+    /// Blue when in the reminder window, red when 12+ hours overdue, dark gray otherwise.
+    /// </summary>
+    private string GetDueDateColor()
+    {
+        if (!Note.DueDate.HasValue) return "#555555";
+
+        var now = DateTime.Now;
+        var due = Note.DueDate.Value;
+
+        // Red: 12+ hours past due
+        if (now > due.AddHours(12))
+            return "#d32f2f";
+
+        // Blue: within reminder window (and reminder is set)
+        if (Note.ReminderMinutesBefore.HasValue)
+        {
+            var reminderStart = due.AddMinutes(-Note.ReminderMinutesBefore.Value);
+            if (now >= reminderStart && now <= due)
+                return "#1976d2";
+        }
+
+        return "#555555";
     }
 
     /// <summary>Disposes the .NET object reference used for JS interop.</summary>

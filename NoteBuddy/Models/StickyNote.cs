@@ -51,4 +51,26 @@ public class StickyNote
     /// Gets or sets the UTC timestamp when this sticky note was created.
     /// </summary>
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+    /// <summary>
+    /// Gets or sets the optional due date for this sticky note (local time).
+    /// </summary>
+    public DateTime? DueDate { get; set; }
+
+    /// <summary>
+    /// Gets or sets the number of minutes before the due date to trigger a reminder.
+    /// Preset values: 15, 30, 60, 1440 (1 day). Null means no reminder.
+    /// </summary>
+    public int? ReminderMinutesBefore { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the reminder notification has been dismissed by the user.
+    /// </summary>
+    public bool ReminderDismissed { get; set; }
+
+    /// <summary>
+    /// Gets or sets the UTC timestamp when the reminder was last dismissed.
+    /// Used to detect if the due date was moved forward after dismissal.
+    /// </summary>
+    public DateTime? ReminderDismissedAt { get; set; }
 }

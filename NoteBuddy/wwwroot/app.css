@@ -162,7 +162,7 @@ html, body {
     flex-shrink: 0;
 }
 
-/* ===== Sticky Note Footer (Delete + Resize) ===== */
+/* ===== Sticky Note Footer (Delete + Due Date + Resize) ===== */
 .sticky-note-footer {
     position: absolute;
     bottom: 6px;
@@ -172,6 +172,15 @@ html, body {
     justify-content: space-between;
     align-items: flex-end;
     z-index: 20;
+}
+
+.due-date-label {
+    font-family: 'HandwrittenNotes', cursive;
+    font-size: 11px;
+    white-space: nowrap;
+    text-align: center;
+    align-self: center;
+    pointer-events: none;
 }
 
 .sticky-note-resize-handle {
@@ -356,6 +365,49 @@ html, body {
 .color-swatch.selected {
     border-color: #333;
     transform: scale(1.1);
+}
+
+/* ===== Reminder Notification Overlay ===== */
+.reminder-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+}
+
+.reminder-card {
+    background: white;
+    border-radius: 8px;
+    padding: 24px 32px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+}
+
+.reminder-card .reminder-icon {
+    color: #1976d2;
+    font-size: 48px;
+    margin-bottom: 12px;
+}
+
+.reminder-card .reminder-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.reminder-card .reminder-due {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 20px;
 }
 
 /* ===== Blazor Error UI ===== */
