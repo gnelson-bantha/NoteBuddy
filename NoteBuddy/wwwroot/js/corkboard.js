@@ -185,5 +185,124 @@ window.corkboardInterop = {
 
         resize.dotNetRef.invokeMethodAsync('OnScaleChanged', finalScale);
         window.corkboardInterop._activeResize = null;
+    },
+
+    /** Stored reference for the keyboard shortcut handler, used for cleanup. */
+    _keydownHandler: null,
+
+    /** Stored reference for the page-level DotNetObjectReference. */
+    _pageRef: null,
+
+    /**
+     * Registers page-level event listeners for keyboard shortcuts and drag-and-drop.
+     * @param {object} dotNetRef - A DotNetObjectReference for invoking page-level callbacks.
+     */
+    registerPageEvents: function (dotNetRef) {
+        window.corkboardInterop._pageRef = dotNetRef;
+
+        // Keyboard shortcut: Alt+N to add a new note
+        window.corkboardInterop._keydownHandler = function (e) {
+            if (e.altKey && e.key === 'n') {
+                e.preventDefault();
+                dotNetRef.invokeMethodAsync('OnKeyboardNewNote');
+            }
+        };
+        document.addEventListener('keydown', window.corkboardInterop._keydownHandler);
+
+        // Drag-and-drop image onto corkboard
+        const corkboard = document.querySelector('.corkboard');
+        if (corkboard) {
+            corkboard.addEventListener('dragover', window.corkboardInterop._onDragOver);
+            corkboard.addEventListener('dragleave', window.corkboardInterop._onDragLeave);
+            corkboard.addEventListener('drop', window.corkboardInterop._onDrop);
+        }
+    },
+
+    /**
+     * Unregisters page-level event listeners for keyboard shortcuts and drag-and-drop.
+     */
+    unregisterPageEvents: function () {
+        if (window.corkboardInterop._keydownHandler) {
+            document.removeEventListener('keydown', window.corkboardInterop._keydownHandler);
+            window.corkboardInterop._keydownHandler = null;
+        }
+
+        const corkboard = document.querySelector('.corkboard');
+        if (corkboard) {
+            corkboard.removeEventListener('dragover', window.corkboardInterop._onDragOver);
+            corkboard.removeEventListener('dragleave', window.corkboardInterop._onDragLeave);
+            corkboard.removeEventListener('drop', window.corkboardInterop._onDrop);
+        }
+
+        window.corkboardInterop._pageRef = null;
+    },
+
+    /** Allows drop by preventing default dragover behavior and adding visual feedback. */
+    _onDragOver: function (e) {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'copy';
+        e.currentTarget.classList.add('drag-over');
+    },
+
+    /** Removes visual feedback when dragging leaves the corkboard. */
+    _onDragLeave: function (e) {
+        e.currentTarget.classList.remove('drag-over');
+    },
+
+    /**
+     * Handles file drop on the corkboard. Reads the first image file as base64
+     * and sends it to Blazor with the drop coordinates.
+     */
+    _onDrop: function (e) {
+        e.preventDefault();
+        e.currentTarget.classList.remove('drag-over');
+
+        const pageRef = window.corkboardInterop._pageRef;
+        if (!pageRef) return;
+
+        const files = e.dataTransfer.files;
+        if (!files || files.length === 0) return;
+
+        const file = files[0];
+        if (!file.type.startsWith('image/')) return;
+
+        // Calculate drop position relative to the corkboard
+        const corkboard = e.currentTarget;
+        const rect = corkboard.getBoundingClientRect();
+        const x = e.clientX - rect.left + corkboard.scrollLeft;
+        const y = e.clientY - rect.top + corkboard.scrollTop;
+
+        const reader = new FileReader();
+        reader.onload = function () {
+            // reader.result is "data:image/png;base64,..." — extract the base64 part
+            const base64 = reader.result.split(',')[1];
+            const extension = file.name.substring(file.name.lastIndexOf('.')) || '.png';
+            pageRef.invokeMethodAsync('OnImageDropped', base64, extension, x, y);
+        };
+        reader.readAsDataURL(file);
+    },
+
+    /**
+     * Gets the corkboard-relative position of a mouse event.
+     * Returns null if the click was on a sticky note or picture (not empty corkboard space).
+     * @param {number} clientX - The client X coordinate.
+     * @param {number} clientY - The client Y coordinate.
+     * @returns {{x: number, y: number} | null} Position relative to the corkboard, or null.
+     */
+    getCorkboardClickPosition: function (clientX, clientY) {
+        const corkboard = document.querySelector('.corkboard');
+        if (!corkboard) return null;
+
+        // Check if the click target is inside a sticky note or picture
+        const target = document.elementFromPoint(clientX, clientY);
+        if (target && (target.closest('.sticky-note') || target.closest('.pinned-picture') || target.closest('.corkboard-toolbar'))) {
+            return null;
+        }
+
+        const rect = corkboard.getBoundingClientRect();
+        return {
+            x: clientX - rect.left + corkboard.scrollLeft,
+            y: clientY - rect.top + corkboard.scrollTop
+        };
     }
 };

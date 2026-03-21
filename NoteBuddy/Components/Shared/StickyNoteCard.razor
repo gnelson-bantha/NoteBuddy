@@ -68,6 +68,9 @@
             <span></span>
         </ActivatorContent>
         <ChildContent>
+            <MudMenuItem Icon="@Icons.Material.Filled.ContentCopy" OnClick="CopyAsText">Copy as Text</MudMenuItem>
+            <MudDivider />
+            <MudText Typo="Typo.overline" Class="px-4 pt-1" Style="color: #999;">Arrange</MudText>
             <MudMenuItem Icon="@Icons.Material.Filled.FlipToFront" OnClick="() => OnZOrderChanged.InvokeAsync((Note.Id, ZOrderAction.BringToFront))">Bring to Front</MudMenuItem>
             <MudMenuItem Icon="@Icons.Material.Filled.ArrowUpward" OnClick="() => OnZOrderChanged.InvokeAsync((Note.Id, ZOrderAction.BringForward))">Bring Forward</MudMenuItem>
             <MudMenuItem Icon="@Icons.Material.Filled.ArrowDownward" OnClick="() => OnZOrderChanged.InvokeAsync((Note.Id, ZOrderAction.SendBackward))">Send Backward</MudMenuItem>
@@ -191,6 +194,24 @@
     private void OnRightClick(MouseEventArgs e)
     {
         _contextMenu?.OpenMenuAsync(e);
+    }
+
+    /// <summary>Copies the note's title and items as plaintext to the clipboard.</summary>
+    private async Task CopyAsText()
+    {
+        var lines = new List<string> { Note.Title };
+
+        foreach (var item in Note.Items)
+        {
+            var prefix = item.IsChecked ? "[x]" : "[ ]";
+            lines.Add(Note.Items.Count == 1 ? item.Text : $"{prefix} {item.Text}");
+        }
+
+        if (Note.DueDate.HasValue)
+            lines.Add($"Due: {Note.DueDate.Value:M/d/yyyy h:mm tt}");
+
+        var text = string.Join("\n", lines);
+        await JS.InvokeVoidAsync("navigator.clipboard.writeText", text);
     }
 
     /// <summary>Forwards the edit request to the parent component.</summary>

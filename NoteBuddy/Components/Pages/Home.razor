@@ -4,11 +4,12 @@
 @inject CorkboardService CorkboardService
 @inject IDialogService DialogService
 @inject IWebHostEnvironment Environment
+@inject IJSRuntime JS
 @implements IDisposable
 
 <PageTitle>NoteBuddy - Virtual Corkboard</PageTitle>
 
-<div class="corkboard">
+<div class="corkboard" @ondblclick="OnCorkboardDoubleClick">
     <img src="images/note-buddy-logo.png" alt="NoteBuddy" class="corkboard-logo" />
     <div class="corkboard-toolbar">
         <MudButton Class="btn-add-note"
@@ -97,6 +98,12 @@
     /// <summary>Timer that periodically checks for due date reminders.</summary>
     private Timer? _reminderTimer;
 
+    /// <summary>.NET object reference for page-level JS callbacks (keyboard shortcut, drag-drop).</summary>
+    private DotNetObjectReference<Home>? _pageRef;
+
+    /// <summary>Pending click position for double-click note creation.</summary>
+    private (double X, double Y)? _pendingClickPosition;
+
     /// <summary>Indicates whether a filter is currently active.</summary>
     private bool IsFilterActive => !string.IsNullOrWhiteSpace(_filterText);
 
@@ -162,6 +169,16 @@
         _reminderTimer = new Timer(CheckReminders, null, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(30));
     }
 
+    /// <summary>Registers page-level JS event listeners for keyboard shortcuts and drag-and-drop.</summary>
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _pageRef = DotNetObjectReference.Create(this);
+            await JS.InvokeVoidAsync("corkboardInterop.registerPageEvents", _pageRef);
+        }
+    }
+
     /// <summary>Opens the sticky note dialog to create a new note and adds it to the corkboard.</summary>
     private async Task AddNewNote()
     {
@@ -177,11 +194,24 @@
 
         if (result is { Canceled: false, Data: StickyNote newNote })
         {
-            // Assign a grid position based on the current note count
-            newNote.PositionX = GetNextPositionX(_notes.Count);
-            newNote.PositionY = GetNextPositionY(_notes.Count);
+            // Use pending click position (from double-click) or fall back to grid
+            if (_pendingClickPosition.HasValue)
+            {
+                newNote.PositionX = _pendingClickPosition.Value.X;
+                newNote.PositionY = Math.Max(60, _pendingClickPosition.Value.Y);
+                _pendingClickPosition = null;
+            }
+            else
+            {
+                newNote.PositionX = GetNextPositionX(_notes.Count);
+                newNote.PositionY = GetNextPositionY(_notes.Count);
+            }
             await CorkboardService.AddNoteAsync(newNote);
             StateHasChanged();
+        }
+        else
+        {
+            _pendingClickPosition = null;
         }
     }
 
@@ -477,9 +507,73 @@
         StateHasChanged();
     }
 
-    /// <summary>Disposes the reminder timer when the component is destroyed.</summary>
-    public void Dispose()
+    /// <summary>
+    /// Handles double-click on the corkboard to create a new note at the click position.
+    /// Ignores clicks on existing sticky notes, pictures, or the toolbar.
+    /// </summary>
+    private async Task OnCorkboardDoubleClick(MouseEventArgs e)
+    {
+        // Get corkboard-relative position via JS (returns null if clicking on an existing item)
+        var pos = await JS.InvokeAsync<ClickPosition?>(
+            "corkboardInterop.getCorkboardClickPosition", e.ClientX, e.ClientY);
+
+        if (pos == null) return;
+
+        _pendingClickPosition = (pos.X, pos.Y);
+        await AddNewNote();
+    }
+
+    /// <summary>Called from JS when the user presses Ctrl+N / Cmd+N.</summary>
+    [JSInvokable]
+    public async Task OnKeyboardNewNote()
+    {
+        _pendingClickPosition = null;
+        await AddNewNote();
+    }
+
+    /// <summary>
+    /// Called from JS when an image file is dropped onto the corkboard.
+    /// Decodes the base64 data, saves it to the uploads folder, and pins it at the drop position.
+    /// </summary>
+    [JSInvokable]
+    public async Task OnImageDropped(string base64Data, string extension, double x, double y)
+    {
+        var fileName = $"{Guid.NewGuid()}{extension}";
+        var filePath = Path.Combine(CorkboardService.GetUploadsPath(), fileName);
+
+        var bytes = Convert.FromBase64String(base64Data);
+        await File.WriteAllBytesAsync(filePath, bytes);
+
+        var picture = new PinnedPicture
+        {
+            FileName = fileName,
+            PositionX = x,
+            PositionY = Math.Max(60, y)
+        };
+
+        await CorkboardService.AddPictureAsync(picture);
+        await InvokeAsync(StateHasChanged);
+    }
+
+    /// <summary>Helper class for deserializing corkboard click positions from JS.</summary>
+    private class ClickPosition
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+
+    /// <summary>Disposes the reminder timer and unregisters JS event listeners.</summary>
+    public async void Dispose()
     {
         _reminderTimer?.Dispose();
+        _pageRef?.Dispose();
+        try
+        {
+            await JS.InvokeVoidAsync("corkboardInterop.unregisterPageEvents");
+        }
+        catch
+        {
+            // JS interop may fail during circuit disposal
+        }
     }
 }
