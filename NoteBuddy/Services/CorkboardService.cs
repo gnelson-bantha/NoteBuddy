@@ -353,6 +353,23 @@ public class CorkboardService
     /// <summary>Gets the absolute file-system path to the uploads directory.</summary>
     public string GetUploadsPath() => _uploadsPath;
 
+    // ===== Theme Methods =====
+
+    /// <summary>Gets the current theme identifier.</summary>
+    public string GetTheme() => _data.Theme;
+
+    /// <summary>Sets the theme and persists the change.</summary>
+    public async Task SetThemeAsync(string theme)
+    {
+        await _lock.WaitAsync();
+        try
+        {
+            _data.Theme = theme;
+            await SaveDataAsync();
+        }
+        finally { _lock.Release(); }
+    }
+
     /// <summary>
     /// Loads corkboard data from the JSON file. If the file uses the legacy format
     /// (flat Notes/Pictures at root), migrates content into a default "My Board" tab.

@@ -1,0 +1,51 @@
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">Settings</MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudText Typo="Typo.subtitle2" Class="mb-2">Theme:</MudText>
+        <div class="theme-picker-grid">
+            @foreach (var theme in Themes)
+            {
+                <div class="theme-option @(SelectedTheme == theme.Key ? "selected" : "")"
+                     @onclick="() => SelectedTheme = theme.Key">
+                    <div class="theme-preview"
+                         style="background-image: url('images/backgrounds/@(theme.Value.Image)'); background-size: cover;">
+                    </div>
+                    <span class="theme-label">@theme.Value.Name</span>
+                </div>
+            }
+        </div>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="Save">Save</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] private IMudDialogInstance MudDialog { get; set; } = default!;
+
+    /// <summary>The currently active theme when the dialog opens.</summary>
+    [Parameter] public string CurrentTheme { get; set; } = "corkboard";
+
+    private string SelectedTheme { get; set; } = "corkboard";
+
+    private static readonly Dictionary<string, (string Name, string Image)> Themes = new()
+    {
+        ["corkboard"] = ("Corkboard", "cork-background.jpg"),
+        ["wood-desk"] = ("Wood Desk", "wood-background.jpg"),
+        ["dark-mode"] = ("Dark Mode", "darkmode-background.jpg"),
+        ["graph-paper"] = ("Graphing Paper", "graphpaper-background.jpg"),
+        ["bullet-journal"] = ("Bullet Journal", "bullet-journal-background.jpg"),
+        ["watercolor-paper"] = ("Watercolor Paper", "wcp-white-background.jpg")
+    };
+
+    protected override void OnInitialized()
+    {
+        SelectedTheme = CurrentTheme;
+    }
+
+    private void Save() => MudDialog.Close(DialogResult.Ok(SelectedTheme));
+    private void Cancel() => MudDialog.Cancel();
+}

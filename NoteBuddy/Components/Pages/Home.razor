@@ -23,6 +23,10 @@
                   Class="filter-field"
                   Margin="Margin.Dense"
                   T="string" />
+    <MudIconButton Icon="@Icons.Material.Filled.Settings"
+                   Class="btn-settings"
+                   OnClick="OpenSettings"
+                   title="Settings" />
 </div>
 
 <!-- Tab Row + Toolbar -->
@@ -57,7 +61,7 @@
 </div>
 
 <!-- Corkboard Content -->
-<div class="corkboard" style="border: 3px solid @GetSelectedTabColor();" @ondblclick="OnCorkboardDoubleClick">
+<div class="corkboard" style="border: 3px solid @GetSelectedTabColor(); background-image: url('images/backgrounds/@GetThemeBackground()');" @ondblclick="OnCorkboardDoubleClick">
 
     @foreach (var picture in _pictures)
     {
@@ -112,6 +116,21 @@
     // ===== Active tab's notes/pictures =====
     private List<StickyNote> _notes = new();
     private List<PinnedPicture> _pictures = new();
+
+    // ===== Theme =====
+    private string _theme = "corkboard";
+
+    private static readonly Dictionary<string, string> ThemeBackgrounds = new()
+    {
+        ["corkboard"] = "cork-background.jpg",
+        ["wood-desk"] = "wood-background.jpg",
+        ["dark-mode"] = "darkmode-background.jpg",
+        ["graph-paper"] = "graphpaper-background.jpg",
+        ["bullet-journal"] = "bullet-journal-background.jpg",
+        ["watercolor-paper"] = "wcp-white-background.jpg"
+    };
+
+    private string GetThemeBackground() => ThemeBackgrounds.GetValueOrDefault(_theme, "cork-background.jpg");
 
     private string? _filterText;
     private StickyNote? _activeReminder;
@@ -223,6 +242,7 @@
     protected override void OnInitialized()
     {
         _tabs = CorkboardService.GetTabs();
+        _theme = CorkboardService.GetTheme();
         if (_tabs.Any())
         {
             _selectedTabId = _tabs.First().Id;
@@ -298,6 +318,26 @@
         await CorkboardService.ReorderTabsAsync(ordered.Select(t => t.Id).ToList());
         _tabs = CorkboardService.GetTabs();
         StateHasChanged();
+    }
+
+    // ===== Settings =====
+
+    private async Task OpenSettings()
+    {
+        var parameters = new DialogParameters<SettingsDialog>
+        {
+            { x => x.CurrentTheme, _theme }
+        };
+        var options = new DialogOptions { MaxWidth = MaxWidth.Small, FullWidth = true, CloseOnEscapeKey = true };
+        var dialog = await DialogService.ShowAsync<SettingsDialog>("Settings", parameters, options);
+        var result = await dialog.Result;
+
+        if (result is { Canceled: false, Data: string theme })
+        {
+            _theme = theme;
+            await CorkboardService.SetThemeAsync(theme);
+            StateHasChanged();
+        }
     }
 
     // ===== Move between tabs =====

@@ -18,7 +18,7 @@ html, body {
 /* ===== Corkboard Container ===== */
 .corkboard {
     min-height: calc(100vh - 101px);
-    background: url('images/backgrounds/cork-background.jpg') repeat;
+    background-repeat: repeat;
     background-size: 500px 500px;
     overflow: auto;
     position: relative;
@@ -126,6 +126,62 @@ html, body {
 
 .filter-field .mud-input.mud-input-outlined {
     border-radius: 4px !important;
+}
+
+/* ===== Settings Button ===== */
+.btn-settings {
+    width: 34px;
+    height: 34px;
+    min-width: 34px !important;
+    padding: 0 !important;
+    border: 2px dashed #a08060 !important;
+    border-radius: 6px !important;
+    background: rgba(255, 255, 255, 0.3) !important;
+    color: #a08060 !important;
+    box-shadow: none !important;
+}
+
+.btn-settings:hover {
+    background: rgba(255, 255, 255, 0.5) !important;
+}
+
+/* ===== Theme Picker ===== */
+.theme-picker-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.theme-option {
+    cursor: pointer;
+    border: 3px solid transparent;
+    border-radius: 6px;
+    overflow: hidden;
+    transition: border-color 0.2s, transform 0.15s;
+    text-align: center;
+    width: 120px;
+}
+
+.theme-option:hover {
+    transform: scale(1.05);
+}
+
+.theme-option.selected {
+    border-color: #1976d2;
+    transform: scale(1.05);
+}
+
+.theme-preview {
+    width: 120px;
+    height: 80px;
+    background-position: center;
+}
+
+.theme-label {
+    display: block;
+    padding: 4px 0;
+    font-size: 12px;
+    font-weight: 500;
 }
 
 /* ===== Site Header (logo + filter row) ===== */

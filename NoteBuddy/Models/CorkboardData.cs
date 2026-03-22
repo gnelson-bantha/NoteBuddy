@@ -13,6 +13,11 @@ public class CorkboardData
     public List<Tab> Tabs { get; set; } = new();
 
     /// <summary>
+    /// Gets or sets the current theme identifier (e.g., "corkboard", "wood-desk").
+    /// </summary>
+    public string Theme { get; set; } = "corkboard";
+
+    /// <summary>
     /// Legacy: flat list of sticky notes from pre-tabs format. Used only for migration.
     /// </summary>
     public List<StickyNote>? Notes { get; set; }
