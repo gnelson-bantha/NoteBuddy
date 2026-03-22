@@ -18,7 +18,7 @@ html, body {
 /* ===== Corkboard Container ===== */
 .corkboard {
     min-height: calc(100vh - 101px);
-    background: url('images/cork-background-1.jpg') repeat;
+    background: url('images/backgrounds/cork-background.jpg') repeat;
     background-size: 500px 500px;
     overflow: auto;
     position: relative;
