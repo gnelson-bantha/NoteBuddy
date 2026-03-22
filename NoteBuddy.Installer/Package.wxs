@@ -22,10 +22,9 @@
     <!-- Embed all files into the MSI as a single compressed cabinet -->
     <MediaTemplate EmbedCab="yes" />
 
-    <!-- Use the standard WiX install dialog set -->
+    <!-- Use the standard WiX install dialog set with a minimal license -->
     <ui:WixUI Id="WixUI_InstallDir" InstallDirectory="INSTALLFOLDER" />
-
-    <!-- License agreement (optional - can be added later) -->
+    <WixVariable Id="WixUILicenseRtf" Value="License.rtf" />
 
     <!-- Main feature: installs both the server and tray launcher -->
     <Feature Id="MainFeature" Title="NoteBuddy" Level="1">

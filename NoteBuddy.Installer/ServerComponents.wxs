@@ -1027,122 +1027,152 @@
       <Component Id="ServerComponents_340">
         <File Id="ServerComponents_File_340" Source="$(sys.SOURCEFILEDIR)..\publish\Server\WindowsBase.dll" />
       </Component>
-      <Component Id="ServerComponents_341" Subdirectory="Data">
-        <File Id="ServerComponents_File_341" Source="$(sys.SOURCEFILEDIR)..\publish\Server\Data\corkboard.json" />
+      <Component Id="ServerComponents_341" Subdirectory="wwwroot">
+        <File Id="ServerComponents_File_341" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\app.css" />
       </Component>
       <Component Id="ServerComponents_342" Subdirectory="wwwroot">
-        <File Id="ServerComponents_File_342" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\app.css" />
+        <File Id="ServerComponents_File_342" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\app.css.br" />
       </Component>
       <Component Id="ServerComponents_343" Subdirectory="wwwroot">
-        <File Id="ServerComponents_File_343" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\app.css.br" />
+        <File Id="ServerComponents_File_343" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\app.css.gz" />
       </Component>
       <Component Id="ServerComponents_344" Subdirectory="wwwroot">
-        <File Id="ServerComponents_File_344" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\app.css.gz" />
+        <File Id="ServerComponents_File_344" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\favicon.png" />
       </Component>
       <Component Id="ServerComponents_345" Subdirectory="wwwroot">
-        <File Id="ServerComponents_File_345" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\favicon.png" />
+        <File Id="ServerComponents_File_345" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\NoteBuddy.styles.css" />
       </Component>
       <Component Id="ServerComponents_346" Subdirectory="wwwroot">
-        <File Id="ServerComponents_File_346" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\NoteBuddy.styles.css" />
+        <File Id="ServerComponents_File_346" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\NoteBuddy.styles.css.br" />
       </Component>
       <Component Id="ServerComponents_347" Subdirectory="wwwroot">
-        <File Id="ServerComponents_File_347" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\NoteBuddy.styles.css.br" />
+        <File Id="ServerComponents_File_347" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\NoteBuddy.styles.css.gz" />
       </Component>
-      <Component Id="ServerComponents_348" Subdirectory="wwwroot">
-        <File Id="ServerComponents_File_348" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\NoteBuddy.styles.css.gz" />
+      <Component Id="ServerComponents_348" Subdirectory="wwwroot\Components\Layout">
+        <File Id="ServerComponents_File_348" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\Components\Layout\ReconnectModal.razor.js" />
       </Component>
       <Component Id="ServerComponents_349" Subdirectory="wwwroot\Components\Layout">
-        <File Id="ServerComponents_File_349" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\Components\Layout\ReconnectModal.razor.js" />
+        <File Id="ServerComponents_File_349" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\Components\Layout\ReconnectModal.razor.js.br" />
       </Component>
       <Component Id="ServerComponents_350" Subdirectory="wwwroot\Components\Layout">
-        <File Id="ServerComponents_File_350" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\Components\Layout\ReconnectModal.razor.js.br" />
+        <File Id="ServerComponents_File_350" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\Components\Layout\ReconnectModal.razor.js.gz" />
       </Component>
-      <Component Id="ServerComponents_351" Subdirectory="wwwroot\Components\Layout">
-        <File Id="ServerComponents_File_351" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\Components\Layout\ReconnectModal.razor.js.gz" />
+      <Component Id="ServerComponents_351" Subdirectory="wwwroot\images">
+        <File Id="ServerComponents_File_351" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\images\note-buddy-logo.png" />
       </Component>
-      <Component Id="ServerComponents_352" Subdirectory="wwwroot\images">
-        <File Id="ServerComponents_File_352" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\images\cork-background-1.jpg" />
+      <Component Id="ServerComponents_352" Subdirectory="wwwroot\images\backgrounds">
+        <File Id="ServerComponents_File_352" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\images\backgrounds\bullet-journal-background.jpg" />
       </Component>
-      <Component Id="ServerComponents_353" Subdirectory="wwwroot\images">
-        <File Id="ServerComponents_File_353" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\images\note-buddy-logo.png" />
+      <Component Id="ServerComponents_353" Subdirectory="wwwroot\images\backgrounds">
+        <File Id="ServerComponents_File_353" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\images\backgrounds\cork-background.jpg" />
       </Component>
-      <Component Id="ServerComponents_354" Subdirectory="wwwroot\images\fonts">
-        <File Id="ServerComponents_File_354" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\images\fonts\HandwrittenNotes.ttf" />
+      <Component Id="ServerComponents_354" Subdirectory="wwwroot\images\backgrounds">
+        <File Id="ServerComponents_File_354" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\images\backgrounds\darkmode-background.jpg" />
       </Component>
-      <Component Id="ServerComponents_355" Subdirectory="wwwroot\images\sticky-notes">
-        <File Id="ServerComponents_File_355" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\images\sticky-notes\blue.png" />
+      <Component Id="ServerComponents_355" Subdirectory="wwwroot\images\backgrounds">
+        <File Id="ServerComponents_File_355" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\images\backgrounds\graphpaper-background.jpg" />
       </Component>
-      <Component Id="ServerComponents_356" Subdirectory="wwwroot\images\sticky-notes">
-        <File Id="ServerComponents_File_356" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\images\sticky-notes\green.png" />
+      <Component Id="ServerComponents_356" Subdirectory="wwwroot\images\backgrounds">
+        <File Id="ServerComponents_File_356" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\images\backgrounds\wcp-white-background.jpg" />
       </Component>
-      <Component Id="ServerComponents_357" Subdirectory="wwwroot\images\sticky-notes">
-        <File Id="ServerComponents_File_357" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\images\sticky-notes\orange.png" />
+      <Component Id="ServerComponents_357" Subdirectory="wwwroot\images\backgrounds">
+        <File Id="ServerComponents_File_357" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\images\backgrounds\wood-background.jpg" />
       </Component>
-      <Component Id="ServerComponents_358" Subdirectory="wwwroot\images\sticky-notes">
-        <File Id="ServerComponents_File_358" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\images\sticky-notes\pink.png" />
+      <Component Id="ServerComponents_358" Subdirectory="wwwroot\images\fonts">
+        <File Id="ServerComponents_File_358" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\images\fonts\HandwrittenNotes.ttf" />
       </Component>
       <Component Id="ServerComponents_359" Subdirectory="wwwroot\images\sticky-notes">
-        <File Id="ServerComponents_File_359" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\images\sticky-notes\purple.png" />
+        <File Id="ServerComponents_File_359" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\images\sticky-notes\blue.png" />
       </Component>
       <Component Id="ServerComponents_360" Subdirectory="wwwroot\images\sticky-notes">
-        <File Id="ServerComponents_File_360" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\images\sticky-notes\yellow.png" />
+        <File Id="ServerComponents_File_360" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\images\sticky-notes\green.png" />
       </Component>
-      <Component Id="ServerComponents_361" Subdirectory="wwwroot\js">
-        <File Id="ServerComponents_File_361" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\js\corkboard.js" />
+      <Component Id="ServerComponents_361" Subdirectory="wwwroot\images\sticky-notes">
+        <File Id="ServerComponents_File_361" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\images\sticky-notes\orange.png" />
       </Component>
-      <Component Id="ServerComponents_362" Subdirectory="wwwroot\js">
-        <File Id="ServerComponents_File_362" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\js\corkboard.js.br" />
+      <Component Id="ServerComponents_362" Subdirectory="wwwroot\images\sticky-notes">
+        <File Id="ServerComponents_File_362" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\images\sticky-notes\pink.png" />
       </Component>
-      <Component Id="ServerComponents_363" Subdirectory="wwwroot\js">
-        <File Id="ServerComponents_File_363" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\js\corkboard.js.gz" />
+      <Component Id="ServerComponents_363" Subdirectory="wwwroot\images\sticky-notes">
+        <File Id="ServerComponents_File_363" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\images\sticky-notes\purple.png" />
       </Component>
-      <Component Id="ServerComponents_364" Subdirectory="wwwroot\uploads">
-        <File Id="ServerComponents_File_364" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\uploads\.gitkeep" />
+      <Component Id="ServerComponents_364" Subdirectory="wwwroot\images\sticky-notes">
+        <File Id="ServerComponents_File_364" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\images\sticky-notes\yellow.png" />
       </Component>
-      <Component Id="ServerComponents_365" Subdirectory="wwwroot\_content\MudBlazor">
-        <File Id="ServerComponents_File_365" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\_content\MudBlazor\MudBlazor.min.css" />
+      <Component Id="ServerComponents_365" Subdirectory="wwwroot\images\tabs">
+        <File Id="ServerComponents_File_365" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\images\tabs\tab-blue.png" />
       </Component>
-      <Component Id="ServerComponents_366" Subdirectory="wwwroot\_content\MudBlazor">
-        <File Id="ServerComponents_File_366" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\_content\MudBlazor\MudBlazor.min.css.br" />
+      <Component Id="ServerComponents_366" Subdirectory="wwwroot\images\tabs">
+        <File Id="ServerComponents_File_366" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\images\tabs\tab-green.png" />
       </Component>
-      <Component Id="ServerComponents_367" Subdirectory="wwwroot\_content\MudBlazor">
-        <File Id="ServerComponents_File_367" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\_content\MudBlazor\MudBlazor.min.css.gz" />
+      <Component Id="ServerComponents_367" Subdirectory="wwwroot\images\tabs">
+        <File Id="ServerComponents_File_367" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\images\tabs\tab-orange.png" />
       </Component>
-      <Component Id="ServerComponents_368" Subdirectory="wwwroot\_content\MudBlazor">
-        <File Id="ServerComponents_File_368" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\_content\MudBlazor\MudBlazor.min.js" />
+      <Component Id="ServerComponents_368" Subdirectory="wwwroot\images\tabs">
+        <File Id="ServerComponents_File_368" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\images\tabs\tab-pink.png" />
       </Component>
-      <Component Id="ServerComponents_369" Subdirectory="wwwroot\_content\MudBlazor">
-        <File Id="ServerComponents_File_369" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\_content\MudBlazor\MudBlazor.min.js.br" />
+      <Component Id="ServerComponents_369" Subdirectory="wwwroot\images\tabs">
+        <File Id="ServerComponents_File_369" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\images\tabs\tab-purple.png" />
       </Component>
-      <Component Id="ServerComponents_370" Subdirectory="wwwroot\_content\MudBlazor">
-        <File Id="ServerComponents_File_370" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\_content\MudBlazor\MudBlazor.min.js.gz" />
+      <Component Id="ServerComponents_370" Subdirectory="wwwroot\images\tabs">
+        <File Id="ServerComponents_File_370" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\images\tabs\tab-yellow.png" />
       </Component>
-      <Component Id="ServerComponents_371" Subdirectory="wwwroot\_content\MudBlazor">
-        <File Id="ServerComponents_File_371" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\_content\MudBlazor\MudBlazor.min.js.map" />
+      <Component Id="ServerComponents_371" Subdirectory="wwwroot\js">
+        <File Id="ServerComponents_File_371" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\js\corkboard.js" />
       </Component>
-      <Component Id="ServerComponents_372" Subdirectory="wwwroot\_content\MudBlazor">
-        <File Id="ServerComponents_File_372" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\_content\MudBlazor\MudBlazor.min.js.map.br" />
+      <Component Id="ServerComponents_372" Subdirectory="wwwroot\js">
+        <File Id="ServerComponents_File_372" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\js\corkboard.js.br" />
       </Component>
-      <Component Id="ServerComponents_373" Subdirectory="wwwroot\_content\MudBlazor">
-        <File Id="ServerComponents_File_373" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\_content\MudBlazor\MudBlazor.min.js.map.gz" />
+      <Component Id="ServerComponents_373" Subdirectory="wwwroot\js">
+        <File Id="ServerComponents_File_373" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\js\corkboard.js.gz" />
       </Component>
-      <Component Id="ServerComponents_374" Subdirectory="wwwroot\_framework">
-        <File Id="ServerComponents_File_374" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\_framework\blazor.server.js" />
+      <Component Id="ServerComponents_374" Subdirectory="wwwroot\uploads">
+        <File Id="ServerComponents_File_374" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\uploads\.gitkeep" />
       </Component>
-      <Component Id="ServerComponents_375" Subdirectory="wwwroot\_framework">
-        <File Id="ServerComponents_File_375" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\_framework\blazor.server.js.br" />
+      <Component Id="ServerComponents_375" Subdirectory="wwwroot\_content\MudBlazor">
+        <File Id="ServerComponents_File_375" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\_content\MudBlazor\MudBlazor.min.css" />
       </Component>
-      <Component Id="ServerComponents_376" Subdirectory="wwwroot\_framework">
-        <File Id="ServerComponents_File_376" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\_framework\blazor.server.js.gz" />
+      <Component Id="ServerComponents_376" Subdirectory="wwwroot\_content\MudBlazor">
+        <File Id="ServerComponents_File_376" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\_content\MudBlazor\MudBlazor.min.css.br" />
       </Component>
-      <Component Id="ServerComponents_377" Subdirectory="wwwroot\_framework">
-        <File Id="ServerComponents_File_377" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\_framework\blazor.web.js" />
+      <Component Id="ServerComponents_377" Subdirectory="wwwroot\_content\MudBlazor">
+        <File Id="ServerComponents_File_377" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\_content\MudBlazor\MudBlazor.min.css.gz" />
       </Component>
-      <Component Id="ServerComponents_378" Subdirectory="wwwroot\_framework">
-        <File Id="ServerComponents_File_378" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\_framework\blazor.web.js.br" />
+      <Component Id="ServerComponents_378" Subdirectory="wwwroot\_content\MudBlazor">
+        <File Id="ServerComponents_File_378" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\_content\MudBlazor\MudBlazor.min.js" />
       </Component>
-      <Component Id="ServerComponents_379" Subdirectory="wwwroot\_framework">
-        <File Id="ServerComponents_File_379" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\_framework\blazor.web.js.gz" />
+      <Component Id="ServerComponents_379" Subdirectory="wwwroot\_content\MudBlazor">
+        <File Id="ServerComponents_File_379" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\_content\MudBlazor\MudBlazor.min.js.br" />
+      </Component>
+      <Component Id="ServerComponents_380" Subdirectory="wwwroot\_content\MudBlazor">
+        <File Id="ServerComponents_File_380" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\_content\MudBlazor\MudBlazor.min.js.gz" />
+      </Component>
+      <Component Id="ServerComponents_381" Subdirectory="wwwroot\_content\MudBlazor">
+        <File Id="ServerComponents_File_381" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\_content\MudBlazor\MudBlazor.min.js.map" />
+      </Component>
+      <Component Id="ServerComponents_382" Subdirectory="wwwroot\_content\MudBlazor">
+        <File Id="ServerComponents_File_382" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\_content\MudBlazor\MudBlazor.min.js.map.br" />
+      </Component>
+      <Component Id="ServerComponents_383" Subdirectory="wwwroot\_content\MudBlazor">
+        <File Id="ServerComponents_File_383" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\_content\MudBlazor\MudBlazor.min.js.map.gz" />
+      </Component>
+      <Component Id="ServerComponents_384" Subdirectory="wwwroot\_framework">
+        <File Id="ServerComponents_File_384" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\_framework\blazor.server.js" />
+      </Component>
+      <Component Id="ServerComponents_385" Subdirectory="wwwroot\_framework">
+        <File Id="ServerComponents_File_385" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\_framework\blazor.server.js.br" />
+      </Component>
+      <Component Id="ServerComponents_386" Subdirectory="wwwroot\_framework">
+        <File Id="ServerComponents_File_386" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\_framework\blazor.server.js.gz" />
+      </Component>
+      <Component Id="ServerComponents_387" Subdirectory="wwwroot\_framework">
+        <File Id="ServerComponents_File_387" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\_framework\blazor.web.js" />
+      </Component>
+      <Component Id="ServerComponents_388" Subdirectory="wwwroot\_framework">
+        <File Id="ServerComponents_File_388" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\_framework\blazor.web.js.br" />
+      </Component>
+      <Component Id="ServerComponents_389" Subdirectory="wwwroot\_framework">
+        <File Id="ServerComponents_File_389" Source="$(sys.SOURCEFILEDIR)..\publish\Server\wwwroot\_framework\blazor.web.js.gz" />
       </Component>
     </ComponentGroup>
   </Fragment>
