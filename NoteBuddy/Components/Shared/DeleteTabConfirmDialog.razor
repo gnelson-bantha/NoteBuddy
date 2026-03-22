@@ -1,0 +1,42 @@
+@using NoteBuddy.Models
+
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6" Color="Color.Error">Delete Tab</MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudAlert Severity="Severity.Error" Class="mb-3">
+            Deleting this tab will permanently delete all sticky notes and pictures inside it.
+        </MudAlert>
+        <MudText Class="mb-3">
+            To confirm, type the tab title <strong>"@TabTitle"</strong> below:
+        </MudText>
+        <MudTextField @bind-Value="ConfirmText"
+                      Label="Tab title"
+                      Variant="Variant.Outlined"
+                      Immediate="true"
+                      FullWidth="true" />
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Error"
+                   Variant="Variant.Filled"
+                   Disabled="@(!IsMatch)"
+                   OnClick="Confirm">
+            Delete
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] private IMudDialogInstance MudDialog { get; set; } = default!;
+
+    /// <summary>The title the user must type to confirm deletion.</summary>
+    [Parameter] public string TabTitle { get; set; } = string.Empty;
+
+    private string ConfirmText { get; set; } = string.Empty;
+    private bool IsMatch => string.Equals(ConfirmText.Trim(), TabTitle, StringComparison.OrdinalIgnoreCase);
+
+    private void Confirm() => MudDialog.Close(DialogResult.Ok(true));
+    private void Cancel() => MudDialog.Cancel();
+}

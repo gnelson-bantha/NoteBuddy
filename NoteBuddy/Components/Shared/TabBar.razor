@@ -1,0 +1,127 @@
+@using NoteBuddy.Models
+@inject IDialogService DialogService
+
+<div class="tab-row">
+    @foreach (var tab in Tabs.OrderBy(t => t.SortOrder))
+    {
+        var fontColor = GetTabFontColor(tab.Color);
+        var isActive = tab.Id == SelectedTabId;
+        <button class="tab-button @(isActive ? "active" : "")"
+                style="background-image: url('images/tabs/tab-@(tab.Color).png'); color: @fontColor;"
+                draggable="true"
+                @onclick="() => OnTabSelected.InvokeAsync(tab.Id)"
+                @oncontextmenu="(e) => ShowContextMenu(e, tab)"
+                @oncontextmenu:preventDefault="true"
+                @ondragstart="() => _dragTabId = tab.Id"
+                @ondragover:preventDefault="true"
+                @ondrop="() => HandleTabDrop(tab)">
+            @if (isActive)
+            {
+                <span class="tab-star" style="color: @fontColor;">★</span>
+            }
+            else
+            {
+                <span class="tab-star" style="visibility: hidden;">★</span>
+            }
+            <span class="tab-title-text">@tab.Title</span>
+        </button>
+    }
+    <button class="tab-add-button" @onclick="AddTab" title="Add a new tab">+</button>
+</div>
+
+<MudMenu @ref="_tabContextMenu" PositionAtCursor="true" AnchorOrigin="Origin.BottomLeft">
+    <ActivatorContent><span></span></ActivatorContent>
+    <ChildContent>
+        <MudMenuItem OnClick="EditTab">Edit</MudMenuItem>
+    </ChildContent>
+</MudMenu>
+
+@code {
+    [Parameter] public List<Tab> Tabs { get; set; } = new();
+    [Parameter] public Guid SelectedTabId { get; set; }
+    [Parameter] public EventCallback<Guid> OnTabSelected { get; set; }
+    [Parameter] public EventCallback<Tab> OnTabAdded { get; set; }
+    [Parameter] public EventCallback<Tab> OnTabUpdated { get; set; }
+    [Parameter] public EventCallback<Guid> OnTabDeleted { get; set; }
+    [Parameter] public EventCallback<(Guid draggedId, Guid targetId)> OnTabReordered { get; set; }
+
+    private MudMenu? _tabContextMenu;
+    private Tab? _contextTab;
+    private Guid? _dragTabId;
+
+    private async Task ShowContextMenu(MouseEventArgs e, Tab tab)
+    {
+        _contextTab = tab;
+        if (_tabContextMenu != null)
+            await _tabContextMenu.OpenMenuAsync(e);
+    }
+
+    private async Task AddTab()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions { MaxWidth = MaxWidth.Small, FullWidth = true };
+        var dialog = await DialogService.ShowAsync<TabDialog>("New Tab", parameters, options);
+        var result = await dialog.Result;
+
+        if (result != null && !result.Canceled && result.Data is Tab tab)
+        {
+            await OnTabAdded.InvokeAsync(tab);
+        }
+    }
+
+    private async Task EditTab()
+    {
+        if (_contextTab == null) return;
+
+        var parameters = new DialogParameters { { "ExistingTab", _contextTab } };
+        var options = new DialogOptions { MaxWidth = MaxWidth.Small, FullWidth = true };
+        var dialog = await DialogService.ShowAsync<TabDialog>("Edit Tab", parameters, options);
+        var result = await dialog.Result;
+
+        if (result != null && !result.Canceled)
+        {
+            if (result.Data == null)
+            {
+                // Delete requested
+                await ConfirmDeleteTab(_contextTab);
+            }
+            else if (result.Data is Tab updatedTab)
+            {
+                await OnTabUpdated.InvokeAsync(updatedTab);
+            }
+        }
+    }
+
+    private async Task ConfirmDeleteTab(Tab tab)
+    {
+        var parameters = new DialogParameters { { "TabTitle", tab.Title } };
+        var options = new DialogOptions { MaxWidth = MaxWidth.Small, FullWidth = true };
+        var dialog = await DialogService.ShowAsync<DeleteTabConfirmDialog>("Delete Tab", parameters, options);
+        var result = await dialog.Result;
+
+        if (result != null && !result.Canceled)
+        {
+            await OnTabDeleted.InvokeAsync(tab.Id);
+        }
+    }
+
+    private async Task HandleTabDrop(Tab targetTab)
+    {
+        if (_dragTabId.HasValue && _dragTabId.Value != targetTab.Id)
+        {
+            await OnTabReordered.InvokeAsync((_dragTabId.Value, targetTab.Id));
+        }
+        _dragTabId = null;
+    }
+
+    private static string GetTabFontColor(string color) => color switch
+    {
+        "yellow" => "#b8960a",
+        "blue" => "#5a9aaa",
+        "green" => "#2d8a2d",
+        "orange" => "#c07a5a",
+        "pink" => "#c060a0",
+        "purple" => "#7a3d9a",
+        _ => "#333333"
+    };
+}

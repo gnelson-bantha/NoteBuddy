@@ -1,0 +1,100 @@
+@using NoteBuddy.Models
+
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">@(IsEditMode ? "Edit Tab" : "New Tab")</MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudTextField @bind-Value="Title"
+                      Label="Tab Title"
+                      Variant="Variant.Outlined"
+                      Placeholder="Enter a title..."
+                      MaxLength="50"
+                      Counter="50"
+                      Immediate="true"
+                      Required="true"
+                      RequiredError="Title is required"
+                      FullWidth="true"
+                      Class="mb-3" />
+
+        <MudText Typo="Typo.subtitle2" Class="mb-2">Choose a color:</MudText>
+        <div class="color-picker-grid">
+            @foreach (var color in Colors)
+            {
+                <div class="tab-color-swatch @(SelectedColor == color ? "selected" : "")"
+                     style="background-image: url('images/tabs/tab-@(color).png');"
+                     title="@color"
+                     @onclick="() => SelectedColor = color">
+                </div>
+            }
+        </div>
+
+        @if (!string.IsNullOrEmpty(ValidationMessage))
+        {
+            <MudAlert Severity="Severity.Warning" Class="mt-2">@ValidationMessage</MudAlert>
+        }
+    </DialogContent>
+    <DialogActions>
+        @if (IsEditMode)
+        {
+            <MudButton Color="Color.Error"
+                       Variant="Variant.Text"
+                       OnClick="RequestDelete"
+                       Class="mr-auto">
+                Delete
+            </MudButton>
+        }
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary"
+                   Variant="Variant.Filled"
+                   OnClick="Save">
+            Save
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    /// <summary>The MudBlazor dialog instance.</summary>
+    [CascadingParameter] private IMudDialogInstance MudDialog { get; set; } = default!;
+
+    /// <summary>When set, the dialog operates in edit mode.</summary>
+    [Parameter] public Tab? ExistingTab { get; set; }
+
+    private bool IsEditMode => ExistingTab != null;
+    private string Title { get; set; } = string.Empty;
+    private string SelectedColor { get; set; } = "yellow";
+    private string? ValidationMessage { get; set; }
+
+    private static readonly string[] Colors = { "yellow", "blue", "green", "orange", "pink", "purple" };
+
+    protected override void OnInitialized()
+    {
+        if (ExistingTab != null)
+        {
+            Title = ExistingTab.Title;
+            SelectedColor = ExistingTab.Color;
+        }
+    }
+
+    private void Save()
+    {
+        if (string.IsNullOrWhiteSpace(Title))
+        {
+            ValidationMessage = "Please enter a title.";
+            return;
+        }
+
+        var tab = ExistingTab ?? new Tab();
+        tab.Title = Title.Trim();
+        tab.Color = SelectedColor;
+        MudDialog.Close(DialogResult.Ok(tab));
+    }
+
+    private void Cancel() => MudDialog.Cancel();
+
+    /// <summary>Signals deletion by returning a null Tab result.</summary>
+    private void RequestDelete()
+    {
+        MudDialog.Close(DialogResult.Ok<Tab?>(null));
+    }
+}

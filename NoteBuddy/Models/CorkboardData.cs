@@ -1,17 +1,24 @@
 namespace NoteBuddy.Models;
 
 /// <summary>
-/// Root data model that holds all notes and pictures displayed on the corkboard.
+/// Root data model that holds all tabs and their content on the corkboard.
+/// The Notes and Pictures properties are retained for backward compatibility
+/// with pre-tabs JSON files; they are migrated into a default tab on load.
 /// </summary>
 public class CorkboardData
 {
     /// <summary>
-    /// Gets or sets the collection of sticky notes on the corkboard.
+    /// Gets or sets the collection of tabs, each containing its own notes and pictures.
     /// </summary>
-    public List<StickyNote> Notes { get; set; } = new();
+    public List<Tab> Tabs { get; set; } = new();
 
     /// <summary>
-    /// Gets or sets the collection of pictures pinned to the corkboard.
+    /// Legacy: flat list of sticky notes from pre-tabs format. Used only for migration.
     /// </summary>
-    public List<PinnedPicture> Pictures { get; set; } = new();
+    public List<StickyNote>? Notes { get; set; }
+
+    /// <summary>
+    /// Legacy: flat list of pictures from pre-tabs format. Used only for migration.
+    /// </summary>
+    public List<PinnedPicture>? Pictures { get; set; }
 }

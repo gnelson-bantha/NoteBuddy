@@ -12,16 +12,19 @@ html, body {
     padding: 0;
     height: 100%;
     overflow: hidden;
+    background-color: #fffad4;
 }
 
 /* ===== Corkboard Container ===== */
 .corkboard {
-    width: 100%;
-    min-height: 100vh;
+    min-height: calc(100vh - 101px);
     background: url('images/cork-background-1.jpg') repeat;
     background-size: 500px 500px;
     overflow: auto;
     position: relative;
+    margin-top: 101px;
+    margin-left: 20px;
+    margin-right: 20px;
 }
 
 .corkboard.drag-over::after {
@@ -45,22 +48,30 @@ html, body {
 
 /* ===== Logo ===== */
 .corkboard-logo {
-    position: fixed;
-    top: 8px;
-    left: 12px;
-    height: 44px;
+    height: 40px;
     width: auto;
-    z-index: 1000;
+    flex-shrink: 0;
 }
 
-/* ===== Toolbar ===== */
-.corkboard-toolbar {
+/* ===== Tab Area (tab row + toolbar) ===== */
+.tab-area {
     position: fixed;
-    top: 12px;
-    right: 12px;
+    top: 61px;
+    left: 20px;
+    right: 20px;
+    height: 40px;
     z-index: 1000;
     display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+.corkboard-toolbar {
+    display: flex;
     gap: 8px;
+    align-items: center;
+    padding: 0 12px 6px 0;
+    flex-shrink: 0;
 }
 
 .btn-add-note {
@@ -115,6 +126,130 @@ html, body {
 
 .filter-field .mud-input.mud-input-outlined {
     border-radius: 4px !important;
+}
+
+/* ===== Site Header (logo + filter row) ===== */
+.site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 56px;
+    z-index: 1001;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    gap: 12px;
+    background: #fffad4;
+}
+
+/* ===== Tab Row ===== */
+.tab-row {
+    display: flex;
+    align-items: flex-end;
+    padding: 0 12px;
+    gap: 4px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    flex: 1;
+    min-width: 0;
+    height: 100%;
+}
+
+.tab-row::-webkit-scrollbar {
+    height: 4px;
+}
+
+.tab-button {
+    position: relative;
+    width: 175px;
+    height: 40px;
+    min-width: 175px;
+    background-size: 175px 40px;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: left;
+    padding: 0 10px;
+    font-family: 'HandwrittenNotes', cursive;
+    font-size: 16pt;
+    font-weight: bold;
+    user-select: none;
+}
+
+.tab-button:hover {
+    opacity: 0.9;
+}
+
+.tab-button.active {
+    opacity: 1.0;
+}
+
+.tab-button .tab-star {
+    margin-right: 2px;
+    font-size: 18px;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+}
+
+.tab-button .tab-title-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: 1.2;
+}
+
+.tab-button.dragging-tab {
+    opacity: 0.5;
+    z-index: 1001;
+}
+
+.tab-add-button {
+    width: 34px;
+    height: 34px;
+    min-width: 34px;
+    border: 2px dashed #a08060;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.3);
+    color: #a08060;
+    font-size: 22px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 3px;
+    transition: background 0.2s;
+}
+
+.tab-add-button:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.tab-color-swatch {
+    width: 120px;
+    height: 27px;
+    background-size: 120px 27px;
+    background-repeat: no-repeat;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 3px solid transparent;
+    transition: border-color 0.2s, transform 0.15s;
+}
+
+.tab-color-swatch:hover {
+    transform: scale(1.1);
+}
+
+.tab-color-swatch.selected {
+    border-color: #333;
+    transform: scale(1.1);
 }
 
 /* ===== Sticky Note ===== */

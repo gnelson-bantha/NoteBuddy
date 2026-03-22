@@ -69,6 +69,15 @@
         </ActivatorContent>
         <ChildContent>
             <MudMenuItem Icon="@Icons.Material.Filled.ContentCopy" OnClick="CopyAsText">Copy as Text</MudMenuItem>
+            @if (AvailableTabs.Any())
+            {
+                <MudDivider />
+                <MudText Typo="Typo.overline" Class="px-4 pt-1" Style="color: #999;">Move to</MudText>
+                @foreach (var tab in AvailableTabs)
+                {
+                    <MudMenuItem Icon="@Icons.Material.Filled.DriveFileMove" OnClick="() => OnMoveToTab.InvokeAsync((Note.Id, tab.Id))">@tab.Title</MudMenuItem>
+                }
+            }
             <MudDivider />
             <MudText Typo="Typo.overline" Class="px-4 pt-1" Style="color: #999;">Arrange</MudText>
             <MudMenuItem Icon="@Icons.Material.Filled.FlipToFront" OnClick="() => OnZOrderChanged.InvokeAsync((Note.Id, ZOrderAction.BringToFront))">Bring to Front</MudMenuItem>
@@ -100,6 +109,12 @@
 
     /// <summary>Callback invoked when the user changes this note's z-order via the context menu.</summary>
     [Parameter] public EventCallback<(Guid Id, ZOrderAction Action)> OnZOrderChanged { get; set; }
+
+    /// <summary>List of tabs this note can be moved to (excludes the current tab).</summary>
+    [Parameter] public List<Tab> AvailableTabs { get; set; } = new();
+
+    /// <summary>Callback invoked when the user moves this note to another tab. (NoteId, TargetTabId)</summary>
+    [Parameter] public EventCallback<(Guid NoteId, Guid TabId)> OnMoveToTab { get; set; }
 
     /// <summary>Optional display X override for temporary layout (e.g., filtering). When null, uses Note.PositionX.</summary>
     [Parameter] public double? DisplayX { get; set; }

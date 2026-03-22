@@ -9,8 +9,31 @@
 
 <PageTitle>NoteBuddy - Virtual Corkboard</PageTitle>
 
-<div class="corkboard" @ondblclick="OnCorkboardDoubleClick">
+<!-- Site Header: logo + filter -->
+<div class="site-header">
     <img src="images/note-buddy-logo.png" alt="NoteBuddy" class="corkboard-logo" />
+    <MudTextField Value="_filterText"
+                  ValueChanged="OnFilterChanged"
+                  Placeholder="Filter notes..."
+                  Variant="Variant.Outlined"
+                  Adornment="Adornment.End"
+                  AdornmentIcon="@(_filterText?.Length > 0 ? Icons.Material.Filled.Close : Icons.Material.Filled.Search)"
+                  OnAdornmentClick="OnFilterAdornmentClick"
+                  Immediate="true"
+                  Class="filter-field"
+                  Margin="Margin.Dense"
+                  T="string" />
+</div>
+
+<!-- Tab Row + Toolbar -->
+<div class="tab-area">
+    <TabBar Tabs="FilteredTabs"
+            SelectedTabId="_selectedTabId"
+            OnTabSelected="SelectTab"
+            OnTabAdded="OnTabAdded"
+            OnTabUpdated="OnTabUpdated"
+            OnTabDeleted="OnTabDeleted"
+            OnTabReordered="OnTabReordered" />
     <div class="corkboard-toolbar">
         <MudButton Class="btn-add-note"
                    Variant="Variant.Outlined"
@@ -30,16 +53,11 @@
                    OnClick="OrganizeBoard">
             Organize
         </MudButton>
-        <MudTextField @bind-Value="_filterText"
-                      Placeholder="Filter notes..."
-                      Variant="Variant.Outlined"
-                      Adornment="Adornment.End"
-                      AdornmentIcon="@(_filterText?.Length > 0 ? Icons.Material.Filled.Close : Icons.Material.Filled.Search)"
-                      OnAdornmentClick="OnFilterAdornmentClick"
-                      Immediate="true"
-                      Class="filter-field"
-                      Margin="Margin.Dense" />
     </div>
+</div>
+
+<!-- Corkboard Content -->
+<div class="corkboard" style="border: 3px solid @GetSelectedTabColor();" @ondblclick="OnCorkboardDoubleClick">
 
     @foreach (var picture in _pictures)
     {
@@ -49,7 +67,9 @@
                                Picture="picture"
                                OnDelete="DeletePicture"
                                OnMoved="OnPictureMoved"
-                               OnZOrderChanged="OnZOrderChanged" />
+                               OnZOrderChanged="OnZOrderChanged"
+                               AvailableTabs="OtherTabs"
+                               OnMoveToTab="MovePictureToTab" />
         }
     }
 
@@ -66,7 +86,9 @@
                         OnResized="OnNoteResized"
                         OnZOrderChanged="OnZOrderChanged"
                         DisplayX="@(filterPositions?.GetValueOrDefault(note.Id).X)"
-                        DisplayY="@(filterPositions?.GetValueOrDefault(note.Id).Y)" />
+                        DisplayY="@(filterPositions?.GetValueOrDefault(note.Id).Y)"
+                        AvailableTabs="OtherTabs"
+                        OnMoveToTab="MoveNoteToTab" />
     }
 </div>
 
@@ -83,52 +105,89 @@
 }
 
 @code {
-    /// <summary>Collection of sticky notes displayed on the corkboard.</summary>
-    private List<StickyNote> _notes = new();
+    // ===== Tab state =====
+    private List<Tab> _tabs = new();
+    private Guid _selectedTabId;
 
-    /// <summary>Collection of pinned pictures displayed on the corkboard.</summary>
+    // ===== Active tab's notes/pictures =====
+    private List<StickyNote> _notes = new();
     private List<PinnedPicture> _pictures = new();
 
-    /// <summary>Text used to filter sticky notes by title and item content.</summary>
     private string? _filterText;
-
-    /// <summary>The sticky note currently showing a reminder notification, or null if none.</summary>
     private StickyNote? _activeReminder;
-
-    /// <summary>Timer that periodically checks for due date reminders.</summary>
     private Timer? _reminderTimer;
-
-    /// <summary>.NET object reference for page-level JS callbacks (keyboard shortcut, drag-drop).</summary>
     private DotNetObjectReference<Home>? _pageRef;
-
-    /// <summary>Pending click position for double-click note creation.</summary>
     private (double X, double Y)? _pendingClickPosition;
 
-    /// <summary>Indicates whether a filter is currently active.</summary>
     private bool IsFilterActive => !string.IsNullOrWhiteSpace(_filterText);
 
-    /// <summary>Returns notes matching the current filter, or all notes if no filter is active.</summary>
+    /// <summary>Tabs filtered by the active filter text (matches tab title or child note content).</summary>
+    private List<Tab> FilteredTabs => IsFilterActive
+        ? _tabs.Where(t =>
+            t.Title.Contains(_filterText!, StringComparison.OrdinalIgnoreCase) ||
+            t.Notes.Any(n =>
+                n.Title.Contains(_filterText!, StringComparison.OrdinalIgnoreCase) ||
+                n.Items.Any(i => i.Text.Contains(_filterText!, StringComparison.OrdinalIgnoreCase))))
+          .ToList()
+        : _tabs;
+
+    /// <summary>Notes on the active tab matching the current filter.</summary>
     private IEnumerable<StickyNote> FilteredNotes => IsFilterActive
         ? _notes.Where(n =>
             n.Title.Contains(_filterText!, StringComparison.OrdinalIgnoreCase) ||
             n.Items.Any(i => i.Text.Contains(_filterText!, StringComparison.OrdinalIgnoreCase)))
         : _notes;
 
-    /// <summary>Toggles between clearing the filter and doing nothing (search icon).</summary>
+    /// <summary>List of tabs other than the currently selected one (for "Move to" menus).</summary>
+    private List<Tab> OtherTabs => _tabs.Where(t => t.Id != _selectedTabId).OrderBy(t => t.SortOrder).ToList();
+
+    private static readonly Dictionary<string, string> TabColors = new()
+    {
+        ["yellow"] = "#b8960a",
+        ["blue"] = "#5a9aaa",
+        ["green"] = "#2d8a2d",
+        ["orange"] = "#c07a5a",
+        ["pink"] = "#c060a0",
+        ["purple"] = "#7a3d9a"
+    };
+
+    private string GetSelectedTabColor()
+    {
+        var tab = _tabs.FirstOrDefault(t => t.Id == _selectedTabId);
+        return tab != null ? TabColors.GetValueOrDefault(tab.Color, "#a08060") : "#a08060";
+    }
+
+    private void OnFilterChanged(string value)
+    {
+        _filterText = value;
+        EnsureSelectedTabVisible();
+        RefreshActiveTabContent();
+    }
+
     private void OnFilterAdornmentClick()
     {
         if (IsFilterActive)
+        {
             _filterText = string.Empty;
+            EnsureSelectedTabVisible();
+            RefreshActiveTabContent();
+        }
     }
 
-    /// <summary>
-    /// Computes temporary display positions for filtered notes, arranging them
-    /// in a compact grid from the top-left without modifying saved positions.
-    /// </summary>
+    /// <summary>If the selected tab is hidden by the filter, select the first visible tab.</summary>
+    private void EnsureSelectedTabVisible()
+    {
+        var visible = FilteredTabs;
+        if (visible.All(t => t.Id != _selectedTabId) && visible.Any())
+        {
+            _selectedTabId = visible.First().Id;
+        }
+    }
+
     private Dictionary<Guid, (double X, double Y)> ComputeFilterLayout(List<StickyNote> notes)
     {
         const double startX = 20;
-        const double startY = 70;
+        const double startY = 14;
         const double gap = 20;
         const double baseWidth = 325.0;
         const double baseHeight = 324.0;
@@ -159,17 +218,19 @@
         return positions;
     }
 
-    /// <summary>Loads all notes and pictures from the corkboard service on page initialization and starts the reminder timer.</summary>
+    // ===== Lifecycle =====
+
     protected override void OnInitialized()
     {
-        _notes = CorkboardService.GetNotes();
-        _pictures = CorkboardService.GetPictures();
-
-        // Check reminders every 30 seconds
+        _tabs = CorkboardService.GetTabs();
+        if (_tabs.Any())
+        {
+            _selectedTabId = _tabs.First().Id;
+            RefreshActiveTabContent();
+        }
         _reminderTimer = new Timer(CheckReminders, null, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(30));
     }
 
-    /// <summary>Registers page-level JS event listeners for keyboard shortcuts and drag-and-drop.</summary>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
@@ -179,7 +240,84 @@
         }
     }
 
-    /// <summary>Opens the sticky note dialog to create a new note and adds it to the corkboard.</summary>
+    /// <summary>Refreshes _notes and _pictures from the currently selected tab.</summary>
+    private void RefreshActiveTabContent()
+    {
+        _notes = CorkboardService.GetNotes(_selectedTabId);
+        _pictures = CorkboardService.GetPictures(_selectedTabId);
+    }
+
+    // ===== Tab management =====
+
+    private void SelectTab(Guid tabId)
+    {
+        _selectedTabId = tabId;
+        RefreshActiveTabContent();
+        StateHasChanged();
+    }
+
+    private async Task OnTabAdded(Tab tab)
+    {
+        await CorkboardService.AddTabAsync(tab);
+        _tabs = CorkboardService.GetTabs();
+        _selectedTabId = tab.Id;
+        RefreshActiveTabContent();
+        StateHasChanged();
+    }
+
+    private async Task OnTabUpdated(Tab tab)
+    {
+        await CorkboardService.UpdateTabAsync(tab);
+        _tabs = CorkboardService.GetTabs();
+        StateHasChanged();
+    }
+
+    private async Task OnTabDeleted(Guid tabId)
+    {
+        await CorkboardService.DeleteTabAsync(tabId);
+        _tabs = CorkboardService.GetTabs();
+        if (_selectedTabId == tabId)
+        {
+            _selectedTabId = _tabs.FirstOrDefault()?.Id ?? Guid.Empty;
+        }
+        RefreshActiveTabContent();
+        StateHasChanged();
+    }
+
+    private async Task OnTabReordered((Guid draggedId, Guid targetId) args)
+    {
+        var ordered = _tabs.OrderBy(t => t.SortOrder).ToList();
+        var draggedTab = ordered.FirstOrDefault(t => t.Id == args.draggedId);
+        var targetTab = ordered.FirstOrDefault(t => t.Id == args.targetId);
+        if (draggedTab == null || targetTab == null) return;
+
+        ordered.Remove(draggedTab);
+        var targetIndex = ordered.IndexOf(targetTab);
+        ordered.Insert(targetIndex, draggedTab);
+
+        await CorkboardService.ReorderTabsAsync(ordered.Select(t => t.Id).ToList());
+        _tabs = CorkboardService.GetTabs();
+        StateHasChanged();
+    }
+
+    // ===== Move between tabs =====
+
+    private async Task MoveNoteToTab((Guid NoteId, Guid TabId) args)
+    {
+        await CorkboardService.MoveNoteToTabAsync(args.NoteId, args.TabId);
+        RefreshActiveTabContent();
+        StateHasChanged();
+    }
+
+    private async Task MovePictureToTab((Guid PictureId, Guid TabId) args)
+    {
+        await CorkboardService.MovePictureToTabAsync(args.PictureId, args.TabId);
+        RefreshActiveTabContent();
+        StateHasChanged();
+    }
+
+    // ===== Note CRUD =====
+
     private async Task AddNewNote()
     {
         var options = new DialogOptions
@@ -194,11 +332,10 @@
 
         if (result is { Canceled: false, Data: StickyNote newNote })
         {
-            // Use pending click position (from double-click) or fall back to grid
             if (_pendingClickPosition.HasValue)
             {
                 newNote.PositionX = _pendingClickPosition.Value.X;
-                newNote.PositionY = Math.Max(60, _pendingClickPosition.Value.Y);
+                newNote.PositionY = Math.Max(14, _pendingClickPosition.Value.Y);
                 _pendingClickPosition = null;
             }
             else
@@ -206,7 +343,8 @@
                 newNote.PositionX = GetNextPositionX(_notes.Count);
                 newNote.PositionY = GetNextPositionY(_notes.Count);
             }
-            await CorkboardService.AddNoteAsync(newNote);
+            await CorkboardService.AddNoteAsync(_selectedTabId, newNote);
+            RefreshActiveTabContent();
             StateHasChanged();
         }
         else
@@ -215,7 +353,6 @@
         }
     }
 
-    /// <summary>Opens the sticky note dialog pre-populated for editing; handles both update and delete outcomes.</summary>
     private async Task EditNote(StickyNote note)
     {
         var parameters = new DialogParameters<StickyNoteDialog>
@@ -241,27 +378,25 @@
             }
             else
             {
-                // null means delete was requested from within the edit dialog
                 await CorkboardService.DeleteNoteAsync(note.Id);
             }
+            RefreshActiveTabContent();
             StateHasChanged();
         }
     }
 
-    /// <summary>Deletes a sticky note by its ID and refreshes the UI.</summary>
     private async Task DeleteNote(Guid noteId)
     {
         await CorkboardService.DeleteNoteAsync(noteId);
+        RefreshActiveTabContent();
         StateHasChanged();
     }
 
-    /// <summary>Persists a note's new position after it has been dragged on the corkboard.</summary>
     private async Task OnNoteMoved((Guid Id, double X, double Y) position)
     {
         await CorkboardService.UpdateNotePositionAsync(position.Id, position.X, position.Y);
     }
 
-    /// <summary>Persists a note's new scale after it has been resized on the corkboard.</summary>
     private async Task OnNoteResized((Guid Id, double Scale) resize)
     {
         var note = _notes.FirstOrDefault(n => n.Id == resize.Id);
@@ -272,19 +407,15 @@
         }
     }
 
-    /// <summary>Persists a note after one of its checklist items has been toggled.</summary>
     private async Task OnNoteItemToggled(StickyNote note)
     {
         await CorkboardService.UpdateNoteAsync(note);
     }
 
-    /// <summary>
-    /// Handles z-order changes for any corkboard item (note or picture).
-    /// Collects all z-index values, computes the new value, and persists the change.
-    /// </summary>
+    // ===== Z-order =====
+
     private async Task OnZOrderChanged((Guid Id, ZOrderAction Action) args)
     {
-        // Collect all z-index values from notes and pictures
         var allZIndexes = _notes.Select(n => n.ZIndex)
             .Concat(_pictures.Select(p => p.ZIndex))
             .ToList();
@@ -328,7 +459,8 @@
         StateHasChanged();
     }
 
-    /// <summary>Opens the picture dialog, saves the selected image file to uploads, and pins it to the corkboard.</summary>
+    // ===== Picture CRUD =====
+
     private async Task AddNewPicture()
     {
         var options = new DialogOptions
@@ -343,12 +475,10 @@
 
         if (result is { Canceled: false, Data: IBrowserFile file })
         {
-            // Generate a unique file name and resolve the upload path
             var extension = Path.GetExtension(file.Name);
             var fileName = $"{Guid.NewGuid()}{extension}";
             var filePath = Path.Combine(CorkboardService.GetUploadsPath(), fileName);
 
-            // Close streams before adding to service to avoid file lock issues
             await using (var stream = file.OpenReadStream(10 * 1024 * 1024))
             {
                 await using (var fileStream = File.Create(filePath))
@@ -364,33 +494,30 @@
                 PositionY = GetNextPositionY(_notes.Count + _pictures.Count)
             };
 
-            await CorkboardService.AddPictureAsync(picture);
+            await CorkboardService.AddPictureAsync(_selectedTabId, picture);
+            RefreshActiveTabContent();
             StateHasChanged();
         }
     }
 
-    /// <summary>Deletes a pinned picture by its ID and refreshes the UI.</summary>
     private async Task DeletePicture(Guid pictureId)
     {
         await CorkboardService.DeletePictureAsync(pictureId);
+        RefreshActiveTabContent();
         StateHasChanged();
     }
 
-    /// <summary>Persists a picture's new position after it has been dragged on the corkboard.</summary>
     private async Task OnPictureMoved((Guid Id, double X, double Y) position)
     {
         await CorkboardService.UpdatePicturePositionAsync(position.Id, position.X, position.Y);
     }
 
-    /// <summary>
-    /// Organizes all items on the corkboard in rows and columns.
-    /// Notes are sorted alphabetically by title, pictures are placed at the end.
-    /// Items flow left to right, then top to bottom.
-    /// </summary>
+    // ===== Organize =====
+
     private async Task OrganizeBoard()
     {
         const double startX = 20;
-        const double startY = 70;
+        const double startY = 14;
         const double gap = 20;
         const double baseNoteWidth = 325;
         const double baseNoteHeight = 324;
@@ -398,7 +525,6 @@
         const double pictureHeight = 220;
         const double maxRowWidth = 1700;
 
-        // Build a unified list: notes sorted alphabetically, then pictures
         var items = new List<(Guid Id, double Width, double Height, bool IsNote)>();
 
         foreach (var note in _notes.OrderBy(n => n.Title, StringComparer.OrdinalIgnoreCase))
@@ -410,14 +536,12 @@
             items.Add((pic.Id, pictureWidth, pictureHeight, false));
         }
 
-        // Lay out items left to right, wrapping to new rows
         double curX = startX;
         double curY = startY;
         double rowHeight = 0;
 
         foreach (var item in items)
         {
-            // Wrap to next row if this item would exceed the max row width
             if (curX + item.Width > maxRowWidth && curX > startX)
             {
                 curX = startX;
@@ -447,33 +571,31 @@
         StateHasChanged();
     }
 
-    /// <summary>Calculates the X position for a corkboard item in a 5-column staggered grid layout.</summary>
+    // ===== Position helpers =====
+
     private double GetNextPositionX(int index)
     {
         int col = index % 5;
         int row = index / 5;
-        // Offset every other row slightly for a staggered look
         return 20 + col * 345 + (row % 2) * 20;
     }
 
-    /// <summary>Calculates the Y position for a corkboard item based on its row in the grid.</summary>
     private double GetNextPositionY(int index)
     {
         int row = index / 5;
-        return 70 + row * 345;
+        return 14 + row * 345;
     }
 
-    /// <summary>
-    /// Timer callback that checks all notes for active reminders.
-    /// If a note is within its reminder window and hasn't been dismissed, shows a notification.
-    /// </summary>
+    // ===== Reminders =====
+
     private void CheckReminders(object? state)
     {
         if (_activeReminder != null) return;
 
         var now = DateTime.Now;
+        var allNotes = CorkboardService.GetAllNotes();
 
-        foreach (var note in _notes)
+        foreach (var note in allNotes)
         {
             if (!note.DueDate.HasValue || !note.ReminderMinutesBefore.HasValue)
                 continue;
@@ -491,11 +613,9 @@
             }
         }
 
-        // Also trigger re-render to update due date colors as time passes
         InvokeAsync(StateHasChanged);
     }
 
-    /// <summary>Dismisses the active reminder notification and persists the dismissed state.</summary>
     private async Task DismissReminder()
     {
         if (_activeReminder == null) return;
@@ -507,13 +627,10 @@
         StateHasChanged();
     }
 
-    /// <summary>
-    /// Handles double-click on the corkboard to create a new note at the click position.
-    /// Ignores clicks on existing sticky notes, pictures, or the toolbar.
-    /// </summary>
+    // ===== Quick-add (double-click, keyboard, drag-drop) =====
+
     private async Task OnCorkboardDoubleClick(MouseEventArgs e)
     {
-        // Get corkboard-relative position via JS (returns null if clicking on an existing item)
         var pos = await JS.InvokeAsync<ClickPosition?>(
             "corkboardInterop.getCorkboardClickPosition", e.ClientX, e.ClientY);
 
@@ -523,7 +640,6 @@
         await AddNewNote();
     }
 
-    /// <summary>Called from JS when the user presses Ctrl+N / Cmd+N.</summary>
     [JSInvokable]
     public async Task OnKeyboardNewNote()
     {
@@ -531,10 +647,6 @@
         await AddNewNote();
     }
 
-    /// <summary>
-    /// Called from JS when an image file is dropped onto the corkboard.
-    /// Decodes the base64 data, saves it to the uploads folder, and pins it at the drop position.
-    /// </summary>
     [JSInvokable]
     public async Task OnImageDropped(string base64Data, string extension, double x, double y)
     {
@@ -548,21 +660,22 @@
         {
             FileName = fileName,
             PositionX = x,
-            PositionY = Math.Max(60, y)
+            PositionY = Math.Max(14, y)
         };
 
-        await CorkboardService.AddPictureAsync(picture);
+        await CorkboardService.AddPictureAsync(_selectedTabId, picture);
+        RefreshActiveTabContent();
         await InvokeAsync(StateHasChanged);
     }
 
-    /// <summary>Helper class for deserializing corkboard click positions from JS.</summary>
     private class ClickPosition
     {
         public double X { get; set; }
         public double Y { get; set; }
     }
 
-    /// <summary>Disposes the reminder timer and unregisters JS event listeners.</summary>
+    // ===== Dispose =====
+
     public async void Dispose()
     {
         _reminderTimer?.Dispose();

@@ -66,9 +66,9 @@ window.corkboardInterop = {
         let newX = e.clientX + scrollLeft - drag.offsetX - (scrollContainer ? scrollContainer.getBoundingClientRect().left : 0);
         let newY = e.clientY + scrollTop - drag.offsetY - (scrollContainer ? scrollContainer.getBoundingClientRect().top : 0);
 
-        // Clamp to prevent dragging above the title bar (logo + buttons) or off the left edge
+        // Clamp to prevent dragging off the top or left edge
         newX = Math.max(0, newX);
-        newY = Math.max(60, newY);
+        newY = Math.max(0, newY);
 
         drag.element.style.left = newX + 'px';
         drag.element.style.top = newY + 'px';

@@ -4,7 +4,7 @@ using NoteBuddy.Models;
 namespace NoteBuddy.Services;
 
 /// <summary>
-/// Singleton service that manages corkboard state (sticky notes and pinned pictures)
+/// Singleton service that manages corkboard state (tabs, sticky notes, and pinned pictures)
 /// with JSON file persistence and thread-safe access.
 /// </summary>
 public class CorkboardService
@@ -26,7 +26,6 @@ public class CorkboardService
 
     /// <summary>
     /// Initializes the corkboard service, ensuring data and upload directories exist, then loads persisted data.
-    /// Data is stored in %APPDATA%\NoteBuddy\ so it survives upgrades and works with standard user permissions.
     /// </summary>
     public CorkboardService()
     {
@@ -43,191 +42,367 @@ public class CorkboardService
         LoadData();
     }
 
-    /// <summary>Gets the entire corkboard data including all notes and pictures.</summary>
-    public CorkboardData GetData() => _data;
+    // ===== Tab Methods =====
 
-    /// <summary>Gets the list of all sticky notes on the corkboard.</summary>
-    public List<StickyNote> GetNotes() => _data.Notes;
+    /// <summary>Gets all tabs ordered by SortOrder.</summary>
+    public List<Tab> GetTabs() => _data.Tabs.OrderBy(t => t.SortOrder).ToList();
 
-    /// <summary>Gets the list of all pinned pictures on the corkboard.</summary>
-    public List<PinnedPicture> GetPictures() => _data.Pictures;
+    /// <summary>Gets a specific tab by its ID.</summary>
+    public Tab? GetTab(Guid tabId) => _data.Tabs.FirstOrDefault(t => t.Id == tabId);
 
-    /// <summary>Adds a new sticky note to the corkboard and persists the change.</summary>
-    /// <param name="note">The sticky note to add.</param>
-    public async Task AddNoteAsync(StickyNote note)
+    /// <summary>Adds a new tab and persists the change.</summary>
+    public async Task AddTabAsync(Tab tab)
     {
         await _lock.WaitAsync();
         try
         {
-            _data.Notes.Add(note);
+            if (!_data.Tabs.Any())
+                tab.SortOrder = 0;
+            else
+                tab.SortOrder = _data.Tabs.Max(t => t.SortOrder) + 1;
+
+            _data.Tabs.Add(tab);
             await SaveDataAsync();
         }
-        finally
-        {
-            _lock.Release();
-        }
+        finally { _lock.Release(); }
     }
 
-    /// <summary>Replaces an existing sticky note with updated data and persists the change.</summary>
-    /// <param name="updatedNote">The note containing updated values; matched by <see cref="StickyNote.Id"/>.</param>
+    /// <summary>Updates a tab's properties (title, color) and persists the change.</summary>
+    public async Task UpdateTabAsync(Tab updatedTab)
+    {
+        await _lock.WaitAsync();
+        try
+        {
+            var index = _data.Tabs.FindIndex(t => t.Id == updatedTab.Id);
+            if (index >= 0)
+            {
+                _data.Tabs[index] = updatedTab;
+                await SaveDataAsync();
+            }
+        }
+        finally { _lock.Release(); }
+    }
+
+    /// <summary>Deletes a tab and all its notes and pictures (including uploaded files).</summary>
+    public async Task DeleteTabAsync(Guid tabId)
+    {
+        await _lock.WaitAsync();
+        try
+        {
+            var tab = _data.Tabs.FirstOrDefault(t => t.Id == tabId);
+            if (tab != null)
+            {
+                // Delete uploaded picture files
+                foreach (var pic in tab.Pictures)
+                {
+                    var filePath = Path.Combine(_uploadsPath, pic.FileName);
+                    if (File.Exists(filePath)) File.Delete(filePath);
+                }
+                _data.Tabs.Remove(tab);
+                await SaveDataAsync();
+            }
+        }
+        finally { _lock.Release(); }
+    }
+
+    /// <summary>Reorders tabs by updating their SortOrder values and persists the change.</summary>
+    public async Task ReorderTabsAsync(List<Guid> tabIdsInOrder)
+    {
+        await _lock.WaitAsync();
+        try
+        {
+            for (int i = 0; i < tabIdsInOrder.Count; i++)
+            {
+                var tab = _data.Tabs.FirstOrDefault(t => t.Id == tabIdsInOrder[i]);
+                if (tab != null) tab.SortOrder = i;
+            }
+            await SaveDataAsync();
+        }
+        finally { _lock.Release(); }
+    }
+
+    // ===== Note Methods (tab-aware) =====
+
+    /// <summary>Gets the notes for a specific tab.</summary>
+    public List<StickyNote> GetNotes(Guid tabId) =>
+        _data.Tabs.FirstOrDefault(t => t.Id == tabId)?.Notes ?? new();
+
+    /// <summary>Gets all notes across all tabs (for reminders).</summary>
+    public List<StickyNote> GetAllNotes() =>
+        _data.Tabs.SelectMany(t => t.Notes).ToList();
+
+    /// <summary>Adds a note to a specific tab.</summary>
+    public async Task AddNoteAsync(Guid tabId, StickyNote note)
+    {
+        await _lock.WaitAsync();
+        try
+        {
+            var tab = _data.Tabs.FirstOrDefault(t => t.Id == tabId);
+            tab?.Notes.Add(note);
+            await SaveDataAsync();
+        }
+        finally { _lock.Release(); }
+    }
+
+    /// <summary>Updates a note (searches across all tabs).</summary>
     public async Task UpdateNoteAsync(StickyNote updatedNote)
     {
         await _lock.WaitAsync();
         try
         {
-            var index = _data.Notes.FindIndex(n => n.Id == updatedNote.Id);
-            if (index >= 0)
+            foreach (var tab in _data.Tabs)
             {
-                _data.Notes[index] = updatedNote;
-                await SaveDataAsync();
+                var index = tab.Notes.FindIndex(n => n.Id == updatedNote.Id);
+                if (index >= 0)
+                {
+                    tab.Notes[index] = updatedNote;
+                    await SaveDataAsync();
+                    return;
+                }
             }
         }
-        finally
-        {
-            _lock.Release();
-        }
+        finally { _lock.Release(); }
     }
 
-    /// <summary>Removes a sticky note from the corkboard and persists the change.</summary>
-    /// <param name="noteId">The unique identifier of the note to delete.</param>
+    /// <summary>Deletes a note (searches across all tabs).</summary>
     public async Task DeleteNoteAsync(Guid noteId)
     {
         await _lock.WaitAsync();
         try
         {
-            _data.Notes.RemoveAll(n => n.Id == noteId);
-            await SaveDataAsync();
+            foreach (var tab in _data.Tabs)
+            {
+                if (tab.Notes.RemoveAll(n => n.Id == noteId) > 0)
+                {
+                    await SaveDataAsync();
+                    return;
+                }
+            }
         }
-        finally
-        {
-            _lock.Release();
-        }
+        finally { _lock.Release(); }
     }
 
-    /// <summary>Updates the position of a sticky note on the corkboard and persists the change.</summary>
-    /// <param name="noteId">The unique identifier of the note to reposition.</param>
-    /// <param name="x">The new horizontal position.</param>
-    /// <param name="y">The new vertical position.</param>
+    /// <summary>Updates a note's position (searches across all tabs).</summary>
     public async Task UpdateNotePositionAsync(Guid noteId, double x, double y)
     {
         await _lock.WaitAsync();
         try
         {
-            var note = _data.Notes.FirstOrDefault(n => n.Id == noteId);
-            if (note != null)
+            foreach (var tab in _data.Tabs)
             {
-                note.PositionX = x;
-                note.PositionY = y;
-                await SaveDataAsync();
+                var note = tab.Notes.FirstOrDefault(n => n.Id == noteId);
+                if (note != null)
+                {
+                    note.PositionX = x;
+                    note.PositionY = y;
+                    await SaveDataAsync();
+                    return;
+                }
             }
         }
-        finally
-        {
-            _lock.Release();
-        }
+        finally { _lock.Release(); }
     }
 
-    /// <summary>Adds a new pinned picture to the corkboard and persists the change.</summary>
-    /// <param name="picture">The pinned picture to add.</param>
-    public async Task AddPictureAsync(PinnedPicture picture)
+    /// <summary>Moves a note from its current tab to the target tab.</summary>
+    public async Task MoveNoteToTabAsync(Guid noteId, Guid targetTabId)
     {
         await _lock.WaitAsync();
         try
         {
-            _data.Pictures.Add(picture);
-            await SaveDataAsync();
+            StickyNote? note = null;
+            foreach (var tab in _data.Tabs)
+            {
+                note = tab.Notes.FirstOrDefault(n => n.Id == noteId);
+                if (note != null)
+                {
+                    tab.Notes.Remove(note);
+                    break;
+                }
+            }
+            if (note != null)
+            {
+                var targetTab = _data.Tabs.FirstOrDefault(t => t.Id == targetTabId);
+                if (targetTab != null)
+                {
+                    // Assign a fresh position in the target tab
+                    var count = targetTab.Notes.Count + targetTab.Pictures.Count;
+                    note.PositionX = 20 + (count % 5) * 345;
+                    note.PositionY = 14 + (count / 5) * 345;
+                    targetTab.Notes.Add(note);
+                }
+                await SaveDataAsync();
+            }
         }
-        finally
-        {
-            _lock.Release();
-        }
+        finally { _lock.Release(); }
     }
 
-    /// <summary>Deletes a pinned picture from the corkboard, removes its uploaded file from disk, and persists the change.</summary>
-    /// <param name="pictureId">The unique identifier of the picture to delete.</param>
+    // ===== Picture Methods (tab-aware) =====
+
+    /// <summary>Gets the pictures for a specific tab.</summary>
+    public List<PinnedPicture> GetPictures(Guid tabId) =>
+        _data.Tabs.FirstOrDefault(t => t.Id == tabId)?.Pictures ?? new();
+
+    /// <summary>Adds a picture to a specific tab.</summary>
+    public async Task AddPictureAsync(Guid tabId, PinnedPicture picture)
+    {
+        await _lock.WaitAsync();
+        try
+        {
+            var tab = _data.Tabs.FirstOrDefault(t => t.Id == tabId);
+            tab?.Pictures.Add(picture);
+            await SaveDataAsync();
+        }
+        finally { _lock.Release(); }
+    }
+
+    /// <summary>Deletes a picture (searches across all tabs) and removes its file.</summary>
     public async Task DeletePictureAsync(Guid pictureId)
     {
         await _lock.WaitAsync();
         try
         {
-            var picture = _data.Pictures.FirstOrDefault(p => p.Id == pictureId);
-            if (picture != null)
+            foreach (var tab in _data.Tabs)
             {
-                // Delete the uploaded file
-                var filePath = Path.Combine(_uploadsPath, picture.FileName);
-                if (File.Exists(filePath))
+                var picture = tab.Pictures.FirstOrDefault(p => p.Id == pictureId);
+                if (picture != null)
                 {
-                    File.Delete(filePath);
+                    var filePath = Path.Combine(_uploadsPath, picture.FileName);
+                    if (File.Exists(filePath)) File.Delete(filePath);
+                    tab.Pictures.Remove(picture);
+                    await SaveDataAsync();
+                    return;
                 }
-                _data.Pictures.RemoveAll(p => p.Id == pictureId);
-                await SaveDataAsync();
             }
         }
-        finally
-        {
-            _lock.Release();
-        }
+        finally { _lock.Release(); }
     }
 
-    /// <summary>Updates the position of a pinned picture on the corkboard and persists the change.</summary>
-    /// <param name="pictureId">The unique identifier of the picture to reposition.</param>
-    /// <param name="x">The new horizontal position.</param>
-    /// <param name="y">The new vertical position.</param>
+    /// <summary>Updates a picture's position (searches across all tabs).</summary>
     public async Task UpdatePicturePositionAsync(Guid pictureId, double x, double y)
     {
         await _lock.WaitAsync();
         try
         {
-            var picture = _data.Pictures.FirstOrDefault(p => p.Id == pictureId);
-            if (picture != null)
+            foreach (var tab in _data.Tabs)
             {
-                picture.PositionX = x;
-                picture.PositionY = y;
-                await SaveDataAsync();
+                var pic = tab.Pictures.FirstOrDefault(p => p.Id == pictureId);
+                if (pic != null)
+                {
+                    pic.PositionX = x;
+                    pic.PositionY = y;
+                    await SaveDataAsync();
+                    return;
+                }
             }
         }
-        finally
-        {
-            _lock.Release();
-        }
+        finally { _lock.Release(); }
     }
 
-    /// <summary>Updates a pinned picture's properties (e.g., ZIndex) and persists the change.</summary>
-    /// <param name="updatedPicture">The picture with updated property values.</param>
+    /// <summary>Updates a picture's properties (searches across all tabs).</summary>
     public async Task UpdatePictureAsync(PinnedPicture updatedPicture)
     {
         await _lock.WaitAsync();
         try
         {
-            var index = _data.Pictures.FindIndex(p => p.Id == updatedPicture.Id);
-            if (index >= 0)
+            foreach (var tab in _data.Tabs)
             {
-                _data.Pictures[index] = updatedPicture;
+                var index = tab.Pictures.FindIndex(p => p.Id == updatedPicture.Id);
+                if (index >= 0)
+                {
+                    tab.Pictures[index] = updatedPicture;
+                    await SaveDataAsync();
+                    return;
+                }
+            }
+        }
+        finally { _lock.Release(); }
+    }
+
+    /// <summary>Moves a picture from its current tab to the target tab.</summary>
+    public async Task MovePictureToTabAsync(Guid pictureId, Guid targetTabId)
+    {
+        await _lock.WaitAsync();
+        try
+        {
+            PinnedPicture? pic = null;
+            foreach (var tab in _data.Tabs)
+            {
+                pic = tab.Pictures.FirstOrDefault(p => p.Id == pictureId);
+                if (pic != null)
+                {
+                    tab.Pictures.Remove(pic);
+                    break;
+                }
+            }
+            if (pic != null)
+            {
+                var targetTab = _data.Tabs.FirstOrDefault(t => t.Id == targetTabId);
+                if (targetTab != null)
+                {
+                    var count = targetTab.Notes.Count + targetTab.Pictures.Count;
+                    pic.PositionX = 20 + (count % 5) * 345;
+                    pic.PositionY = 14 + (count / 5) * 345;
+                    targetTab.Pictures.Add(pic);
+                }
                 await SaveDataAsync();
             }
         }
-        finally
-        {
-            _lock.Release();
-        }
+        finally { _lock.Release(); }
     }
 
     /// <summary>Gets the absolute file-system path to the uploads directory.</summary>
     public string GetUploadsPath() => _uploadsPath;
 
-    /// <summary>Loads corkboard data from the JSON file on disk, or initializes empty data if the file does not exist.</summary>
+    /// <summary>
+    /// Loads corkboard data from the JSON file. If the file uses the legacy format
+    /// (flat Notes/Pictures at root), migrates content into a default "My Board" tab.
+    /// </summary>
     private void LoadData()
     {
         if (File.Exists(_dataFilePath))
         {
             var json = File.ReadAllText(_dataFilePath);
             _data = JsonSerializer.Deserialize<CorkboardData>(json, JsonOptions) ?? new CorkboardData();
+
+            // Migrate legacy format: flat Notes/Pictures → default tab
+            if (_data.Tabs.Count == 0 && (_data.Notes?.Count > 0 || _data.Pictures?.Count > 0))
+            {
+                var defaultTab = new Tab
+                {
+                    Title = "My Board",
+                    Color = "yellow",
+                    SortOrder = 0,
+                    Notes = _data.Notes ?? new(),
+                    Pictures = _data.Pictures ?? new()
+                };
+                _data.Tabs.Add(defaultTab);
+                _data.Notes = null;
+                _data.Pictures = null;
+
+                // Persist migration immediately
+                var migrated = JsonSerializer.Serialize(_data, JsonOptions);
+                File.WriteAllText(_dataFilePath, migrated);
+            }
+        }
+
+        // Ensure at least one tab exists
+        if (_data.Tabs.Count == 0)
+        {
+            _data.Tabs.Add(new Tab
+            {
+                Title = "My Board",
+                Color = "yellow",
+                SortOrder = 0
+            });
         }
     }
 
     /// <summary>Serializes the current corkboard data to the JSON file on disk.</summary>
     private async Task SaveDataAsync()
     {
+        // Clear legacy fields before saving
+        _data.Notes = null;
+        _data.Pictures = null;
         var json = JsonSerializer.Serialize(_data, JsonOptions);
         await File.WriteAllTextAsync(_dataFilePath, json);
     }
