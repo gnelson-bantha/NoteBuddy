@@ -10,12 +10,12 @@
     Build configuration (Debug or Release). Defaults to Release.
 
 .PARAMETER OutputDir
-    Directory for the final MSI output. Defaults to ./release.
+    Directory for the final MSI output. Defaults to ./releases.
 #>
 param(
     [ValidateSet("Debug", "Release")]
     [string]$Configuration = "Release",
-    [string]$OutputDir = (Join-Path $PSScriptRoot "release")
+    [string]$OutputDir = (Join-Path $PSScriptRoot "releases")
 )
 
 $ErrorActionPreference = "Stop"
