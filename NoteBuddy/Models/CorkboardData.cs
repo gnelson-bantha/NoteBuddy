@@ -18,6 +18,11 @@ public class CorkboardData
     public string Theme { get; set; } = "corkboard";
 
     /// <summary>
+    /// Gets or sets the AI configuration for Azure OpenAI integration.
+    /// </summary>
+    public AiSettings AiSettings { get; set; } = new();
+
+    /// <summary>
     /// Legacy: flat list of sticky notes from pre-tabs format. Used only for migration.
     /// </summary>
     public List<StickyNote>? Notes { get; set; }

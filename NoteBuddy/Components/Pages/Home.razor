@@ -5,6 +5,7 @@
 @inject IDialogService DialogService
 @inject IWebHostEnvironment Environment
 @inject IJSRuntime JS
+@inject AiService AiService
 @implements IDisposable
 
 <PageTitle>NoteBuddy - Virtual Corkboard</PageTitle>
@@ -248,6 +249,12 @@
             _selectedTabId = _tabs.First().Id;
             RefreshActiveTabContent();
         }
+
+        // Configure AI service from persisted settings
+        var aiSettings = CorkboardService.GetAiSettings();
+        if (aiSettings.IsConfigured)
+            AiService.Configure(aiSettings);
+
         _reminderTimer = new Timer(CheckReminders, null, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(30));
     }
 
@@ -326,16 +333,19 @@
     {
         var parameters = new DialogParameters<SettingsDialog>
         {
-            { x => x.CurrentTheme, _theme }
+            { x => x.CurrentTheme, _theme },
+            { x => x.CurrentAiSettings, CorkboardService.GetAiSettings() }
         };
         var options = new DialogOptions { MaxWidth = MaxWidth.Small, FullWidth = true, CloseOnEscapeKey = true };
         var dialog = await DialogService.ShowAsync<SettingsDialog>("Settings", parameters, options);
         var result = await dialog.Result;
 
-        if (result is { Canceled: false, Data: string theme })
+        if (result is { Canceled: false, Data: SettingsDialog.SettingsResult settings })
         {
-            _theme = theme;
-            await CorkboardService.SetThemeAsync(theme);
+            _theme = settings.Theme;
+            await CorkboardService.SetThemeAsync(settings.Theme);
+            await CorkboardService.SetAiSettingsAsync(settings.AiSettings);
+            AiService.Configure(settings.AiSettings);
             StateHasChanged();
         }
     }

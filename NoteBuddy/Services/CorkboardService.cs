@@ -370,8 +370,25 @@ public class CorkboardService
         finally { _lock.Release(); }
     }
 
+    // ===== AI Settings Methods =====
+
+    /// <summary>Gets the current AI settings.</summary>
+    public AiSettings GetAiSettings() => _data.AiSettings;
+
+    /// <summary>Updates AI settings and persists the change.</summary>
+    public async Task SetAiSettingsAsync(AiSettings settings)
+    {
+        await _lock.WaitAsync();
+        try
+        {
+            _data.AiSettings = settings;
+            await SaveDataAsync();
+        }
+        finally { _lock.Release(); }
+    }
+
     /// <summary>
-    /// Loads corkboard data from the JSON file. If the file uses the legacy format
+    /// Loads corkboard data from the JSON file.If the file uses the legacy format
     /// (flat Notes/Pictures at root), migrates content into a default "My Board" tab.
     /// </summary>
     private void LoadData()

@@ -1,3 +1,7 @@
+@using NoteBuddy.Models
+@using NoteBuddy.Services
+@inject AiService AiService
+
 <MudDialog>
     <TitleContent>
         <MudText Typo="Typo.h6">Settings</MudText>
@@ -16,6 +20,38 @@
                 </div>
             }
         </div>
+
+        <MudDivider Class="my-4" />
+
+        <MudText Typo="Typo.subtitle2" Class="mb-2">AI Configuration (Azure OpenAI - Assumes logged in on local machine with Azure CLI.):</MudText>
+        <MudTextField @bind-Value="AiEndpoint"
+                      Label="Endpoint URL"
+                      Placeholder="https://your-resource.openai.azure.com/"
+                      Variant="Variant.Outlined"
+                      FullWidth="true"
+                      Class="mb-2" />
+        <MudTextField @bind-Value="AiDeploymentName"
+                      Label="Deployment Name"
+                      Placeholder="gpt-4o"
+                      Variant="Variant.Outlined"
+                      FullWidth="true"
+                      Class="mb-2" />
+
+        <div class="d-flex align-center gap-2 mt-1">
+            <MudButton Variant="Variant.Outlined"
+                       Color="Color.Info"
+                       StartIcon="@Icons.Material.Filled.Wifi"
+                       OnClick="TestConnection"
+                       Disabled="_isTesting">
+                @(_isTesting ? "Testing..." : "Test Connection")
+            </MudButton>
+            @if (_testResult != null)
+            {
+                <MudText Typo="Typo.body2" Color="@(_testSuccess ? Color.Success : Color.Error)">
+                    @_testResult
+                </MudText>
+            }
+        </div>
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="Cancel">Cancel</MudButton>
@@ -26,10 +62,16 @@
 @code {
     [CascadingParameter] private IMudDialogInstance MudDialog { get; set; } = default!;
 
-    /// <summary>The currently active theme when the dialog opens.</summary>
     [Parameter] public string CurrentTheme { get; set; } = "corkboard";
+    [Parameter] public AiSettings? CurrentAiSettings { get; set; }
 
     private string SelectedTheme { get; set; } = "corkboard";
+    private string? AiEndpoint { get; set; }
+    private string? AiDeploymentName { get; set; }
+
+    private bool _isTesting;
+    private bool _testSuccess;
+    private string? _testResult;
 
     private static readonly Dictionary<string, (string Name, string Image)> Themes = new()
     {
@@ -44,8 +86,78 @@
     protected override void OnInitialized()
     {
         SelectedTheme = CurrentTheme;
+        AiEndpoint = CurrentAiSettings?.Endpoint;
+        AiDeploymentName = CurrentAiSettings?.DeploymentName;
     }
 
-    private void Save() => MudDialog.Close(DialogResult.Ok(SelectedTheme));
+    private async Task TestConnection()
+    {
+        _isTesting = true;
+        _testResult = null;
+        StateHasChanged();
+
+        try
+        {
+            // Temporarily configure the service with the current dialog values to test
+            var testSettings = new AiSettings
+            {
+                Endpoint = AiEndpoint?.Trim(),
+                DeploymentName = AiDeploymentName?.Trim()
+            };
+
+            if (!testSettings.IsConfigured)
+            {
+                _testResult = "Please fill in both endpoint and deployment name.";
+                _testSuccess = false;
+                return;
+            }
+
+            AiService.Configure(testSettings);
+            var error = await AiService.TestConnectionAsync();
+
+            if (error == null)
+            {
+                _testResult = "✓ Connection successful!";
+                _testSuccess = true;
+            }
+            else
+            {
+                _testResult = $"✗ {error}";
+                _testSuccess = false;
+            }
+        }
+        catch (Exception ex)
+        {
+            _testResult = $"✗ {ex.Message}";
+            _testSuccess = false;
+        }
+        finally
+        {
+            _isTesting = false;
+            StateHasChanged();
+        }
+    }
+
+    private void Save()
+    {
+        var result = new SettingsResult
+        {
+            Theme = SelectedTheme,
+            AiSettings = new AiSettings
+            {
+                Endpoint = AiEndpoint?.Trim(),
+                DeploymentName = AiDeploymentName?.Trim()
+            }
+        };
+        MudDialog.Close(DialogResult.Ok(result));
+    }
+
     private void Cancel() => MudDialog.Cancel();
+
+    /// <summary>Holds both theme and AI settings returned from the dialog.</summary>
+    public class SettingsResult
+    {
+        public string Theme { get; set; } = "corkboard";
+        public AiSettings AiSettings { get; set; } = new();
+    }
 }

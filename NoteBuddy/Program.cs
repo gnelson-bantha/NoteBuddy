@@ -19,6 +19,9 @@ builder.Services.AddMudServices();
 // Register the corkboard data service as a singleton for shared state across circuits
 builder.Services.AddSingleton<CorkboardService>();
 
+// Register the AI service as a singleton; configured at runtime from user settings
+builder.Services.AddSingleton<AiService>();
+
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
