@@ -1,16 +1,36 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net10.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
-    <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-    <ApplicationIcon>Resources\tray-icon.ico</ApplicationIcon>
   </PropertyGroup>
 
-  <ItemGroup>
+  <!-- Windows -->
+  <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('Windows'))">
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <OutputType>WinExe</OutputType>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ApplicationIcon>Resources\tray-icon.ico</ApplicationIcon>
+    <DefineConstants>$(DefineConstants);PLATFORM_WINDOWS</DefineConstants>
+  </PropertyGroup>
+
+  <!-- macOS -->
+  <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('OSX'))">
+    <TargetFramework>net10.0-macos</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <DefineConstants>$(DefineConstants);PLATFORM_MAC</DefineConstants>
+  </PropertyGroup>
+
+  <!-- Windows: include only Windows platform code and resources -->
+  <ItemGroup Condition="$([MSBuild]::IsOSPlatform('Windows'))">
+    <Compile Remove="Platforms\Mac\**" />
     <EmbeddedResource Include="Resources\tray-icon.ico" />
+  </ItemGroup>
+
+  <!-- macOS: include only Mac platform code and resources -->
+  <ItemGroup Condition="$([MSBuild]::IsOSPlatform('OSX'))">
+    <Compile Remove="Platforms\Windows\**" />
+    <EmbeddedResource Include="Resources\tray-icon.png" />
   </ItemGroup>
 
 </Project>

@@ -2,16 +2,21 @@ namespace NoteBuddy.Tray;
 
 /// <summary>
 /// Entry point for the NoteBuddy system tray application.
+/// Uses conditional compilation to select the platform-specific tray implementation.
 /// </summary>
 static class Program
 {
-    /// <summary>
-    /// Application entry point. Initializes Windows Forms and runs the tray application context.
-    /// </summary>
     [STAThread]
     static void Main()
     {
+#if PLATFORM_WINDOWS
         ApplicationConfiguration.Initialize();
-        Application.Run(new TrayApplicationContext());
+        Application.Run(new Platforms.Windows.WindowsTrayApp());
+#elif PLATFORM_MAC
+        new Platforms.Mac.MacTrayApp().Run();
+#else
+        Console.Error.WriteLine("NoteBuddy.Tray is not supported on this platform.");
+        Environment.Exit(1);
+#endif
     }
 }

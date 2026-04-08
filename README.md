@@ -59,11 +59,16 @@ Access themes via the **Settings** button (⚙) in the header.
 - **MudBlazor 9.1.0** component library
 - **JavaScript** interop for drag-and-drop and keyboard shortcuts
 - **JSON** file persistence (no database required)
-- **WiX Toolset** MSI installer
+- **Cross-platform system tray** — WinForms (Windows) / AppKit NSStatusItem (macOS)
+- **WiX Toolset** MSI installer (Windows only)
 
 ## Prerequisites
 
 - [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0) or later
+- **macOS only:** Install the macOS workload for the tray app:
+  ```bash
+  dotnet workload install macos
+  ```
 
 ## Getting Started
 
