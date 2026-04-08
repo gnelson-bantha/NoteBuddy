@@ -1,147 +1,223 @@
 using System.Reflection;
-using AppKit;
-using CoreGraphics;
-using Foundation;
+using System.Runtime.InteropServices;
+using static NoteBuddy.Tray.Platforms.Mac.ObjCRuntime;
 
 namespace NoteBuddy.Tray.Platforms.Mac;
 
 /// <summary>
-/// macOS menu-bar application using AppKit NSStatusItem.
-/// Manages the status bar icon, menu, and NoteBuddy server lifecycle.
+/// macOS menu-bar application using AppKit NSStatusItem via Objective-C runtime P/Invoke.
+/// No Xcode or macOS workload required.
 /// </summary>
 public class MacTrayApp
 {
-    private NSStatusItem? _statusItem;
+    private IntPtr _statusItem;
+    private IntPtr _app;
     private readonly ServerManager _serverManager = new();
+
+    // Must prevent GC collection of callback delegates
+    private static ActionDelegate? _openCallback;
+    private static ActionDelegate? _quitCallback;
+    private static ServerManager? _staticServerManager;
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    private delegate void ActionDelegate(IntPtr self, IntPtr selector, IntPtr sender);
 
     /// <summary>
     /// Initializes the macOS application, creates the status bar item, starts the server, and runs the event loop.
     /// </summary>
     public void Run()
     {
-        NSApplication.Init();
-        var app = NSApplication.SharedApplication;
+        _staticServerManager = _serverManager;
 
-        // Run as an accessory app (menu bar only, no Dock icon)
-        app.ActivationPolicy = NSApplicationActivationPolicy.Accessory;
+        // Load AppKit framework so its classes are available to the ObjC runtime
+        NativeLibrary.Load("/System/Library/Frameworks/AppKit.framework/AppKit");
+
+        var nsAppClass = objc_getClass("NSApplication");
+        _app = Send(nsAppClass, sel_registerName("sharedApplication"));
+
+        // NSApplicationActivationPolicyAccessory = 1 (menu bar only, no Dock icon)
+        SendVoid(_app, sel_registerName("setActivationPolicy:"), 1);
 
         CreateStatusItem();
-
-        _serverManager.ServerExitedUnexpectedly += OnServerExitedUnexpectedly;
 
         if (!_serverManager.StartServer())
         {
             ShowAlert("Could not find the NoteBuddy server executable. Make sure it is in the same directory as this application.");
         }
 
-        app.Run();
+        // Run the application event loop (blocks)
+        SendVoid(_app, sel_registerName("run"));
     }
 
-    /// <summary>
-    /// Creates the status bar item with an icon and context menu.
-    /// </summary>
     private void CreateStatusItem()
     {
-        _statusItem = NSStatusBar.SystemStatusBar.CreateStatusItem(NSStatusItemLength.Variable);
+        var nsStatusBarClass = objc_getClass("NSStatusBar");
+        var systemStatusBar = Send(nsStatusBarClass, sel_registerName("systemStatusBar"));
+
+        // NSVariableStatusItemLength = -1.0
+        _statusItem = SendWithDouble(systemStatusBar, sel_registerName("statusItemWithLength:"), -1.0);
+
+        var button = Send(_statusItem, sel_registerName("button"));
 
         var icon = LoadIcon();
-        if (icon != null)
+        if (icon != IntPtr.Zero)
         {
-            _statusItem.Button.Image = icon;
+            SendVoid(button, sel_registerName("setImage:"), icon);
         }
         else
         {
-            _statusItem.Button.Title = "NB";
+            SendVoid(button, sel_registerName("setTitle:"), CreateNSString("NB"));
         }
 
-        _statusItem.Menu = CreateMenu();
+        SendVoid(_statusItem, sel_registerName("setMenu:"), CreateMenu());
     }
 
     /// <summary>
     /// Loads the menu bar icon from embedded resources. Uses template mode for automatic light/dark adaptation.
     /// </summary>
-    private static NSImage? LoadIcon()
+    private static IntPtr LoadIcon()
     {
         var assembly = Assembly.GetExecutingAssembly();
         var stream = assembly.GetManifestResourceStream("NoteBuddy.Tray.Resources.tray-icon.png");
         if (stream == null)
-            return null;
+            return IntPtr.Zero;
 
-        using var memoryStream = new MemoryStream();
-        stream.CopyTo(memoryStream);
-        var data = NSData.FromArray(memoryStream.ToArray());
-        var image = new NSImage(data);
+        using var ms = new MemoryStream();
+        stream.CopyTo(ms);
+        var bytes = ms.ToArray();
 
-        // 18pt is the standard macOS menu bar icon size; the 36px PNG provides @2x Retina resolution
-        image.Size = new CGSize(18, 18);
-        image.Template = true;
-        return image;
+        var handle = GCHandle.Alloc(bytes, GCHandleType.Pinned);
+        try
+        {
+            var nsDataClass = objc_getClass("NSData");
+            var data = Send(nsDataClass, sel_registerName("dataWithBytes:length:"),
+                handle.AddrOfPinnedObject(), new IntPtr(bytes.Length));
+
+            var nsImageClass = objc_getClass("NSImage");
+            var imgAlloc = Send(nsImageClass, sel_registerName("alloc"));
+            var image = Send(imgAlloc, sel_registerName("initWithData:"), data);
+
+            if (image == IntPtr.Zero)
+                return IntPtr.Zero;
+
+            // 18pt is the standard macOS menu bar icon size; the 36px PNG provides @2x Retina
+            SendVoidWithSize(image, sel_registerName("setSize:"), new NativeSize(18, 18));
+
+            // Template mode: auto-adapts to light/dark menu bar
+            SendVoid(image, sel_registerName("setTemplate:"), 1);
+
+            return image;
+        }
+        finally
+        {
+            handle.Free();
+        }
     }
 
-    /// <summary>
-    /// Creates the dropdown menu for the status bar item.
-    /// </summary>
-    private NSMenu CreateMenu()
+    private IntPtr CreateMenu()
     {
-        var menu = new NSMenu();
+        var nsMenuClass = objc_getClass("NSMenu");
+        var menu = Send(Send(nsMenuClass, sel_registerName("alloc")), sel_registerName("init"));
 
-        var openItem = new NSMenuItem("Open NoteBuddy", OpenClicked);
-        var attrs = new NSStringAttributes { Font = NSFont.BoldSystemFontOfSize(0) };
-        openItem.AttributedTitle = new NSAttributedString("Open NoteBuddy", attrs);
-        menu.AddItem(openItem);
+        var delegateClass = RegisterDelegateClass();
+        var delegateInstance = Send(
+            Send(delegateClass, sel_registerName("alloc")),
+            sel_registerName("init"));
 
-        menu.AddItem(NSMenuItem.SeparatorItem);
+        var nsMenuItemClass = objc_getClass("NSMenuItem");
+        var emptyStr = CreateNSString("");
 
-        var quitItem = new NSMenuItem("Quit", QuitClicked);
-        quitItem.KeyEquivalent = "q";
-        menu.AddItem(quitItem);
+        // "Open NoteBuddy" item
+        var openItem = Send(
+            Send(nsMenuItemClass, sel_registerName("alloc")),
+            sel_registerName("initWithTitle:action:keyEquivalent:"),
+            CreateNSString("Open NoteBuddy"), sel_registerName("openApp:"), emptyStr);
+        SendVoid(openItem, sel_registerName("setTarget:"), delegateInstance);
+
+        // Bold the "Open" item via NSAttributedString
+        var boldFont = SendWithDouble(objc_getClass("NSFont"), sel_registerName("boldSystemFontOfSize:"), 0.0);
+        var fontAttrKey = CreateNSString("NSFont");
+        var attrs = Send(objc_getClass("NSDictionary"),
+            sel_registerName("dictionaryWithObject:forKey:"), boldFont, fontAttrKey);
+        var attrTitle = Send(
+            Send(objc_getClass("NSAttributedString"), sel_registerName("alloc")),
+            sel_registerName("initWithString:attributes:"), CreateNSString("Open NoteBuddy"), attrs);
+        SendVoid(openItem, sel_registerName("setAttributedTitle:"), attrTitle);
+
+        SendVoid(menu, sel_registerName("addItem:"), openItem);
+
+        // Separator
+        SendVoid(menu, sel_registerName("addItem:"),
+            Send(nsMenuItemClass, sel_registerName("separatorItem")));
+
+        // "Quit" item
+        var quitItem = Send(
+            Send(nsMenuItemClass, sel_registerName("alloc")),
+            sel_registerName("initWithTitle:action:keyEquivalent:"),
+            CreateNSString("Quit"), sel_registerName("quitApp:"), CreateNSString("q"));
+        SendVoid(quitItem, sel_registerName("setTarget:"), delegateInstance);
+        SendVoid(menu, sel_registerName("addItem:"), quitItem);
 
         return menu;
     }
 
-    private void OpenClicked(object? sender, EventArgs e)
+    private static IntPtr RegisterDelegateClass()
+    {
+        // Check if already registered (safe for repeated calls)
+        var existing = objc_getClass("NoteBuddyMenuDelegate");
+        if (existing != IntPtr.Zero)
+            return existing;
+
+        var nsObjectClass = objc_getClass("NSObject");
+        var cls = objc_allocateClassPair(nsObjectClass, "NoteBuddyMenuDelegate", IntPtr.Zero);
+
+        // Pin delegates to prevent GC collection
+        _openCallback = OnOpenClicked;
+        _quitCallback = OnQuitClicked;
+
+        // ObjC type encoding "v@:@" = void return, id self, SEL _cmd, id sender
+        class_addMethod(cls, sel_registerName("openApp:"),
+            Marshal.GetFunctionPointerForDelegate(_openCallback), "v@:@");
+        class_addMethod(cls, sel_registerName("quitApp:"),
+            Marshal.GetFunctionPointerForDelegate(_quitCallback), "v@:@");
+
+        objc_registerClassPair(cls);
+        return cls;
+    }
+
+    private static void OnOpenClicked(IntPtr self, IntPtr selector, IntPtr sender)
     {
         try
         {
             ServerManager.OpenBrowser();
         }
-        catch (Exception ex)
+        catch
         {
-            ShowAlert($"Failed to open browser: {ex.Message}");
+            // Best effort
         }
     }
 
-    private void QuitClicked(object? sender, EventArgs e)
+    private static void OnQuitClicked(IntPtr self, IntPtr selector, IntPtr sender)
     {
-        _serverManager.Dispose();
+        _staticServerManager?.Dispose();
 
-        if (_statusItem != null)
-        {
-            NSStatusBar.SystemStatusBar.RemoveStatusItem(_statusItem);
-            _statusItem = null;
-        }
-
-        NSApplication.SharedApplication.Terminate(null);
-    }
-
-    private void OnServerExitedUnexpectedly(object? sender, EventArgs e)
-    {
-        // Dispatch to main thread for UI operations
-        NSApplication.SharedApplication.InvokeOnMainThread(() =>
-        {
-            ShowAlert("The NoteBuddy server stopped unexpectedly. You can quit from the menu bar icon.");
-        });
+        var nsAppClass = objc_getClass("NSApplication");
+        var app = Send(nsAppClass, sel_registerName("sharedApplication"));
+        SendVoid(app, sel_registerName("terminate:"), IntPtr.Zero);
     }
 
     private static void ShowAlert(string message)
     {
-        var alert = new NSAlert
-        {
-            MessageText = "NoteBuddy",
-            InformativeText = message,
-            AlertStyle = NSAlertStyle.Warning
-        };
-        alert.AddButton("OK");
-        alert.RunModal();
+        var nsAlertClass = objc_getClass("NSAlert");
+        var alert = Send(Send(nsAlertClass, sel_registerName("alloc")), sel_registerName("init"));
+
+        SendVoid(alert, sel_registerName("setMessageText:"), CreateNSString("NoteBuddy"));
+        SendVoid(alert, sel_registerName("setInformativeText:"), CreateNSString(message));
+
+        // NSAlertStyleWarning = 0
+        SendVoid(alert, sel_registerName("setAlertStyle:"), 0);
+
+        Send(alert, sel_registerName("addButtonWithTitle:"), CreateNSString("OK"));
+        Send(alert, sel_registerName("runModal"));
     }
 }

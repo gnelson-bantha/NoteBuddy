@@ -65,10 +65,6 @@ Access themes via the **Settings** button (⚙) in the header.
 ## Prerequisites
 
 - [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0) or later
-- **macOS only:** Install the macOS workload for the tray app:
-  ```bash
-  dotnet workload install macos
-  ```
 
 ## Getting Started
 
