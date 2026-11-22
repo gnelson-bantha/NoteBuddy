@@ -9,6 +9,7 @@ namespace NoteBuddy.Services;
 /// Singleton service that provides AI chat capabilities using Azure OpenAI via
 /// the Microsoft.Extensions.AI IChatClient abstraction. Authenticates with
 /// DefaultAzureCredential (interactive browser login — no API keys).
+/// # testing change
 /// </summary>
 public class AiService
 {
